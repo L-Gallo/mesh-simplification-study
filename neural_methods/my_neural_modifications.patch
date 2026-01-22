@@ -1,0 +1,318 @@
+diff --git a/configs/local.yaml b/configs/local.yaml
+index c2a4c5c..36f7e6a 100644
+--- a/configs/local.yaml
++++ b/configs/local.yaml
+@@ -2,7 +2,7 @@
+ model:
+   input_dim: 3
+   hidden_dim: 64 # feature dimension for point sampler and face classifier (as per paper)
+-  edge_hidden_dim: 128 # feature dimension for edge predictor (as per paper)
++  edge_hidden_dim: 32 # feature dimension for edge predictor (as per paper)
+   num_layers: 3 # number of convolutional layers (as per paper)
+   k: 15 # number of neighbors for graph construction (as per paper)
+   edge_k: 15 # number of neighbors for edge features (as per paper)
+@@ -12,9 +12,9 @@ model:
+ training:
+   learning_rate: 1.0e-5
+   weight_decay: 0.99 # weight decay per epoch (as per paper)
+-  batch_size: 2
++  batch_size: 1
+   accumulation_steps: 4
+-  num_epochs: 20 # total training epochs
++  num_epochs: 2 # total training epochs
+   early_stopping_patience: 10 # epochs before early stopping
+   checkpoint_dir: data/checkpoints # model save directory
+ 
+@@ -26,5 +26,5 @@ data:
+ # Loss weights
+ loss:
+   lambda_c: 1.0 # chamfer distance weight
+-  lambda_e: 1.0 # edge preservation weight
+-  lambda_o: 1.0 # normal consistency weight
++  lambda_e: 0.1 # edge preservation weight
++  lambda_o: 0.0 # normal consistency weight
+diff --git a/src/neural_mesh_simplification/models/neural_mesh_simplification.py b/src/neural_mesh_simplification/models/neural_mesh_simplification.py
+index 1790463..ae361d9 100644
+--- a/src/neural_mesh_simplification/models/neural_mesh_simplification.py
++++ b/src/neural_mesh_simplification/models/neural_mesh_simplification.py
+@@ -35,6 +35,8 @@ class NeuralMeshSimplification(nn.Module):
+         self.target_ratio = target_ratio
+ 
+     def forward(self, data: Data):
++        data = data.to(self.device)         # Fixed: move data to device
++        
+         x, edge_index = data.x, data.edge_index
+         num_nodes = x.size(0)
+ 
+@@ -128,8 +130,64 @@ class NeuralMeshSimplification(nn.Module):
+ 
+         return sampled_indices, sampled_probs[sampled_indices]
+ 
+-    def generate_candidate_triangles(self, edge_index, edge_probs):
++    # def generate_candidate_triangles(self, edge_index, edge_probs):
++
++    #     # Handle the case when edge_index is empty
++    #     if edge_index.numel() == 0:
++    #         return (
++    #             torch.empty((0, 3), dtype=torch.long, device=self.device),
++    #             torch.empty(0, device=self.device),
++    #         )
++
++    #     num_nodes = edge_index.max().item() + 1
++
++    #     # Create an adjacency matrix from the edge index
++    #     adj_matrix = torch.zeros(num_nodes, num_nodes, device=self.device)
++
++    #     # Check if edge_probs is a tuple or a tensor
++    #     if isinstance(edge_probs, tuple):
++    #         edge_indices, edge_values = edge_probs
++    #         adj_matrix[edge_indices[0], edge_indices[1]] = edge_values
++    #     else:
++    #         adj_matrix[edge_index[0], edge_index[1]] = edge_probs
++
++    #     # Adjust k based on the number of nodes
++    #     k = min(self.k, num_nodes - 1)
++
++    #     # Find k-nearest neighbors for each node
++    #     _, knn_indices = torch.topk(adj_matrix, k=k, dim=1)
++
++    #     # Generate candidate triangles
++    #     triangles = []
++    #     triangle_probs = []
++
++    #     for i in range(num_nodes):
++    #         neighbors = knn_indices[i]
++    #         for j in range(k):
++    #             for l in range(j + 1, k):
++    #                 n1, n2 = neighbors[j], neighbors[l]
++    #                 if adj_matrix[n1, n2] > 0:  # Check if the third edge exists
++    #                     triangle = torch.tensor([i, n1, n2], device=self.device)
++    #                     triangles.append(triangle)
++
++    #                     # Calculate triangle probability
++    #                     prob = (
++    #                         adj_matrix[i, n1] * adj_matrix[i, n2] * adj_matrix[n1, n2]
++    #                     ) ** (1 / 3)
++    #                     triangle_probs.append(prob)
++
++    #     if triangles:
++    #         triangles = torch.stack(triangles)
++    #         triangle_probs = torch.tensor(triangle_probs, device=self.device)
++    #     else:
++    #         triangles = torch.empty((0, 3), dtype=torch.long, device=self.device)
++    #         triangle_probs = torch.empty(0, device=self.device)
++
++    #     return triangles, triangle_probs
+ 
++
++    # Memory leak fix attempt
++    def generate_candidate_triangles(self, edge_index, edge_probs):
+         # Handle the case when edge_index is empty
+         if edge_index.numel() == 0:
+             return (
+@@ -139,46 +197,67 @@ class NeuralMeshSimplification(nn.Module):
+ 
+         num_nodes = edge_index.max().item() + 1
+ 
+-        # Create an adjacency matrix from the edge index
+-        adj_matrix = torch.zeros(num_nodes, num_nodes, device=self.device)
+-
+-        # Check if edge_probs is a tuple or a tensor
++        # Create SPARSE adjacency matrix instead of dense
+         if isinstance(edge_probs, tuple):
+             edge_indices, edge_values = edge_probs
+-            adj_matrix[edge_indices[0], edge_indices[1]] = edge_values
++            adj_matrix = torch.sparse_coo_tensor(
++                edge_indices, edge_values, (num_nodes, num_nodes), device=self.device
++            )
+         else:
+-            adj_matrix[edge_index[0], edge_index[1]] = edge_probs
+-
++            adj_matrix = torch.sparse_coo_tensor(
++                edge_index, edge_probs, (num_nodes, num_nodes), device=self.device
++            )
++        
++        # Convert to dense only for local neighborhoods (much smaller)
++        adj_matrix = adj_matrix.coalesce()
++        
+         # Adjust k based on the number of nodes
+         k = min(self.k, num_nodes - 1)
+-
+-        # Find k-nearest neighbors for each node
+-        _, knn_indices = torch.topk(adj_matrix, k=k, dim=1)
+-
+-        # Generate candidate triangles
++        
++        # Build knn using sparse operations
++        # Instead of dense topk, use actual edge connectivity
++        edge_dict = {}
++        edge_index_cpu = edge_index.cpu()
++        edge_probs_cpu = edge_probs.cpu() if not isinstance(edge_probs, tuple) else edge_probs[1].cpu()
++        
++        for idx in range(edge_index_cpu.shape[1]):
++            src = edge_index_cpu[0, idx].item()
++            dst = edge_index_cpu[1, idx].item()
++            prob = edge_probs_cpu[idx].item() if edge_probs_cpu.dim() > 0 else edge_probs_cpu.item()
++            
++            if src not in edge_dict:
++                edge_dict[src] = []
++            edge_dict[src].append((dst, prob))
++        
++        # Generate candidate triangles using only existing edges
+         triangles = []
+         triangle_probs = []
+-
+-        for i in range(num_nodes):
+-            neighbors = knn_indices[i]
+-            for j in range(k):
+-                for l in range(j + 1, k):
+-                    n1, n2 = neighbors[j], neighbors[l]
+-                    if adj_matrix[n1, n2] > 0:  # Check if the third edge exists
+-                        triangle = torch.tensor([i, n1, n2], device=self.device)
+-                        triangles.append(triangle)
+-
+-                        # Calculate triangle probability
+-                        prob = (
+-                            adj_matrix[i, n1] * adj_matrix[i, n2] * adj_matrix[n1, n2]
+-                        ) ** (1 / 3)
+-                        triangle_probs.append(prob)
+-
++        
++        for node_i in edge_dict.keys():
++            neighbors = sorted(edge_dict[node_i], key=lambda x: x[1], reverse=True)[:k]
++            
++            for j in range(len(neighbors)):
++                for l in range(j + 1, len(neighbors)):
++                    n1, prob1 = neighbors[j]
++                    n2, prob2 = neighbors[l]
++                    
++                    # Check if edge (n1, n2) exists
++                    if n1 in edge_dict:
++                        for neighbor, prob3 in edge_dict[n1]:
++                            if neighbor == n2:
++                                triangle = torch.tensor([node_i, n1, n2], device=self.device)
++                                triangles.append(triangle)
++                                
++                                # Calculate triangle probability
++                                prob = (prob1 * prob2 * prob3) ** (1 / 3)
++                                triangle_probs.append(prob)
++                                break
++        
+         if triangles:
+             triangles = torch.stack(triangles)
+             triangle_probs = torch.tensor(triangle_probs, device=self.device)
+         else:
+             triangles = torch.empty((0, 3), dtype=torch.long, device=self.device)
+             triangle_probs = torch.empty(0, device=self.device)
+-
+-        return triangles, triangle_probs
++        
++        return triangles, triangle_probs
+\ No newline at end of file
+diff --git a/src/neural_mesh_simplification/trainer/trainer.py b/src/neural_mesh_simplification/trainer/trainer.py
+index 8f6a929..daceccd 100644
+--- a/src/neural_mesh_simplification/trainer/trainer.py
++++ b/src/neural_mesh_simplification/trainer/trainer.py
+@@ -30,6 +30,7 @@ class Trainer:
+ 
+         if torch.cuda.is_available():
+             self.device = torch.device("cuda")
++            torch.cuda.set_per_process_memory_fraction(0.6, 0)
+         else:
+             self.device = torch.device("cpu")
+         logger.info(f"Using device: {self.device}")
+@@ -134,13 +135,15 @@ class Trainer:
+                     f"Epoch [{epoch + 1}/{self.config['training']['num_epochs']}], Loss: {loss / len(self.train_loader)}"
+                 )
+ 
+-                val_loss = self._validate()
+-                logging.info(
+-                    f"Epoch [{epoch + 1}/{self.config['training']['num_epochs']}], Validation Loss: {val_loss}"
+-                )
++                # val_loss = self._validate()
++                # logging.info(
++                #     f"Epoch [{epoch + 1}/{self.config['training']['num_epochs']}], Validation Loss: {val_loss}"
++                # )
+ 
+-                self.scheduler.step(val_loss)
++                val_loss = 0.0  # Placeholder until validation is implemented
+ 
++                self.scheduler.step(val_loss)
++                
+                 # Save the checkpoint
+                 self._save_checkpoint(epoch, val_loss)
+ 
+@@ -159,24 +162,64 @@ class Trainer:
+                 self.monitor_process.join()
+                 print()  # New line after monitoring output
+ 
++    # def _train_one_epoch(self, epoch: int) -> float:
++    #     self.model.train()
++    #     running_loss = 0.0
++    #     logger.debug(f"Starting epoch {epoch + 1}")
++
++    #     for batch_idx, batch in enumerate(self.train_loader):
++    #         logger.debug(f"Processing batch {batch_idx + 1}")
++
++    #         batch = batch.to(self.device)
++
++    #         self.optimizer.zero_grad()
++    #         output = self.model(batch)
++    #         loss = self.criterion(batch, output)
++
++    #         del batch
++    #         del output
++
++    #         loss.backward()
++    #         self.optimizer.step()
++    #         running_loss += loss.item()
++
++    #     return running_loss / len(self.train_loader)
++
+     def _train_one_epoch(self, epoch: int) -> float:
+         self.model.train()
+         running_loss = 0.0
+         logger.debug(f"Starting epoch {epoch + 1}")
+ 
+         for batch_idx, batch in enumerate(self.train_loader):
++            print(f"[DEBUG] Starting batch {batch_idx + 1}/{len(self.train_loader)}")  # ADD THIS
+             logger.debug(f"Processing batch {batch_idx + 1}")
++            
++            # Move batch to device
++            batch = batch.to(self.device)
++            print(f"[DEBUG] Batch moved to device, nodes: {batch.num_nodes}")  # ADD THIS
++            
+             self.optimizer.zero_grad()
++            print(f"[DEBUG] Calling model forward...")  # ADD THIS
+             output = self.model(batch)
++            print(f"[DEBUG] Model forward complete, computing loss...")  # ADD THIS
+             loss = self.criterion(batch, output)
++            print(f"[DEBUG] Loss computed: {loss.item():.4f}")  # ADD THIS
+ 
+             del batch
+             del output
+ 
+             loss.backward()
++            print(f"[DEBUG] Backward complete")  # ADD THIS
+             self.optimizer.step()
++            print(f"[DEBUG] Optimizer step complete")  # ADD THIS
+             running_loss += loss.item()
+ 
++            # Aggressive memory cleanup
++            del loss
++            # torch.cuda.empty_cache()
++            # import gc
++            # gc.collect()
++
+         return running_loss / len(self.train_loader)
+ 
+     def _validate(self) -> float:
+@@ -184,6 +227,8 @@ class Trainer:
+         val_loss = 0.0
+         with torch.no_grad():
+             for batch in self.val_loader:
++                batch = batch.to(self.device)
++
+                 output = self.model(batch)
+                 loss = self.criterion(batch, output)
+                 val_loss += loss.item()

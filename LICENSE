@@ -1,0 +1,86 @@
+# Academic Use License
+
+## Copyright
+
+Copyright (c) 2026 Lukas Gallo  
+Breda University of Applied Sciences  
+Master of Game Technology Program
+
+## License Terms
+
+This software is part of a Master's thesis research project and is made available for academic and research purposes.
+
+### Permitted Uses
+
+✅ **Academic Research**: Free to use, modify, and distribute for non-commercial research purposes.
+
+✅ **Educational Use**: May be used in university courses and educational settings.
+
+✅ **Replication Studies**: Encouraged for methodology validation and comparison studies.
+
+### Requirements
+
+If you use this software in your research, you must:
+
+1. **Cite** the original work:
+   ```
+   Lukas Gallo (2026). "Comparing Mesh Simplification Methods for Independent Game Developers."
+   Master's Thesis, Breda University of Applied Sciences.
+   ```
+
+2. **Acknowledge** modifications:
+   - If you modify the code, clearly document changes
+   - Include original copyright notice in derivative works
+
+3. **Share** improvements:
+   - Encouraged (but not required) to contribute improvements back to the community
+   - Can be done via GitHub pull requests or by contacting the author
+
+### Restrictions
+
+❌ **Commercial Use**: Commercial use requires explicit written permission from the author.
+
+❌ **No Warranty**: This software is provided "as is" without warranty of any kind, express or implied.
+
+❌ **No Liability**: The author is not liable for any damages arising from the use of this software.
+
+### Third-Party Licenses
+
+This project uses the following third-party libraries, each subject to their own licenses:
+
+- **fast-simplification**: MIT License
+- **Open3D**: MIT License  
+- **meshoptimizer**: MIT License
+- **CGAL**: GPL v3 / LGPL v3 (depending on components used)
+- **trimesh**: MIT License
+- **NumPy**: BSD License
+- **Matplotlib**: PSF License
+
+See `requirements.txt` and individual library documentation for full license terms.
+
+### Data Licenses
+
+- **Stanford Bunny**: Public Domain (Stanford 3D Scanning Repository)
+- **Utah Teapot**: Public Domain (University of Utah)
+- **Production Assets**: Not included (proprietary, under NDA with Bohemia Interactive)
+
+## Contact
+
+For permissions, questions, or collaboration:
+
+**Author**: Lukas Gallo  
+**Email**: 210338@buas.nl  
+**Institution**: Breda University of Applied Sciences  
+**Supervisor**: Ruben Tack, Robbie Storm
+
+## Additional Notes
+
+This research was conducted as part of the Master of Game Technology program at Breda University of Applied Sciences (BUas) in the Netherlands.
+
+For the complete thesis and additional materials, contact the author or the BUas library.
+
+---
+
+**License Version**: 1.0  
+**Last Updated**: January 16, 2026  
+**SPDX Identifier**: Custom Academic Use License

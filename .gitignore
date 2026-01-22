@@ -1,0 +1,102 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+*.egg-info/
+dist/
+build/
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# CMake & CGAL build artifacts
+cgal_build/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+*.vcxproj
+*.vcxproj.filters
+*.sln
+*.dir/
+*.tlog/
+
+# Compiled binaries
+*.exe
+*.dll
+*.so
+*.dylib
+*.obj
+*.o
+*.a
+*.lib
+
+# Results and outputs (DO NOT COMMIT THESE - too large)
+results/
+benchmark_results/
+figures/
+heatmaps/
+*.log
+batch_report.json
+benchmark_log.txt
+
+# Test meshes from external sources (add specific exceptions if needed)
+pilot_meshes/
+pilot_results/
+simplified_meshes/
+input_data/
+
+# Neural method checkpoints (large files)
+checkpoints/
+
+# Neural Methods Repositories
+neural-mesh-simplification/
+MeshCNN/
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+.DS_Store
+Thumbs.db
+
+# Large data files
+*.ply
+*.obj
+*.stl
+# Exception: keep small test examples
+!test_meshes/bunny.obj
+!test_meshes/teapot.obj
+
+# Jupyter notebooks (if any)
+.ipynb_checkpoints/
+*.ipynb
+
+# Documentation builds
+docs/_build/
+docs/.doctrees/
+
+# OS-specific
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Tree files
+structure.txt
+
+# Extra development files
+extras/
