@@ -19,13 +19,13 @@ This document describes the experimental protocol for the mesh simplification be
 
 **Storage**: NVMe SSD (read/write speeds do not affect benchmark)
 
-**Operating System**: Windows 11 Pro (Build [specify exact build])
+**Operating System**: Windows 10 Pro 22H2
 
 ### Software Versions
 
 **Python Environment**:
 - Python: 3.12.0
-- Conda: [version]
+- Conda: 25.9.1
 
 **Core Libraries** (from `requirements.txt`):
 - pyvista: 0.43.0
@@ -334,7 +334,7 @@ To replicate this benchmark:
 
 ---
 
-**Document Version**: 1.0  
-**Last Updated**: January 16, 2026  
-**Author**: Bludimir  
-**Status**: Block B - Active Data Collection
+**Document Version**: 2.0  
+**Last Updated**: January 22, 2026  
+**Author**: Lukas Galo  
+**Status**: Block C - Active Data Collection
