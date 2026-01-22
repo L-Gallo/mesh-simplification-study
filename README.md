@@ -4,7 +4,7 @@
 > Breda University of Applied Sciences | January 2026
 
 [![Python 3.12](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/downloads/)
-[![License: Academic](https://img.shields.io/badge/license-Academic-green.svg)]()
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 ## Overview
 
@@ -75,7 +75,7 @@ python generate_comparison_charts.py -i ./results/batch_report.json -o ./figures
 ## Repository Structure
 
 ```
-mesh-simplification-study/
+mesh-simplification-benchmark/
 ├── README.md                          # This file
 ├── requirements.txt                   # Python dependencies
 ├── LICENSE                            # Academic use license
@@ -297,20 +297,57 @@ If you use this benchmark suite in your research, please cite:
 ```bibtex
 @mastersthesis{gallo2026mesh,
   title={Comparing Mesh Simplification Methods for Independent Game Developers},
-  author={[Lukas Gallo]},
+  author={Gallo, Lukas},
   school={Breda University of Applied Sciences},
   year={2026},
-  type={Master's Thesis}
+  type={Master's Thesis},
+  address={Breda, Netherlands}
 }
 ```
 
+Or click **"Cite this repository"** on GitHub (generated from [CITATION.cff](CITATION.cff)).
+
 ## License
 
-This software is part of academic research at Breda University of Applied Sciences. 
+This project is licensed under **GPL-3.0-or-later** due to dependencies on CGAL's Surface_mesh_simplification package.
 
-**For Academic Use**: Free to use and modify for research purposes with proper citation.
+### What This Means
 
-**For Commercial Use**: Contact author for licensing.
+**For Academic Research**:
+- ✅ Free to use, modify, and distribute for research and education
+- ✅ Perfect for reproducibility and citation
+- ✅ Standard license for computational geometry research
+
+**For Indie Game Developers**:
+- ✅ Can use in **open-source games** (GPL-compatible)
+- ✅ Can use **Open3D, meshoptimizer, fast-simplification** methods (MIT-licensed) without GPL restrictions
+- ⚠️ Using CGAL component in **closed-source games** requires GPL compliance (source disclosure) or commercial CGAL license
+
+**For Commercial Studios**:
+- Three methods (Open3D, meshoptimizer, fast-simplification) are MIT-licensed and commercial-friendly
+- CGAL component requires either: (1) GPL compliance with source disclosure, or (2) commercial license from GeometryFactory
+- Or implement alternative without CGAL
+
+### Component Licenses
+
+| Component | Underlying Library License | Project License |
+|-----------|---------------------------|-----------------|
+| Open3D integration | MIT | GPL-3.0-or-later* |
+| meshoptimizer integration | MIT | GPL-3.0-or-later* |
+| fast-simplification integration | MIT | GPL-3.0-or-later* |
+| cgal_simplify.cpp | GPL-3.0-or-later (CGAL) | GPL-3.0-or-later |
+
+*Note: While the underlying libraries are permissively licensed, they're distributed as part of this GPL-licensed project.
+
+See [THIRD_PARTY_LICENSES.txt](THIRD_PARTY_LICENSES.txt) for complete dependency information.
+
+### Why GPL?
+
+This project uses CGAL's `Surface_mesh_simplification` package, which is GPL-licensed. CGAL uses dual licensing:
+- **Kernel/Foundation** (LGPL): Basic geometric types
+- **Algorithms** (GPL): Surface processing, simplification, Boolean operations
+
+Our mesh simplification implementation requires the GPL-licensed algorithms, making the combined work GPL-3.0-or-later.
 
 ## Contact & Support
 

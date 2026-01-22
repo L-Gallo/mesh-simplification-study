@@ -1,0 +1,171 @@
+THIRD-PARTY LICENSES
+
+This project uses the following third-party libraries:
+
+================================================================================
+PYTHON LIBRARIES (MIT LICENSE)
+================================================================================
+
+Open3D
+------
+License:        MIT License
+Copyright:      Intel Corporation
+URL:            https://github.com/isl-org/Open3D
+License Text:   https://github.com/isl-org/Open3D/blob/main/LICENSE
+
+meshoptimizer
+-------------
+License:        MIT License
+Copyright:      2016-2024 Arseny Kapoulkine
+URL:            https://github.com/zeux/meshoptimizer
+License Text:   https://github.com/zeux/meshoptimizer/blob/master/LICENSE.md
+
+fast-simplification
+-------------------
+License:        MIT License
+Copyright:      Original authors
+URL:            https://github.com/pmp-library/pmp-library
+License Text:   https://github.com/pmp-library/pmp-library/blob/master/LICENSE.txt
+
+trimesh
+-------
+License:        MIT License
+Copyright:      Michael Dawson-Haggerty
+URL:            https://github.com/mikedh/trimesh
+License Text:   https://github.com/mikedh/trimesh/blob/main/LICENSE.md
+
+PyVista
+-------
+License:        MIT License
+Copyright:      PyVista Developers
+URL:            https://github.com/pyvista/pyvista
+License Text:   https://github.com/pyvista/pyvista/blob/main/LICENSE
+
+NumPy
+-----
+License:        BSD 3-Clause License
+Copyright:      NumPy Developers
+URL:            https://github.com/numpy/numpy
+License Text:   https://github.com/numpy/numpy/blob/main/LICENSE.txt
+
+SciPy
+-----
+License:        BSD 3-Clause License
+Copyright:      SciPy Developers
+URL:            https://github.com/scipy/scipy
+License Text:   https://github.com/scipy/scipy/blob/main/LICENSE.txt
+
+Matplotlib
+----------
+License:        PSF-based License (BSD-compatible)
+Copyright:      Matplotlib Development Team
+URL:            https://github.com/matplotlib/matplotlib
+License Text:   https://github.com/matplotlib/matplotlib/blob/main/LICENSE/LICENSE
+
+psutil
+------
+License:        BSD 3-Clause License
+Copyright:      Giampaolo Rodola
+URL:            https://github.com/giampaolo/psutil
+License Text:   https://github.com/giampaolo/psutil/blob/master/LICENSE
+
+================================================================================
+C++ LIBRARY (GPL/LGPL DUAL LICENSE)
+================================================================================
+
+CGAL (Computational Geometry Algorithms Library)
+-------------------------------------------------
+License:    Dual-licensed GPL-3.0-or-later / LGPL-3.0-or-later
+            - Core/Kernel packages: LGPL-3.0-or-later
+            - Advanced algorithms: GPL-3.0-or-later
+Copyright:  GeometryFactory and CGAL Contributors
+URL:            https://www.cgal.org
+License Text:   https://www.cgal.org/license.html
+
+CGAL Packages Used in This Project:
+  - CGAL::Simple_cartesian (LGPL-3.0-or-later)
+    Kernel for geometric primitives
+    
+  - CGAL::Surface_mesh (LGPL-3.0-or-later)
+    Halfedge mesh data structure
+    
+  - CGAL::Surface_mesh_simplification::edge_collapse (GPL-3.0-or-later)
+    Main simplification algorithm
+    
+  - CGAL::Surface_mesh_simplification::Policies::Edge_count_ratio_stop_predicate (GPL-3.0-or-later)
+    Stop condition for simplification
+
+LICENSE IMPLICATIONS:
+Because this project uses CGAL's Surface_mesh_simplification package 
+(GPL-licensed), the entire combined work is licensed under GPL-3.0-or-later.
+
+CGAL Version Required: 6.0+ for compatibility with cgal_simplify.cpp implementation
+
+================================================================================
+NEURAL METHOD DEPENDENCIES (EXCLUDED FROM FINAL BENCHMARK)
+================================================================================
+
+These libraries were tested during research but excluded from the final 
+benchmark. They are documented here for transparency and reproducibility.
+
+PyTorch
+-------
+License:        BSD 3-Clause License
+Copyright:      Meta Platforms, Inc.
+URL:            https://github.com/pytorch/pytorch
+License Text:   https://github.com/pytorch/pytorch/blob/main/LICENSE
+
+TensorFlow
+----------
+License:        Apache License 2.0
+Copyright:      Google LLC
+URL:            https://github.com/tensorflow/tensorflow
+License Text:   https://github.com/tensorflow/tensorflow/blob/master/LICENSE
+
+================================================================================
+TEST DATA
+================================================================================
+
+Stanford 3D Scanning Repository Meshes
+---------------------------------------
+License:        Public Domain / Research Use
+Copyright:      Stanford University Computer Graphics Laboratory
+URL:            http://graphics.stanford.edu/data/3Dscanrep/
+Usage:          Academic research and education
+Models Used:    Stanford Bunny
+
+Utah Teapot
+-----------
+License:        Public Domain
+Copyright:      University of Utah (1975)
+Creator:        Martin Newell
+History:        https://en.wikipedia.org/wiki/Utah_teapot
+
+================================================================================
+LICENSE COMPATIBILITY SUMMARY
+================================================================================
+
+Library                    License            Compatible with GPL-3.0?
+------------------------------------------------------------------------
+Open3D                     MIT                YES
+meshoptimizer              MIT                YES
+fast-simplification        MIT                YES
+trimesh                    MIT                YES
+PyVista                    MIT                YES
+NumPy                      BSD 3-Clause       YES
+SciPy                      BSD 3-Clause       YES
+Matplotlib                 PSF/BSD-style      YES
+psutil                     BSD 3-Clause       YES
+CGAL Surface_mesh_simp.    GPL-3.0-or-later   YES (requires project to be GPL)
+
+CONCLUSION:
+This project uses CGAL's GPL-licensed Surface_mesh_simplification package.
+Therefore, the entire project is licensed under GPL-3.0-or-later as a 
+combined work. All other dependencies (MIT, BSD) are compatible with GPL.
+
+================================================================================
+
+Last Updated: January 21, 2026
+Project: Mesh Simplification Study
+Author: Lukas Gallo
+Institution: Breda University of Applied Sciences

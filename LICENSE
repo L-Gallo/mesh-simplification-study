@@ -1,86 +1,65 @@
-# Academic Use License
+GNU GENERAL PUBLIC LICENSE
+Version 3, 29 June 2007
 
-## Copyright
+Copyright (C) 2026 Lukas Gallo
 
-Copyright (c) 2026 Lukas Gallo  
-Breda University of Applied Sciences  
-Master of Game Technology Program
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-## License Terms
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
 
-This software is part of a Master's thesis research project and is made available for academic and research purposes.
-
-### Permitted Uses
-
-✅ **Academic Research**: Free to use, modify, and distribute for non-commercial research purposes.
-
-✅ **Educational Use**: May be used in university courses and educational settings.
-
-✅ **Replication Studies**: Encouraged for methodology validation and comparison studies.
-
-### Requirements
-
-If you use this software in your research, you must:
-
-1. **Cite** the original work:
-   ```
-   Lukas Gallo (2026). "Comparing Mesh Simplification Methods for Independent Game Developers."
-   Master's Thesis, Breda University of Applied Sciences.
-   ```
-
-2. **Acknowledge** modifications:
-   - If you modify the code, clearly document changes
-   - Include original copyright notice in derivative works
-
-3. **Share** improvements:
-   - Encouraged (but not required) to contribute improvements back to the community
-   - Can be done via GitHub pull requests or by contacting the author
-
-### Restrictions
-
-❌ **Commercial Use**: Commercial use requires explicit written permission from the author.
-
-❌ **No Warranty**: This software is provided "as is" without warranty of any kind, express or implied.
-
-❌ **No Liability**: The author is not liable for any damages arising from the use of this software.
-
-### Third-Party Licenses
-
-This project uses the following third-party libraries, each subject to their own licenses:
-
-- **fast-simplification**: MIT License
-- **Open3D**: MIT License  
-- **meshoptimizer**: MIT License
-- **CGAL**: GPL v3 / LGPL v3 (depending on components used)
-- **trimesh**: MIT License
-- **NumPy**: BSD License
-- **Matplotlib**: PSF License
-
-See `requirements.txt` and individual library documentation for full license terms.
-
-### Data Licenses
-
-- **Stanford Bunny**: Public Domain (Stanford 3D Scanning Repository)
-- **Utah Teapot**: Public Domain (University of Utah)
-- **Production Assets**: Not included (proprietary, under NDA with Bohemia Interactive)
-
-## Contact
-
-For permissions, questions, or collaboration:
-
-**Author**: Lukas Gallo  
-**Email**: 210338@buas.nl  
-**Institution**: Breda University of Applied Sciences  
-**Supervisor**: Ruben Tack, Robbie Storm
-
-## Additional Notes
-
-This research was conducted as part of the Master of Game Technology program at Breda University of Applied Sciences (BUas) in the Netherlands.
-
-For the complete thesis and additional materials, contact the author or the BUas library.
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 ---
 
-**License Version**: 1.0  
-**Last Updated**: January 16, 2026  
-**SPDX Identifier**: Custom Academic Use License
+For the complete GNU General Public License v3.0 text, see:
+https://www.gnu.org/licenses/gpl-3.0.txt
+
+---
+
+ADDITIONAL INFORMATION
+
+This mesh simplification benchmark is licensed under GPL-3.0-or-later due to 
+dependencies on CGAL's Surface_mesh_simplification package, which is GPL-licensed.
+
+ACADEMIC AND RESEARCH USE
+
+This software is free to use for:
+- Academic research and education
+- Scientific publications and reproducibility
+- Open-source game development projects
+- Non-commercial applications
+
+COMMERCIAL USE
+
+Commercial use is permitted under GPL-3.0 terms, which require:
+- Distributing source code of any derivative works
+- Licensing derivative works under GPL-3.0-or-later
+- Providing installation instructions and build scripts
+
+For commercial game development where source disclosure is not feasible:
+1. Use only the MIT-licensed components (Open3D, meshoptimizer, fast-simplification)
+2. Obtain a commercial CGAL license from GeometryFactory (https://geometryfactory.com)
+3. Implement alternative mesh simplification without CGAL
+
+CITATION
+
+If you use this software in academic work, please cite:
+
+Gallo, L. (2026). Comparing Mesh Simplification Methods for Independent 
+Game Developers. Master's Thesis, Breda University of Applied Sciences.
+
+Or use the CITATION.cff file included in this repository.
+
+CONTACT
+
+Author: Lukas Gallo
+Institution: Breda University of Applied Sciences
+Program: Master of Game Technology
+Supervisors: Ruben Tack, Robbie Storm

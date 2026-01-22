@@ -1,3 +1,7 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
+// SPDX-FileCopyrightText: 2026 Lukas Gallo
+// This file uses CGAL Surface_mesh_simplification (GPL-licensed package)
+//
 // cgal_simplify.cpp
 // CGAL-based mesh simplification command-line tool
 // Compatible with CGAL 6.1+ and Python mesh simplification comparison framework
