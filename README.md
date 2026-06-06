@@ -30,7 +30,8 @@ conda install -c conda-forge rtree   # needed for geometric accuracy
 To test the CGAL method, compile the C++ wrapper:
 
 ```bash
-cd cgal_build && cmake .. && cmake --build . --config Release
+mkdir -p benchmark/cgal_build && cd benchmark/cgal_build
+cmake .. && cmake --build . --config Release
 ```
 
 See `environments/README.md` for details and neural method environments.
@@ -40,7 +41,7 @@ See `environments/README.md` for details and neural method environments.
 Run the benchmark on a directory of OBJ files:
 
 ```bash
-python mesh_simplifier_batch.py \
+python benchmark/mesh_simplifier_batch.py \
     -i ./test_meshes \
     -o ./results \
     --methods all \
@@ -55,54 +56,66 @@ Generate analysis outputs:
 
 ```bash
 # Benchmark analysis (boxplots, tables, CSVs)
-python analyze_benchmarks.py -i ./results/batch_report.json -o ./output
+python analysis/analyze_benchmarks.py -i ./results/batch_report.json -o ./output
 
 # Perceptual study analysis
-python analyze_perceptual.py \
+python analysis/analyze_perceptual.py \
     -p ./data/participant_responses.json \
     -b ./data/batch_report.json \
     -o ./output
 
 # Scalability analysis (Stanford models)
-python analyze_scalability.py -i ./data/scalability_report.json -o ./output
+python analysis/analyze_scalability.py -i ./data/scalability_report.json -o ./output
 
 # Error heatmaps (per-vertex colored meshes)
-python generate_heatmaps.py --batch \
+python analysis/generate_heatmaps.py --batch \
     --results-dir ./results --original-dir ./test_meshes \
     --output-dir ./figures --max-error 2.0
 
 # Comparison charts
-python generate_comparison_charts.py -i ./results/batch_report.json -o ./figures
+python analysis/generate_comparison_charts.py -i ./results/batch_report.json -o ./figures
 ```
 
-Run `python <script>.py --help` for all options.
+Run `python benchmark/<script>.py --help` or `python analysis/<script>.py --help` for all options.
 
 ## Repository structure
 
 ```
 .
-|-- mesh_simplifier_batch.py        # Main benchmark pipeline
-|-- mesh_simplifier.py              # Single-mesh simplifier (interactive use)
-|-- cgal_simplify.cpp               # CGAL C++ wrapper
-|-- CMakeLists.txt
+|-- thesis.pdf                      # Full thesis document
 |
-|-- analyze_benchmarks.py           # Benchmark data analysis
-|-- analyze_perceptual.py           # Perceptual study analysis
-|-- analyze_scalability.py          # Scalability analysis (Stanford models)
-|-- generate_comparison_charts.py   # Comparison charts from batch report
-|-- generate_heatmaps.py           # Per-vertex error visualization
+|-- benchmark/                      # Benchmark pipeline
+|   |-- mesh_simplifier_batch.py    # Main batch benchmark
+|   |-- mesh_simplifier.py          # Single-mesh simplifier (interactive use)
+|   |-- cgal_simplify.cpp           # CGAL C++ wrapper
+|   \-- CMakeLists.txt
+|
+|-- analysis/                       # Data analysis and visualization
+|   |-- analyze_benchmarks.py       # Benchmark data analysis
+|   |-- analyze_perceptual.py       # Perceptual study analysis
+|   |-- analyze_scalability.py      # Scalability analysis (Stanford models)
+|   |-- generate_comparison_charts.py
+|   \-- generate_heatmaps.py        # Per-vertex error visualization
 |
 |-- data/                           # Raw data (JSON)
-|   |-- batch_report.json           # Benchmark results
+|   |-- batch_report.json           # Benchmark results (Stanford models)
 |   \-- participant_responses.json  # Perceptual study responses (anonymized)
 |
-|-- results/                        # Analysis outputs (figures, tables, CSVs)
-|-- test_meshes/                    # Stanford Bunny + Utah Teapot for testing
+|-- results/                        # Analysis outputs
+|   |-- figures/                    # Plots and visualizations
+|   \-- tables/                     # Table images
+|
+|-- perceptual_study/               # Flask app for pairwise comparison study
+|   |-- app.py                      # Backend with adaptive sampling
+|   |-- test_interface.html         # Participant interface
+|   \-- admin_interface.html        # Monitoring dashboard
+|
+|-- test_meshes/                    # Stanford Bunny + Utah Teapot
 |-- environments/                   # Conda environment files
 |-- neural_methods/                 # Neural method investigation (excluded)
 |   \-- DEVELOPMENT_LOG.md          # 40+ hours of documented attempts
 \-- docs/
-    \-- METHODOLOGY.md
+    \-- REPLICATION.md              # Hardware specs and test conditions
 ```
 
 ## Data
