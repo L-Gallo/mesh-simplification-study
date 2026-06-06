@@ -1,13 +1,8 @@
 #!/usr/bin/env python3
 """
 Mesh Simplification Comparison Tool
-====================================
-A unified testing framework comparing fast-simplification (PyVista) and Open3D
-mesh simplification libraries for academic research.
 
-Author: Research Tool for Master's Thesis
-Purpose: Compare traditional geometric mesh simplification methods for game industry
-Version: 1.0.0
+Compares fast-simplification (PyVista) and Open3D mesh simplification.
 
 Installation:
     pip install pyvista fast-simplification open3d psutil numpy
@@ -57,11 +52,6 @@ try:
 except ImportError as e:
     MESHOPTIMIZER_AVAILABLE = False
     MESHOPTIMIZER_ERROR = str(e)
-
-
-# =============================================================================
-# Data Classes for Results
-# =============================================================================
 
 @dataclass
 class SystemInfo:
@@ -123,11 +113,6 @@ class BenchmarkReport:
     total_execution_time_seconds: float
     generated_at: str
 
-
-# =============================================================================
-# Memory Profiler
-# =============================================================================
-
 class MemoryProfiler:
     """
     Memory profiler combining tracemalloc (Python allocations) and psutil 
@@ -167,11 +152,6 @@ class MemoryProfiler:
         peak_mb = peak_traced / (1024 * 1024)
         
         return end_rss, delta_rss, peak_mb
-
-
-# =============================================================================
-# Mesh Simplifier Interface
-# =============================================================================
 
 class MeshSimplifier:
     """
@@ -362,9 +342,7 @@ class MeshSimplifier:
         filename = f"{stem}_{method_short}_reduction{reduction_clean}{suffix}"
         return self.output_dir / filename
     
-    # =========================================================================
-    # Fast-Simplification Methods
-    # =========================================================================
+
     
     def _simplify_fast_simplification(
         self,
@@ -478,9 +456,7 @@ class MeshSimplifier:
                 error_message=str(e)
             )
     
-    # =========================================================================
-    # Open3D Methods
-    # =========================================================================
+
     
     def _simplify_open3d(
         self,
@@ -606,9 +582,7 @@ class MeshSimplifier:
                 error_message=str(e)
             )
     
-    # =========================================================================
-    # meshoptimizer Methods
-    # =========================================================================
+
     
     def _simplify_meshoptimizer(
         self,
@@ -770,9 +744,7 @@ class MeshSimplifier:
                 error_message=str(e)
             )
     
-    # =========================================================================
-    # CGAL Methods (via C++ subprocess)
-    # =========================================================================
+
     
     def _simplify_cgal(
         self,
@@ -926,9 +898,7 @@ class MeshSimplifier:
                 error_message=str(e)
             )
     
-    # =========================================================================
-    # Main Benchmark Runner
-    # =========================================================================
+
     
     def run_benchmark(self, input_path: Union[str, Path]) -> BenchmarkReport:
         """
@@ -1033,14 +1003,14 @@ class MeshSimplifier:
             self.logger.info(f"\n{method.upper()}:")
             self.logger.info("-" * 55)
             self.logger.info(
-                f"{'Reduction':<12} {'Faces (in→out)':<20} "
+                f"{'Reduction':<12} {'Faces (in->out)':<20} "
                 f"{'Time (ms)':<12} {'Actual %':<10}"
             )
             self.logger.info("-" * 55)
             
             for r in method_results:
                 if r.success:
-                    faces_str = f"{r.input_metrics.face_count:,} → {r.output_metrics.face_count:,}"
+                    faces_str = f"{r.input_metrics.face_count:,} -> {r.output_metrics.face_count:,}"
                     self.logger.info(
                         f"{r.reduction_level:<12} {faces_str:<20} "
                         f"{r.performance.execution_time_ms:<12.2f} "
@@ -1068,11 +1038,6 @@ class MeshSimplifier:
             json.dump(report_dict, f, indent=2, default=str)
         
         self.logger.info(f"Report saved to: {output_path}")
-
-
-# =============================================================================
-# Command Line Interface
-# =============================================================================
 
 def main():
     """Command-line entry point for mesh simplification tool."""
@@ -1195,10 +1160,10 @@ Supported formats: .ply, .stl, .obj, .off, .vtk
         total = len(report.results)
         
         if successful == total:
-            print(f"\n✓ All {total} operations completed successfully.")
+            print(f"\n[OK] All {total} operations completed successfully.")
             sys.exit(0)
         else:
-            print(f"\n⚠ {successful}/{total} operations completed successfully.")
+            print(f"\n[!] {successful}/{total} operations completed successfully.")
             sys.exit(1)
             
     except ImportError as e:

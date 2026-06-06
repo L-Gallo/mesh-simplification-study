@@ -32,12 +32,5 @@ if(MSVC)
 endif()
 
 # Print build information
-message(STATUS "")
-message(STATUS "========================================")
-message(STATUS "CGAL Mesh Simplification Tool")
-message(STATUS "========================================")
 message(STATUS "CGAL version: ${CGAL_VERSION}")
 message(STATUS "Build type: ${CMAKE_BUILD_TYPE}")
-message(STATUS "C++ standard: ${CMAKE_CXX_STANDARD}")
-message(STATUS "========================================")
-message(STATUS "")

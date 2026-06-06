@@ -1,16 +1,13 @@
 #!/usr/bin/env python3
 """
 Mesh Error Heatmap Generator
-=============================
-Generates colored 3D meshes showing per-vertex geometric error distribution.
-Useful for visual comparison of simplification methods.
+
+Generates colored 3D meshes showing per-vertex geometric error.
+Outputs a .ply with vertex colors (blue=low, red=high) and a colorbar PNG.
 
 Outputs:
 - Colored .ply mesh with vertex colors (blue=low error, red=high error)
 - Colorbar legend as .png image
-
-Author: Master's Thesis Visualization Tool
-Version: 1.0.0
 """
 
 import argparse
@@ -84,15 +81,16 @@ def generate_error_heatmap(
     print(f"\nComputing per-vertex errors...")
     
     # Method 1: Simplified vertices -> Original mesh
-    query_orig = trimesh.proximity.ProximityQuery(mesh_orig)
-    distances_simp_to_orig = np.abs(query_orig.signed_distance(mesh_simp.vertices))
+    # Using closest_point (unsigned distance) instead of signed_distance,
+    # which requires watertight meshes for reliable inside/outside
+    # classification.  Game assets are typically open surfaces.
+    _, distances_simp_to_orig, _ = trimesh.proximity.closest_point(mesh_orig, mesh_simp.vertices)
     print(f"  Simplified->Original: min={distances_simp_to_orig.min():.6f}, max={distances_simp_to_orig.max():.6f}, mean={distances_simp_to_orig.mean():.6f}")
     
     # Method 2: Sample original surface -> Simplified mesh (this captures loss of detail)
-    query_simp = trimesh.proximity.ProximityQuery(mesh_simp)
     # Sample points from original mesh surface
     sample_points, _ = trimesh.sample.sample_surface(mesh_orig, 10000)
-    distances_orig_to_simp = np.abs(query_simp.signed_distance(sample_points))
+    _, distances_orig_to_simp, _ = trimesh.proximity.closest_point(mesh_simp, sample_points)
     print(f"  Original->Simplified: min={distances_orig_to_simp.min():.6f}, max={distances_orig_to_simp.max():.6f}, mean={distances_orig_to_simp.mean():.6f}")
     
     # Use the max of both directions (two-way Hausdorff concept)

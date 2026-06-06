@@ -1,15 +1,11 @@
 #!/usr/bin/env python3
 """
-Batch Mesh Simplification Benchmark Tool
-=========================================
-Comprehensive testing framework for comparing traditional geometric mesh 
-simplification methods across multiple assets, reduction levels, and repetitions.
+Batch Mesh Simplification Benchmark
 
-Supports: fast-simplification, Open3D, meshoptimizer, CGAL
-Features: Performance profiling, geometric accuracy, stability analysis, per-method statistics
+Runs mesh simplification across multiple assets, methods, reduction levels,
+and repetitions. Collects performance, geometric accuracy, and stability data.
 
-Author: Master's Thesis Research Tool
-Version: 2.0.0
+Methods: fast-simplification, Open3D, meshoptimizer, CGAL
 """
 
 import argparse
@@ -20,13 +16,13 @@ import os
 import platform
 import subprocess
 import sys
+import threading
 import time
-import tracemalloc
 from dataclasses import asdict, dataclass, field
 from datetime import datetime
 from enum import Enum
 from pathlib import Path
-from typing import Any, Dict, List, Literal, Optional, Tuple, Union
+from typing import Any, Dict, List, Optional, Tuple
 
 import numpy as np
 import psutil
@@ -69,11 +65,6 @@ except ImportError as e:
     TRIMESH_AVAILABLE = False
     TRIMESH_ERROR = str(e)
 
-
-# =============================================================================
-# Enums and Constants
-# =============================================================================
-
 class FailureType(Enum):
     """Types of test failures."""
     SUCCESS = "success"
@@ -84,11 +75,6 @@ class FailureType(Enum):
 
 
 SUPPORTED_FORMATS = {'.obj'}  # Strictly OBJ for CGAL compatibility
-
-
-# =============================================================================
-# Data Classes
-# =============================================================================
 
 @dataclass
 class SystemInfo:
@@ -131,8 +117,12 @@ class GeometricAccuracyMetrics:
     """Geometric accuracy between original and simplified mesh."""
     hausdorff_distance_normalized: float  # % of bounding box diagonal
     hausdorff_distance_raw: float  # absolute units
-    rmse_normalized: float  # % of bounding box diagonal
-    rmse_raw: float  # absolute units
+    rmse_normalized: float  # symmetric RMSE, % of bounding box diagonal
+    rmse_raw: float  # symmetric RMSE, absolute units
+    rmse_forward_normalized: float  # orig->simp (coverage loss), % of BB diag
+    rmse_forward_raw: float  # orig->simp, absolute units
+    rmse_backward_normalized: float  # simp->orig (displacement), % of BB diag
+    rmse_backward_raw: float  # simp->orig, absolute units
     sample_points: int
     bounding_box_diagonal: float
 
@@ -196,7 +186,7 @@ class AssetResults:
 
 @dataclass
 class MethodStatistics:
-    """Comprehensive statistics for a single method."""
+    """Aggregate statistics for a single method."""
     method_name: str
     total_tests: int
     successful_tests: int
@@ -248,30 +238,61 @@ class BatchReport:
     total_failures: int
     total_unstable: int
 
-
-# =============================================================================
-# Memory Profiler
-# =============================================================================
-
 class MemoryProfiler:
     """
-    Memory profiler combining tracemalloc (Python allocations) and psutil 
-    (total process memory including C++ libraries).
+    Memory profiler using psutil RSS (Resident Set Size) with continuous
+    polling to capture peak memory during an operation.
+    
+    A background thread samples RSS at ~2ms intervals between start()
+    and stop(), recording the maximum.  peak_memory_mb is then computed
+    as (peak_rss - baseline_rss), which captures the actual high-water
+    mark even if garbage collection reduces RSS before the operation
+    completes.
+    
+    This avoids two pitfalls of simpler approaches:
+    - tracemalloc: only tracks Python-heap allocations, missing C/C++.
+    - Two-point RSS delta: misses the peak when GC reclaims unrelated
+      objects between start and stop, producing false zeros.
+    
+    Note on CGAL: CGAL runs as a subprocess with its own address space.
+    This profiler cannot capture CGAL memory; the _simplify_cgal method
+    uses dedicated child-process polling instead.
     """
     
     def __init__(self):
         self.process = psutil.Process(os.getpid())
         self._started = False
         self.start_rss: float = 0
-        self.start_traced: float = 0
+        self._peak_rss: float = 0
+        self._poll_stop = threading.Event()
+        self._poll_thread: Optional[threading.Thread] = None
     
     def start(self) -> float:
         """Start memory profiling. Returns current RSS in MB."""
-        tracemalloc.start()
+        gc.collect()
         self._started = True
         self.start_rss = self.process.memory_info().rss / (1024 * 1024)
-        self.start_traced, _ = tracemalloc.get_traced_memory()
+        self._peak_rss = self.start_rss
+        
+        # Start background polling thread
+        self._poll_stop.clear()
+        self._poll_thread = threading.Thread(
+            target=self._poll_rss, daemon=True
+        )
+        self._poll_thread.start()
+        
         return self.start_rss
+    
+    def _poll_rss(self) -> None:
+        """Background thread: sample RSS and track peak."""
+        while not self._poll_stop.is_set():
+            try:
+                rss_mb = self.process.memory_info().rss / (1024 * 1024)
+                if rss_mb > self._peak_rss:
+                    self._peak_rss = rss_mb
+            except (psutil.NoSuchProcess, psutil.AccessDenied):
+                break
+            self._poll_stop.wait(0.002)  # 2ms polling interval
     
     def stop(self) -> Tuple[float, float, float]:
         """
@@ -279,24 +300,27 @@ class MemoryProfiler:
         
         Returns:
             Tuple of (memory_after_mb, memory_delta_mb, peak_memory_mb)
+            peak_memory_mb is the RSS increase observed at the high-water
+            mark during the operation (peak_rss - baseline_rss).
         """
         if not self._started:
             return 0.0, 0.0, 0.0
         
-        current_traced, peak_traced = tracemalloc.get_traced_memory()
-        tracemalloc.stop()
+        # Stop polling thread
+        self._poll_stop.set()
+        if self._poll_thread:
+            self._poll_thread.join(timeout=2)
         self._started = False
         
+        gc.collect()
         end_rss = self.process.memory_info().rss / (1024 * 1024)
         delta_rss = end_rss - self.start_rss
-        peak_mb = peak_traced / (1024 * 1024)
+        
+        # Peak memory: the maximum RSS above baseline observed during
+        # the operation, regardless of what GC did afterwards.
+        peak_mb = max(self._peak_rss - self.start_rss, 0.0)
         
         return end_rss, delta_rss, peak_mb
-
-
-# =============================================================================
-# Statistical Analysis Functions
-# =============================================================================
 
 def identify_outliers_zscore(values: List[float], threshold: float = 2.0) -> List[int]:
     """
@@ -388,11 +412,6 @@ def analyze_repetitions(results: List[SimplificationResult]) -> RepetitionAnalys
         overall_stable=overall_stable,
         warning_message=warning
     )
-
-
-# =============================================================================
-# Batch Mesh Simplifier
-# =============================================================================
 
 class BatchMeshSimplifier:
     """
@@ -617,22 +636,44 @@ class BatchMeshSimplifier:
             points_orig, _ = trimesh.sample.sample_surface(mesh_orig, n_samples)
             points_simp, _ = trimesh.sample.sample_surface(mesh_simp, n_samples)
             
-            # Two-way Hausdorff distance
-            # Direction 1: orig -> simp
-            query_1 = trimesh.proximity.ProximityQuery(mesh_simp)
-            distances_1 = np.abs(query_1.signed_distance(points_orig))
+            # Symmetric Hausdorff distance using unsigned closest-point
+            # distances.  signed_distance() requires watertight meshes for
+            # reliable inside/outside classification; game assets are
+            # typically open surfaces where the sign is undefined, causing
+            # near-zero returns.  closest_point() computes the unsigned
+            # point-to-surface distance directly, consistent with the
+            # METRO tool (Cignoni et al., 1998).
+            
+            # Direction 1: orig -> simp  (for each point on the original
+            # surface, how far is the nearest point on the simplified surface?)
+            _, distances_1, _ = trimesh.proximity.closest_point(mesh_simp, points_orig)
             hausdorff_1 = distances_1.max()
             
-            # Direction 2: simp -> orig
-            query_2 = trimesh.proximity.ProximityQuery(mesh_orig)
-            distances_2 = np.abs(query_2.signed_distance(points_simp))
+            # Direction 2: simp -> orig  (for each point on the simplified
+            # surface, how far is the nearest point on the original surface?)
+            _, distances_2, _ = trimesh.proximity.closest_point(mesh_orig, points_simp)
             hausdorff_2 = distances_2.max()
             
             hausdorff_raw = max(hausdorff_1, hausdorff_2)
             hausdorff_norm = (hausdorff_raw / bb_diagonal) * 100
             
-            # RMSE: simplified -> original
-            rmse_raw = np.sqrt(np.mean(distances_2 ** 2))
+            # Directional RMSE
+            # Forward (orig->simp): measures coverage loss -- how far removed
+            # regions of the original surface are from the simplified surface.
+            rmse_forward_raw = np.sqrt(np.mean(distances_1 ** 2))
+            rmse_forward_norm = (rmse_forward_raw / bb_diagonal) * 100
+            
+            # Backward (simp->orig): measures vertex displacement -- how far
+            # simplified vertices have moved from their original positions.
+            # Zero for subset-placement methods (e.g. fast-simplification).
+            rmse_backward_raw = np.sqrt(np.mean(distances_2 ** 2))
+            rmse_backward_norm = (rmse_backward_raw / bb_diagonal) * 100
+            
+            # Symmetric RMSE: RMS over the union of both distance sets,
+            # capturing both coverage loss and displacement in a single
+            # metric.  Analogous to symmetric Hausdorff but for RMS.
+            all_distances = np.concatenate([distances_1, distances_2])
+            rmse_raw = np.sqrt(np.mean(all_distances ** 2))
             rmse_norm = (rmse_raw / bb_diagonal) * 100
             
             return GeometricAccuracyMetrics(
@@ -640,6 +681,10 @@ class BatchMeshSimplifier:
                 hausdorff_distance_raw=float(hausdorff_raw),
                 rmse_normalized=float(rmse_norm),
                 rmse_raw=float(rmse_raw),
+                rmse_forward_normalized=float(rmse_forward_norm),
+                rmse_forward_raw=float(rmse_forward_raw),
+                rmse_backward_normalized=float(rmse_backward_norm),
+                rmse_backward_raw=float(rmse_backward_raw),
                 sample_points=n_samples,
                 bounding_box_diagonal=float(bb_diagonal)
             )
@@ -665,6 +710,17 @@ class BatchMeshSimplifier:
             # Load mesh
             mesh = pv.read(str(input_path))
             input_metrics = self._get_mesh_metrics_pyvista(mesh, input_path)
+            
+            # Weld duplicate vertices -- same rationale as meshoptimizer.
+            # Without shared vertices, edge collapses cannot identify
+            # adjacent triangles, causing faces to be removed without
+            # updating their neighbors and tearing holes in the surface.
+            # VTK's clean filter can introduce degenerate vertex/line
+            # cells alongside triangles.  Rebuilding PolyData from the
+            # raw point and face arrays strips these non-triangle cells
+            # and forces VTK to re-infer cell types from vertex counts.
+            mesh = mesh.clean(tolerance=1e-7)
+            mesh = pv.PolyData(mesh.points, mesh.faces)
             
             # Calculate target_reduction for fast-simplification
             target_reduction = 1.0 - target_keep_ratio
@@ -872,6 +928,24 @@ class BatchMeshSimplifier:
             mesh = pv.read(str(input_path))
             input_metrics = self._get_mesh_metrics_pyvista(mesh, input_path)
             
+            # Weld duplicate vertices -- meshoptimizer operates on the index
+            # buffer and requires shared vertices between adjacent triangles
+            # to identify collapsible edges.  Other methods (fast-simplification,
+            # Open3D, CGAL) rebuild adjacency internally, but meshoptimizer
+            # trusts the caller's index buffer.  OBJ files exported from
+            # Blender can contain "triangle soup" where every face owns
+            # unique vertices (vertex:face ratio ~ 3:1), leaving no edges
+            # for the algorithm to collapse.
+            # VTK's clean filter can introduce degenerate vertex/line
+            # cells alongside triangles.  Rebuilding PolyData from the
+            # raw arrays strips these and restores proper cell types.
+            mesh = mesh.clean(tolerance=1e-7)
+            mesh = pv.PolyData(mesh.points, mesh.faces)
+            self.logger.debug(
+                f"[meshoptimizer] After vertex welding: "
+                f"{mesh.n_points} vertices, {mesh.n_cells} faces"
+            )
+            
             # Extract vertex and face data
             self.logger.debug(f"[meshoptimizer] Extracting vertices and faces")
             vertices = np.array(mesh.points, dtype=np.float32)
@@ -1008,6 +1082,244 @@ class BatchMeshSimplifier:
                 error_message=str(e)
             )
     
+    def _make_manifold_for_cgal(
+        self,
+        input_path: Path,
+    ) -> Optional[Path]:
+        """
+        Repair non-manifold geometry that prevents CGAL from loading
+        the mesh.  CGAL's Surface_mesh requires manifold topology to
+        build its halfedge data structure.  It addresses
+        three common issues in production game assets:
+
+        1. Bowtie vertices -- vertices where two or more disconnected
+           triangle fans meet at a single point.  Fixed by splitting
+           the vertex into one copy per connected fan.
+
+        2. Non-manifold edges -- edges shared by 3 or more faces.
+           Fixed by duplicating one of the edge's vertices so that
+           excess faces get their own edge copy.
+
+        3. Inconsistent face orientation -- adjacent faces that traverse
+           a shared edge in the same direction.  Fixed by BFS
+           propagation of consistent winding order.
+
+        Returns:
+            Path to the repaired OBJ file, or None if repair failed.
+        """
+        from collections import defaultdict
+
+        self.logger.info(
+            f"[CGAL] Attempting manifold repair for: {input_path.name}"
+        )
+
+        try:
+            with open(str(input_path), "r") as f:
+                lines = f.readlines()
+
+            # Parse vertices and faces (vertex-index-only OBJ lines)
+            vertices = []
+            face_verts = []
+            for line in lines:
+                if line.startswith("v "):
+                    vertices.append(line)
+                elif line.startswith("f "):
+                    parts = line.strip().split()
+                    verts = [int(p.split("/")[0]) for p in parts[1:]]
+                    face_verts.append(verts)
+
+            # --- Pass 1: Split bowtie vertices ---
+            vertex_faces = defaultdict(list)
+            for fid, fv in enumerate(face_verts):
+                for v in fv:
+                    vertex_faces[v].append(fid)
+
+            next_vertex = len(vertices) + 1  # OBJ is 1-indexed
+            bowtie_splits = 0
+
+            for v, fids in vertex_faces.items():
+                if len(fids) < 2:
+                    continue
+
+                face_neighbors = defaultdict(set)
+                for fid in fids:
+                    others = [x for x in face_verts[fid] if x != v]
+                    for fid2 in fids:
+                        if fid2 == fid:
+                            continue
+                        others2 = [x for x in face_verts[fid2] if x != v]
+                        if set(others) & set(others2):
+                            face_neighbors[fid].add(fid2)
+
+                remaining = set(fids)
+                components = []
+                while remaining:
+                    start = next(iter(remaining))
+                    visited = set()
+                    queue = [start]
+                    visited.add(start)
+                    while queue:
+                        curr = queue.pop(0)
+                        for nb in face_neighbors[curr]:
+                            if nb not in visited:
+                                visited.add(nb)
+                                queue.append(nb)
+                    components.append(visited)
+                    remaining -= visited
+
+                if len(components) > 1:
+                    for comp in components[1:]:
+                        vertices.append(vertices[v - 1])
+                        new_v = next_vertex
+                        next_vertex += 1
+                        bowtie_splits += 1
+                        for fid in comp:
+                            face_verts[fid] = [
+                                new_v if x == v else x
+                                for x in face_verts[fid]
+                            ]
+
+            # --- Pass 2: Split non-manifold edges ---
+            # Edges shared by 3+ faces cannot exist in a manifold mesh.
+            # Fix by duplicating one of the edge's vertices for the
+            # excess faces, giving them their own edge copy.
+            nm_edge_splits = 0
+            max_iterations = 10  # guard against infinite loops
+
+            for iteration in range(max_iterations):
+                edge_to_faces = defaultdict(list)
+                for fid, fv in enumerate(face_verts):
+                    for j in range(len(fv)):
+                        edge = tuple(sorted([fv[j], fv[(j + 1) % len(fv)]]))
+                        edge_to_faces[edge].append(fid)
+
+                nm_edges = {e: fs for e, fs in edge_to_faces.items()
+                            if len(fs) > 2}
+
+                if not nm_edges:
+                    break
+
+                for (va, vb), fids in nm_edges.items():
+                    # Keep first two faces on the original edge,
+                    # give each excess face a duplicate of vertex va
+                    for fid in fids[2:]:
+                        vertices.append(vertices[va - 1])
+                        new_v = next_vertex
+                        next_vertex += 1
+                        nm_edge_splits += 1
+                        face_verts[fid] = [
+                            new_v if x == va else x
+                            for x in face_verts[fid]
+                        ]
+
+            # --- Pass 3: BFS orientation + remove unresolvable ---
+            edge_to_faces = defaultdict(list)
+            for fid, fv in enumerate(face_verts):
+                for j in range(len(fv)):
+                    edge = tuple(sorted([fv[j], fv[(j + 1) % len(fv)]]))
+                    edge_to_faces[edge].append(fid)
+
+            face_adj = defaultdict(set)
+            edge_between = {}
+            for edge, fids in edge_to_faces.items():
+                if len(fids) == 2:
+                    face_adj[fids[0]].add(fids[1])
+                    face_adj[fids[1]].add(fids[0])
+                    edge_between[(fids[0], fids[1])] = edge
+                    edge_between[(fids[1], fids[0])] = edge
+
+            def get_directed_edge(fv, undirected_edge):
+                a, b = undirected_edge
+                for j in range(len(fv)):
+                    if fv[j] == a and fv[(j + 1) % len(fv)] == b:
+                        return (a, b)
+                    if fv[j] == b and fv[(j + 1) % len(fv)] == a:
+                        return (b, a)
+                return None
+
+            oriented = set()
+            bfs_flipped = 0
+            remaining_faces = set(range(len(face_verts)))
+
+            while remaining_faces:
+                seed = next(iter(remaining_faces))
+                queue = [seed]
+                oriented.add(seed)
+                remaining_faces.discard(seed)
+
+                while queue:
+                    curr = queue.pop(0)
+                    for nb in face_adj[curr]:
+                        if nb in oriented:
+                            continue
+                        oriented.add(nb)
+                        remaining_faces.discard(nb)
+
+                        se = edge_between.get((curr, nb))
+                        if se:
+                            de_curr = get_directed_edge(
+                                face_verts[curr], se
+                            )
+                            de_nb = get_directed_edge(
+                                face_verts[nb], se
+                            )
+                            if de_curr == de_nb:
+                                face_verts[nb] = face_verts[nb][::-1]
+                                bfs_flipped += 1
+
+                        queue.append(nb)
+
+            # Remove faces with remaining orientation conflicts
+            directed_edges_check = defaultdict(list)
+            for fid, fv in enumerate(face_verts):
+                for j in range(len(fv)):
+                    e = (fv[j], fv[(j + 1) % len(fv)])
+                    directed_edges_check[e].append(fid)
+
+            faces_to_remove = set()
+            for edge, fids in directed_edges_check.items():
+                if len(fids) > 1:
+                    for fid in fids[1:]:
+                        faces_to_remove.add(fid)
+
+            if faces_to_remove:
+                face_verts = [fv for fid, fv in enumerate(face_verts)
+                              if fid not in faces_to_remove]
+
+            total_fixes = (bowtie_splits + nm_edge_splits
+                           + bfs_flipped + len(faces_to_remove))
+            if total_fixes == 0:
+                self.logger.info(
+                    "[CGAL] No manifold issues found -- repair not needed"
+                )
+                return None
+
+            self.logger.info(
+                f"[CGAL] Manifold repair: split {bowtie_splits} bowtie "
+                f"vertices, split {nm_edge_splits} non-manifold edges, "
+                f"flipped {bfs_flipped} faces, "
+                f"removed {len(faces_to_remove)} unresolvable faces"
+            )
+
+            # Write repaired OBJ (vertex-index-only format for CGAL)
+            repaired_dir = input_path.parent / "repaired_manifold"
+            repaired_dir.mkdir(parents=True, exist_ok=True)
+            repaired_path = repaired_dir / f"{input_path.stem}_manifold.obj"
+            with open(str(repaired_path), "w") as f:
+                for vline in vertices:
+                    f.write(vline)
+                for fv in face_verts:
+                    f.write("f " + " ".join(str(v) for v in fv) + "\n")
+
+            self.logger.info(
+                f"[CGAL] Repaired mesh saved to: {repaired_path.name}"
+            )
+            return repaired_path
+
+        except Exception as e:
+            self.logger.warning(f"[CGAL] Manifold repair failed: {e}")
+            return None
+
     def _simplify_cgal(
         self,
         input_path: Path,
@@ -1019,43 +1331,98 @@ class BatchMeshSimplifier:
     ) -> SimplificationResult:
         """Simplify using CGAL."""
         asset_name = input_path.stem
-        profiler = MemoryProfiler()
         
         # Temp stats file
         stats_path = output_path.parent / f"{output_path.stem}_stats.json"
         
         try:
-            # Get input metrics
+            # Get input metrics (always from the original, unrepaired mesh)
             mesh = pv.read(str(input_path))
             input_metrics = self._get_mesh_metrics_pyvista(mesh, input_path)
             del mesh
             
+            # Determine the mesh path CGAL will actually process.
+            # Manifold repair is handled in the preprocessing phase
+            # (run_batch), so a repaired file already exists on disk
+            # if the asset needs it.  All runs use the same input.
+            cgal_input = input_path
+            repaired_dir = input_path.parent / "repaired_manifold"
+            repaired_path = repaired_dir / f"{input_path.stem}_manifold.obj"
+            
+            if repaired_path.exists():
+                cgal_input = repaired_path
+                self.logger.debug(
+                    f"[CGAL] Using manifold-repaired mesh: "
+                    f"{repaired_path.name}"
+                )
+            
             # Profile simplification
-            memory_before = profiler.start()
+            # CGAL runs as a separate process, so the parent's RSS does
+            # not reflect CGAL's memory usage.  Instead, we launch with
+            # Popen and poll the child process's RSS from a background
+            # thread to capture peak memory of the C++ executable itself.
             start_time = time.perf_counter()
             
             # Call CGAL executable
             cmd = [
                 str(self.cgal_executable),
-                str(input_path),
+                str(cgal_input),
                 str(output_path),
                 str(target_keep_ratio),
                 str(stats_path)
             ]
             
-            result = subprocess.run(
+            proc = subprocess.Popen(
                 cmd,
-                capture_output=True,
-                text=True,
-                timeout=600  # 10 minute timeout
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True
             )
             
+            # Poll child process RSS in background thread
+            peak_child_rss_mb = [0.0]  # mutable container for thread access
+            poll_stop = threading.Event()
+            
+            def _poll_child_memory():
+                try:
+                    child = psutil.Process(proc.pid)
+                    while not poll_stop.is_set():
+                        try:
+                            rss_mb = child.memory_info().rss / (1024 * 1024)
+                            if rss_mb > peak_child_rss_mb[0]:
+                                peak_child_rss_mb[0] = rss_mb
+                        except (psutil.NoSuchProcess, psutil.AccessDenied):
+                            break  # process exited
+                        poll_stop.wait(0.005)  # 5ms polling interval
+                except (psutil.NoSuchProcess, psutil.AccessDenied):
+                    pass  # process exited before we could attach
+            
+            poll_thread = threading.Thread(target=_poll_child_memory, daemon=True)
+            poll_thread.start()
+            
+            try:
+                stdout, stderr = proc.communicate(timeout=3600)
+            except subprocess.TimeoutExpired:
+                proc.kill()
+                poll_stop.set()
+                poll_thread.join(timeout=2)
+                raise
+            
+            poll_stop.set()
+            poll_thread.join(timeout=2)
+            
             end_time = time.perf_counter()
-            memory_after, memory_delta, peak_memory = profiler.stop()
             execution_time = end_time - start_time
             
-            if result.returncode != 0:
-                error_msg = f"CGAL failed (code {result.returncode}): {result.stderr}"
+            # Memory metrics: for CGAL we report the child process's peak RSS
+            # rather than the parent's delta (which would be ~0).
+            peak_memory = peak_child_rss_mb[0]
+            memory_before = 0.0  # not meaningful for subprocess
+            memory_after = 0.0
+            memory_delta = peak_memory
+            
+            if proc.returncode != 0:
+                error_msg = f"CGAL failed (code {proc.returncode}): {stderr}"
                 raise RuntimeError(error_msg)
             
             # Get output metrics
@@ -1218,6 +1585,53 @@ class BatchMeshSimplifier:
         self.logger.info(f"Total operations: {total_ops}")
         self.logger.info("")
         
+        # --- CGAL preprocessing: manifold repair ---
+        # Run manifold repair for all assets BEFORE the benchmark loop
+        # so that repair overhead is excluded from performance measurements.
+        # Without this, run 1 would include repair time/memory while
+        # runs 2-3 would use the cached result, creating a confound.
+        if "cgal" in self.methods:
+            self.logger.info("-" * 80)
+            self.logger.info("CGAL PREPROCESSING: Manifold repair (excluded from benchmark)")
+            self.logger.info("-" * 80)
+            
+            for mesh_file in mesh_files:
+                repaired_dir = mesh_file.parent / "repaired_manifold"
+                repaired_path = repaired_dir / f"{mesh_file.stem}_manifold.obj"
+                
+                if repaired_path.exists():
+                    self.logger.info(
+                        f"  {mesh_file.name}: cached repair found, skipping"
+                    )
+                    continue
+                
+                # Try loading with CGAL to see if repair is needed
+                test_cmd = [
+                    str(self.cgal_executable),
+                    str(mesh_file),
+                    os.devnull,   # discard output
+                    "0.5",        # dummy ratio
+                ]
+                test_result = subprocess.run(
+                    test_cmd,
+                    capture_output=True,
+                    text=True,
+                    timeout=1200
+                )
+                
+                if (test_result.returncode != 0
+                        and "Failed to load mesh" in test_result.stderr):
+                    self.logger.info(
+                        f"  {mesh_file.name}: CGAL cannot load -- running repair"
+                    )
+                    self._make_manifold_for_cgal(mesh_file)
+                else:
+                    self.logger.info(
+                        f"  {mesh_file.name}: CGAL loads OK, no repair needed"
+                    )
+            
+            self.logger.info("")
+        
         # Progress tracking
         batch_start_time = time.perf_counter()
         
@@ -1319,7 +1733,7 @@ class BatchMeshSimplifier:
         batch_end_time = time.perf_counter()
         total_time = batch_end_time - batch_start_time
         
-        # Generate comprehensive report
+        # Generate report
         report = self._generate_report(total_time)
         
         # Print summary
@@ -1391,7 +1805,7 @@ class BatchMeshSimplifier:
         return stats
     
     def _generate_report(self, total_time: float) -> BatchReport:
-        """Generate comprehensive batch report."""
+        """Generate batch report."""
         # Calculate method statistics
         method_stats = self._calculate_method_statistics()
         
@@ -1561,11 +1975,6 @@ class BatchMeshSimplifier:
             json.dump(report_dict, f, indent=2, default=str)
         
         self.logger.info(f"\nReport saved to: {output_path}")
-
-
-# =============================================================================
-# Command Line Interface
-# =============================================================================
 
 def main():
     """Command-line entry point."""

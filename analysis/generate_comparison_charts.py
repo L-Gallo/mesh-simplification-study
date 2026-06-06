@@ -1,17 +1,14 @@
 #!/usr/bin/env python3
 """
 Mesh Simplification Comparison Chart Generator
-===============================================
-Generates statistical comparison charts from batch benchmark results.
+
+Generates comparison charts from batch benchmark results.
 
 Outputs:
 - Hausdorff distance heatmap (methods x reduction levels)
 - RMSE heatmap
 - Performance comparison charts (time, memory)
 - Success rate comparison
-
-Author: Master's Thesis Visualization Tool
-Version: 1.0.0
 """
 
 import argparse
@@ -363,7 +360,7 @@ def generate_combined_overview(
     report: Dict,
     output_dir: Path
 ) -> None:
-    """Generate comprehensive overview with multiple metrics."""
+    """Generate overview figure with multiple metrics."""
     print("\nGenerating combined overview chart...")
     
     method_stats = report['method_statistics']
@@ -430,7 +427,7 @@ def generate_combined_overview(
         ax4.set_title('Mean Geometric Accuracy', fontsize=11, fontweight='bold')
     
     # Overall title with proper spacing
-    fig.suptitle('Mesh Simplification Methods - Comprehensive Comparison', 
+    fig.suptitle('Mesh Simplification Methods - Combined Overview', 
                  fontsize=14, fontweight='bold', y=0.99)
     
     # Adjust layout to prevent overlap
