@@ -118,8 +118,9 @@ extras/
 **/_no zoom*/
 **/_zoom*/
 
-# Root-level figures/ directory (pilot-era heatmaps, to be replaced by results/)
+# Ignore figures/ directories everywhere except results/figures/
 figures/
+!results/figures/
 
 
 # GENERATED OUTPUTS (re-generable from scripts + data)
