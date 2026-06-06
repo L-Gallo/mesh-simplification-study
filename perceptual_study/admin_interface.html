@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Mesh Comparison Study</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #1a1a1a;
+            color: #fff;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #4CAF50;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #999;
+            margin-bottom: 30px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background: #2a2a2a;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid #333;
+        }
+        
+        .stat-label {
+            color: #999;
+            font-size: 14px;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .stat-value {
+            font-size: 36px;
+            font-weight: bold;
+            color: #4CAF50;
+        }
+        
+        .leaderboard-section {
+            background: #2a2a2a;
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid #333;
+        }
+        
+        .leaderboard-section h2 {
+            color: #4CAF50;
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+        
+        .leaderboard-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .leaderboard-table th {
+            background: #333;
+            color: #4CAF50;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            border-bottom: 2px solid #4CAF50;
+        }
+        
+        .leaderboard-table td {
+            padding: 12px;
+            border-bottom: 1px solid #333;
+        }
+        
+        .leaderboard-table tr:hover {
+            background: #333;
+        }
+        
+        .rank-badge {
+            display: inline-block;
+            width: 32px;
+            height: 32px;
+            line-height: 32px;
+            text-align: center;
+            border-radius: 50%;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        
+        .rank-badge.gold {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #000;
+        }
+        
+        .rank-badge.silver {
+            background: linear-gradient(135deg, #C0C0C0, #808080);
+            color: #000;
+        }
+        
+        .rank-badge.bronze {
+            background: linear-gradient(135deg, #CD7F32, #8B4513);
+            color: #fff;
+        }
+        
+        .rank-badge.other {
+            background: #444;
+            color: #999;
+        }
+        
+        .method-badge {
+            background: #4CAF50;
+            color: #000;
+            padding: 6px 12px;
+            border-radius: 4px;
+            display: inline-block;
+            font-weight: 600;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+        }
+        
+        .win-rate {
+            font-weight: 600;
+            color: #4CAF50;
+            font-size: 18px;
+        }
+        
+        .stats-bar {
+            height: 6px;
+            background: #444;
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 6px;
+        }
+        
+        .stats-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4CAF50, #8BC34A);
+            transition: width 0.3s ease;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+        
+        .btn {
+            background: #4CAF50;
+            color: #000;
+            border: none;
+            padding: 12px 24px;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .btn:hover {
+            background: #5CBF60;
+            transform: translateY(-2px);
+        }
+        
+        .btn-danger {
+            background: #f44336;
+            color: #fff;
+        }
+        
+        .btn-danger:hover {
+            background: #da190b;
+        }
+        
+        .auto-refresh {
+            text-align: center;
+            color: #666;
+            font-size: 12px;
+            margin-top: 10px;
+        }
+        
+        .auto-refresh.active {
+            color: #4CAF50;
+        }
+        
+        .loading {
+            text-align: center;
+            color: #999;
+            padding: 40px;
+            font-size: 18px;
+        }
+        
+        .timestamp {
+            text-align: center;
+            color: #666;
+            font-size: 12px;
+            margin-top: 20px;
+        }
+        
+        .head-to-head {
+            background: #2a2a2a;
+            border-radius: 8px;
+            padding: 30px;
+            border: 1px solid #333;
+        }
+        
+        .head-to-head h2 {
+            color: #4CAF50;
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+        
+        .h2h-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .h2h-card {
+            background: #333;
+            padding: 15px;
+            border-radius: 6px;
+        }
+        
+        .h2h-card h3 {
+            color: #4CAF50;
+            margin: 0 0 10px 0;
+            font-size: 16px;
+        }
+        
+        .h2h-matchup {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #444;
+            font-size: 14px;
+        }
+        
+        .h2h-matchup:last-child {
+            border-bottom: none;
+        }
+        
+        .h2h-opponent {
+            color: #999;
+        }
+        
+        .h2h-record {
+            color: #4CAF50;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎯 Admin Dashboard</h1>
+        <p class="subtitle">Mesh Comparison Study - Live Statistics</p>
+        
+        <div class="controls">
+            <button class="btn" onclick="refreshData()">🔄 Refresh Now</button>
+            <button class="btn" onclick="toggleAutoRefresh()">
+                <span id="auto-refresh-text">▶ Start Auto-Refresh</span>
+            </button>
+            <button class="btn btn-danger" onclick="exportData()">💾 Export Data</button>
+        </div>
+        <div class="auto-refresh" id="auto-refresh-status">Auto-refresh: Off</div>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-label">Total Responses</div>
+                <div class="stat-value" id="total-responses">-</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Unique Participants</div>
+                <div class="stat-value" id="unique-participants">-</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Total Comparisons</div>
+                <div class="stat-value" id="total-comparisons">36</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Completion Rate</div>
+                <div class="stat-value" id="completion-rate">-%</div>
+            </div>
+        </div>
+        
+        <div class="leaderboard-section">
+            <h2>🏆 Live Leaderboard</h2>
+            <div id="leaderboard-content">
+                <div class="loading">Loading leaderboard data...</div>
+            </div>
+        </div>
+        
+        <div class="head-to-head">
+            <h2>⚔️ Head-to-Head Records</h2>
+            <div id="h2h-content">
+                <div class="loading">Loading head-to-head data...</div>
+            </div>
+        </div>
+        
+        <div class="timestamp" id="last-updated">Last updated: Never</div>
+    </div>
+
+    <script>
+        // Configuration
+        const API_BASE = 'https://luky7g.pythonanywhere.com';
+        let autoRefreshInterval = null;
+        
+        // Initialize
+        async function init() {
+            await refreshData();
+        }
+        
+        // Refresh all data
+        async function refreshData() {
+            await Promise.all([
+                updateStats(),
+                updateLeaderboard(),
+                updateHeadToHead()
+            ]);
+            
+            document.getElementById('last-updated').textContent = 
+                `Last updated: ${new Date().toLocaleTimeString()}`;
+        }
+        
+        // Update statistics
+        async function updateStats() {
+            try {
+                const response = await fetch(`${API_BASE}/stats`);
+                const data = await response.json();
+                
+                document.getElementById('total-responses').textContent = data.total_responses;
+                document.getElementById('unique-participants').textContent = data.unique_participants;
+                
+                const completionRate = data.total_responses > 0 
+                    ? Math.round((data.total_responses / (data.unique_participants * 36)) * 100)
+                    : 0;
+                document.getElementById('completion-rate').textContent = completionRate + '%';
+                
+            } catch (error) {
+                console.error('Failed to load stats:', error);
+            }
+        }
+        
+        // Update leaderboard
+        async function updateLeaderboard() {
+            try {
+                const response = await fetch(`${API_BASE}/leaderboard`);
+                const data = await response.json();
+                
+                if (data.total_responses === 0) {
+                    document.getElementById('leaderboard-content').innerHTML = 
+                        '<p style="text-align:center; color:#666;">No data yet - waiting for participants...</p>';
+                    return;
+                }
+                
+                renderLeaderboard(data.leaderboard);
+                
+            } catch (error) {
+                console.error('Failed to load leaderboard:', error);
+            }
+        }
+        
+        // Render leaderboard table
+        function renderLeaderboard(leaderboard) {
+            const getRankBadgeClass = (rank) => {
+                if (rank === 1) return 'gold';
+                if (rank === 2) return 'silver';
+                if (rank === 3) return 'bronze';
+                return 'other';
+            };
+            
+            const rows = leaderboard.map(item => `
+                <tr>
+                    <td><span class="rank-badge ${getRankBadgeClass(item.rank)}">${item.rank}</span></td>
+                    <td><span class="method-badge">${item.method}</span></td>
+                    <td style="text-align: center;"><strong>${item.wins}</strong></td>
+                    <td style="text-align: center;">${item.losses}</td>
+                    <td style="text-align: center;">${item.total_comparisons}</td>
+                    <td>
+                        <div class="win-rate">${item.win_rate}%</div>
+                        <div class="stats-bar">
+                            <div class="stats-bar-fill" style="width: ${item.win_rate}%"></div>
+                        </div>
+                    </td>
+                </tr>
+            `).join('');
+            
+            document.getElementById('leaderboard-content').innerHTML = `
+                <table class="leaderboard-table">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Method</th>
+                            <th style="text-align: center;">Wins</th>
+                            <th style="text-align: center;">Losses</th>
+                            <th style="text-align: center;">Total</th>
+                            <th>Win Rate</th>
+                        </tr>
+                    </thead>
+                    <tbody>${rows}</tbody>
+                </table>
+            `;
+        }
+        
+        // Update head-to-head records
+        async function updateHeadToHead() {
+            try {
+                const response = await fetch(`${API_BASE}/method_stats`);
+                const data = await response.json();
+                
+                if (data.total_responses === 0) {
+                    document.getElementById('h2h-content').innerHTML = 
+                        '<p style="text-align:center; color:#666;">No data yet</p>';
+                    return;
+                }
+                
+                renderHeadToHead(data.methods);
+                
+            } catch (error) {
+                console.error('Failed to load head-to-head data:', error);
+            }
+        }
+        
+        // Render head-to-head records
+        function renderHeadToHead(methods) {
+            const cards = Object.keys(methods).map(method => {
+                const h2h = methods[method].head_to_head;
+                const matchups = Object.keys(h2h).map(opponent => `
+                    <div class="h2h-matchup">
+                        <span class="h2h-opponent">vs ${opponent}</span>
+                        <span class="h2h-record">${h2h[opponent].wins}W - ${h2h[opponent].losses}L</span>
+                    </div>
+                `).join('');
+                
+                return `
+                    <div class="h2h-card">
+                        <h3>${method}</h3>
+                        ${matchups}
+                    </div>
+                `;
+            }).join('');
+            
+            document.getElementById('h2h-content').innerHTML = `
+                <div class="h2h-grid">${cards}</div>
+            `;
+        }
+        
+        // Toggle auto-refresh
+        function toggleAutoRefresh() {
+            if (autoRefreshInterval) {
+                clearInterval(autoRefreshInterval);
+                autoRefreshInterval = null;
+                document.getElementById('auto-refresh-text').textContent = '▶ Start Auto-Refresh';
+                document.getElementById('auto-refresh-status').textContent = 'Auto-refresh: Off';
+                document.getElementById('auto-refresh-status').classList.remove('active');
+            } else {
+                autoRefreshInterval = setInterval(refreshData, 5000); // Every 5 seconds
+                document.getElementById('auto-refresh-text').textContent = '⏸ Stop Auto-Refresh';
+                document.getElementById('auto-refresh-status').textContent = 'Auto-refresh: On (every 5s)';
+                document.getElementById('auto-refresh-status').classList.add('active');
+                refreshData(); // Immediate refresh
+            }
+        }
+        
+        // Export data
+        async function exportData() {
+            try {
+                // Open endpoints in new tabs
+                window.open(`${API_BASE}/stats`, '_blank');
+                window.open(`${API_BASE}/leaderboard`, '_blank');
+                window.open(`${API_BASE}/method_stats`, '_blank');
+                
+                alert('Data opened in new tabs. Copy the JSON or save the files.');
+            } catch (error) {
+                alert('Failed to export data: ' + error.message);
+            }
+        }
+        
+        // Start
+        init();
+    </script>
+</body>
+</html>

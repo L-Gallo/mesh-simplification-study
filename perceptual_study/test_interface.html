@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Mesh Quality Comparison Study</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #f5f5f5;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .header {
+            background: white;
+            border-bottom: 1px solid #e0e0e0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .container {
+            flex: 1;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            width: 100%;
+        }
+
+        .instructions {
+            background: white;
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 30px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .instructions h2 {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .instructions p {
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+
+        .instructions ul {
+            color: #666;
+            line-height: 1.8;
+            margin-left: 20px;
+        }
+
+        .disclaimer {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 16px;
+            margin-bottom: 30px;
+            border-radius: 4px;
+        }
+
+        .disclaimer p {
+            color: #856404;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .disclaimer strong {
+            font-weight: 600;
+        }
+
+        .comparison-card {
+            background: white;
+            border-radius: 8px;
+            padding: 40px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .comparison-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            margin-bottom: 40px;
+        }
+
+        .image-panel {
+            text-align: center;
+        }
+
+        .panel-label {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+        }
+
+        .image-container {
+            background: #fafafa;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 24px;
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            max-height: 500px;
+            display: block;
+            border-radius: 4px;
+        }
+
+        .placeholder {
+            color: #999;
+            font-style: italic;
+            font-size: 14px;
+        }
+
+        .choose-btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 16px 48px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 4px rgba(0,123,255,0.3);
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .choose-btn:hover {
+            background: #0056b3;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0,123,255,0.4);
+        }
+
+        .choose-btn:active {
+            transform: translateY(0);
+        }
+
+        .choose-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
+        }
+
+        .progress-bar {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin-top: 30px;
+        }
+
+        .progress-text {
+            font-size: 14px;
+            color: #999;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .progress-count {
+            font-size: 20px;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 12px;
+            background: #e0e0e0;
+            border-radius: 6px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #007bff, #0056b3);
+            border-radius: 6px;
+            transition: width 0.5s ease;
+            position: relative;
+        }
+
+        .progress-bar-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .progress-percentage {
+            font-size: 28px;
+            font-weight: 700;
+            color: #007bff;
+            margin-top: 12px;
+        }
+
+        /* Debug mode styles */
+        .debug-banner {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a6f);
+            color: white;
+            padding: 12px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .debug-info {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 12px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .debug-info h4 {
+            color: #856404;
+            margin: 0 0 8px 0;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .debug-info p {
+            color: #856404;
+            margin: 4px 0;
+            font-size: 13px;
+        }
+
+        .debug-info strong {
+            color: #533f03;
+        }
+
+        .debug-highlight {
+            border: 3px solid #ffc107 !important;
+            box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.2);
+        }
+
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+            font-size: 18px;
+        }
+
+        .loading::after {
+            content: '';
+            animation: dots 1.5s infinite;
+        }
+
+        @keyframes dots {
+            0%, 20% { content: ''; }
+            40% { content: '.'; }
+            60% { content: '..'; }
+            80%, 100% { content: '...'; }
+        }
+
+        .complete {
+            text-align: center;
+            padding: 80px 20px;
+        }
+
+        .complete h2 {
+            color: #28a745;
+            font-size: 32px;
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+
+        .complete p {
+            color: #666;
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+
+        .complete .thank-you {
+            font-size: 20px;
+            color: #333;
+            font-weight: 500;
+            margin-top: 24px;
+        }
+
+        .footer {
+            background: white;
+            border-top: 1px solid #e0e0e0;
+            padding: 20px;
+            text-align: center;
+            margin-top: auto;
+        }
+
+        .footer p {
+            color: #999;
+            font-size: 12px;
+        }
+
+        .error {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+            padding: 16px;
+            margin: 20px 0;
+            border-radius: 4px;
+            color: #721c24;
+        }
+
+        .begin-button {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+            border: none;
+            padding: 20px 60px;
+            font-size: 20px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,123,255,0.3);
+            margin: 40px auto;
+            display: block;
+        }
+
+        .begin-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,123,255,0.5);
+            background: linear-gradient(135deg, #0056b3, #003d82);
+        }
+
+        .begin-button:active {
+            transform: translateY(0);
+        }
+
+        .start-screen {
+            background: white;
+            border-radius: 8px;
+            padding: 50px 40px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        .start-screen h2 {
+            color: #007bff;
+            font-size: 28px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .start-screen p {
+            color: #666;
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .start-screen .highlight {
+            color: #007bff;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .comparison-container {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .container {
+                padding: 20px 10px;
+            }
+
+            .comparison-card {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>3D Mesh Quality Comparison Study</h1>
+        <p>Breda University of Applied Sciences</p>
+    </div>
+
+    <div class="container">
+        <div class="instructions">
+            <h2>Instructions</h2>
+            <p>You will be shown pairs of 3D mesh images at different viewing distances. For each pair, please choose the image that you think has <strong>better overall visual quality</strong>.</p>
+            <ul>
+                <li>Some images will appear smaller (as if viewed from a distance in a game)</li>
+                <li>Some images will appear larger (close-up view)</li>
+                <li>There are no right or wrong answers - we want your honest opinion</li>
+                <li>Take your time to examine both images carefully</li>
+                <li>Each session includes max <strong>20 comparisons</strong> (approximately 4-5 minutes)</li>
+                <li>You can return later to complete more comparisons if you wish</li>
+                <li><strong>You can exit at any time</strong> - each answer is saved immediately</li>
+            </ul>
+        </div>
+
+        <div class="disclaimer">
+            <p><strong>Data Privacy:</strong> This study only records which image you prefer and the time taken to decide. No personal information, IP addresses, or identifying data is collected. Your participation is anonymous and voluntary.</p>
+        </div>
+
+        <div id="app">
+            <div class="loading">Loading comparison</div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>Master's Thesis Research - Mesh Simplification Quality Assessment</p>
+    </div>
+
+    <script>
+        // Change this URL when deploying (e.g. https://yourname.pythonanywhere.com)
+        const API_BASE = 'http://localhost:5000';
+        const PARTICIPANT_ID = `p_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+
+        // Debug mode - enable by adding ?debug=true to URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const DEBUG_MODE = urlParams.get('debug') === 'true';
+
+        // State
+        let currentComparison = null;
+        let startTime = null;
+        let totalComparisons = 0;
+        let totalPairs = 0;
+        let sessionLimit = 20;
+        let sessionInProgress = false;
+        let surveyStarted = false;
+        let nextComparison = null;  // Preloaded next comparison data
+
+        // DOM Elements
+        const app = document.getElementById('app');
+
+        // Initialize
+        async function init() {
+            // Show debug banner if in debug mode
+            if (DEBUG_MODE) {
+                const banner = document.createElement('div');
+                banner.className = 'debug-banner';
+                banner.innerHTML = 'DEBUG MODE ACTIVE - Technical Details Visible';
+                document.body.insertBefore(banner, document.body.firstChild);
+            }
+
+            // Show start screen instead of loading comparison immediately
+            showStartScreen();
+        }
+
+        // Show start screen with "Begin Survey" button
+        function showStartScreen() {
+            app.innerHTML = `
+                <div class="start-screen">
+                    <h2>Ready to Begin?</h2>
+                    <p>Please make sure you've read the <span class="highlight">instructions above</span> carefully.</p>
+                    <p>The survey will take approximately <span class="highlight">4-5 minutes</span> to complete.</p>
+                    <p>You will compare <span class="highlight">20 pairs</span> of 3D mesh images.</p>
+                    <button class="begin-button" onclick="beginSurvey()">
+                        I've Read the Instructions - Begin Survey
+                    </button>
+                </div>
+            `;
+        }
+
+        // Begin survey - load first comparison
+        async function beginSurvey() {
+            if (surveyStarted) return;  // Prevent double-click
+
+            surveyStarted = true;
+            app.innerHTML = '<div class="loading">Loading first comparison</div>';
+
+            await loadNextPair();
+        }
+
+        // Preload images for next comparison
+        function preloadImages(imageUrls) {
+            imageUrls.forEach(url => {
+                const img = new Image();
+                img.src = url;  // Browser caches this automatically
+            });
+        }
+
+        // Fetch next comparison data in background and preload images
+        async function prefetchNextComparison() {
+            try {
+                const response = await fetch(`${API_BASE}/next_pair?participant_id=${PARTICIPANT_ID}`);
+                const data = await response.json();
+
+                if (data.status === 'success') {
+                    nextComparison = data;
+                    // Preload the images
+                    preloadImages([
+                        data.comparison.image_left,
+                        data.comparison.image_right
+                    ]);
+                }
+            } catch (error) {
+                // Silently fail - if prefetch fails, regular fetch will work
+                console.log('Prefetch failed (non-critical):', error);
+            }
+        }
+
+        // Fetch next comparison from backend
+        async function loadNextPair() {
+            try {
+                app.innerHTML = '<div class="loading">Loading next comparison</div>';
+
+                let data;
+
+                // Use preloaded data if available (instant!)
+                if (nextComparison && nextComparison.status === 'success') {
+                    data = nextComparison;
+                    nextComparison = null;  // Clear preloaded data
+                } else {
+                    // Fetch normally if no preload available
+                    const response = await fetch(`${API_BASE}/next_pair?participant_id=${PARTICIPANT_ID}`);
+                    data = await response.json();
+                }
+
+                if (data.status === 'session_complete') {
+                    showSessionComplete(data.pairs_completed, data.total_comparisons);
+                    return;
+                }
+
+                if (data.status === 'complete') {
+                    showComplete();
+                    return;
+                }
+
+                currentComparison = data.comparison;
+                totalComparisons = data.progress.comparisons_completed;
+                totalPairs = data.progress.pairs_completed;
+                sessionLimit = data.progress.total_comparisons;
+                startTime = Date.now();
+
+                renderComparison();
+
+                // Immediately prefetch next comparison in background
+                prefetchNextComparison();
+
+            } catch (error) {
+                showError(`Failed to load comparison: ${error.message}`);
+            }
+        }
+
+        // Render comparison interface
+        function renderComparison() {
+            if (!currentComparison) return;
+
+            // Calculate progress - subtract 1 because current comparison isn't complete yet
+            const completedSoFar = Math.max(0, totalComparisons - 1);
+            const progressPercent = sessionLimit ? Math.round((completedSoFar / sessionLimit) * 100) : 0;
+
+            // Determine image sizing based on view type
+            const isDistant = currentComparison.view_type === 'distant';
+            const scaleFactor = isDistant ? currentComparison.scale_factor : 1.0;
+
+            // Calculate actual pixel size (assume images are ~800px when full size)
+            const baseImageSize = 800;
+            const displaySize = Math.round(baseImageSize * scaleFactor);
+            const imageStyle = isDistant ? `max-width: ${displaySize}px; max-height: ${displaySize}px;` : 'max-width: 100%; max-height: 500px;';
+
+            // Debug info HTML (only shown if DEBUG_MODE)
+            const debugInfoLeft = DEBUG_MODE ? `
+                <div class="debug-info">
+                    <h4>DEBUG INFO - Image A</h4>
+                    <p><strong>Model:</strong> ${currentComparison.model}</p>
+                    <p><strong>Method:</strong> ${currentComparison.method_left}</p>
+                    <p><strong>Reduction:</strong> ${currentComparison.level}%</p>
+                    <p><strong>View:</strong> ${currentComparison.view_type}</p>
+                    <p><strong>Scale:</strong> ${Math.round(scaleFactor * 100)}% (${displaySize}px)</p>
+                    <p><strong>Pair ID:</strong> ${currentComparison.pair_id}</p>
+                </div>
+            ` : '';
+
+            const debugInfoRight = DEBUG_MODE ? `
+                <div class="debug-info">
+                    <h4>DEBUG INFO - Image B</h4>
+                    <p><strong>Model:</strong> ${currentComparison.model}</p>
+                    <p><strong>Method:</strong> ${currentComparison.method_right}</p>
+                    <p><strong>Reduction:</strong> ${currentComparison.level}%</p>
+                    <p><strong>View:</strong> ${currentComparison.view_type}</p>
+                    <p><strong>Scale:</strong> ${Math.round(scaleFactor * 100)}% (${displaySize}px)</p>
+                    <p><strong>Pair ID:</strong> ${currentComparison.pair_id}</p>
+                </div>
+            ` : '';
+
+            const debugHighlight = DEBUG_MODE ? 'debug-highlight' : '';
+
+            app.innerHTML = `
+                <div class="comparison-card">
+                    <div class="comparison-container">
+                        <div class="image-panel">
+                            <div class="panel-label">IMAGE A</div>
+                            <div class="image-container ${debugHighlight}">
+                                <img src="${currentComparison.image_left}"
+                                     alt="Image A"
+                                     style="${imageStyle}"
+                                     onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\\'placeholder\\'>Image not available</div>'">
+                            </div>
+                            ${debugInfoLeft}
+                            <button class="choose-btn" onclick="choose('left')">Choose Image A</button>
+                        </div>
+
+                        <div class="image-panel">
+                            <div class="panel-label">IMAGE B</div>
+                            <div class="image-container ${debugHighlight}">
+                                <img src="${currentComparison.image_right}"
+                                     alt="Image B"
+                                     style="${imageStyle}"
+                                     onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\\'placeholder\\'>Image not available</div>'">
+                            </div>
+                            ${debugInfoRight}
+                            <button class="choose-btn" onclick="choose('right')">Choose Image B</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="progress-bar">
+                    <div class="progress-text">Progress</div>
+                    <div class="progress-count">${completedSoFar} of ${sessionLimit} complete</div>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar-fill" style="width: ${progressPercent}%"></div>
+                    </div>
+                    <div class="progress-percentage">${progressPercent}%</div>
+                </div>
+            `;
+
+            // Scroll to comparison area smoothly after DOM updates
+            setTimeout(() => {
+                app.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
+        }
+
+        // Handle choice
+        async function choose(side) {
+            if (!currentComparison) return;
+
+            sessionInProgress = true;  // Mark session as started
+
+            const reactionTime = Date.now() - startTime;
+            const chosenMethod = side === 'left' ? currentComparison.method_left : currentComparison.method_right;
+            const notChosenMethod = side === 'left' ? currentComparison.method_right : currentComparison.method_left;
+
+            // Disable buttons
+            document.querySelectorAll('.choose-btn').forEach(btn => btn.disabled = true);
+
+            try {
+                // Submit response with view_type
+                const response = await fetch(`${API_BASE}/submit_response`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        participant_id: PARTICIPANT_ID,
+                        pair_id: currentComparison.pair_id,
+                        view_type: currentComparison.view_type,
+                        chosen_side: side,
+                        chosen_method: chosenMethod,
+                        not_chosen_method: notChosenMethod,
+                        reaction_time_ms: reactionTime,
+                        order_in_pair: currentComparison.order_in_pair
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.status === 'success') {
+                    // Brief pause before next comparison
+                    setTimeout(() => loadNextPair(), 400);
+                } else {
+                    showError('Failed to submit response');
+                }
+
+            } catch (error) {
+                showError(`Error submitting response: ${error.message}`);
+            }
+        }
+
+        // Show session completion message (limit reached)
+        function showSessionComplete(pairsCompleted, totalComparisonsDone) {
+            sessionInProgress = false;  // Session complete, no warning needed
+            app.innerHTML = `
+                <div class="complete">
+                    <h2>✓ Session Complete</h2>
+                    <p>Great job! You've completed <strong>${pairsCompleted} pairs</strong> (${totalComparisonsDone} comparisons) for this session.</p>
+                    <p style="margin-top: 20px;">To prevent fatigue and ensure quality responses, we limit each session to ${pairsCompleted} pairs.</p>
+                    <p style="margin-top: 20px; font-size: 16px; color: #666;">
+                        <strong>Want to contribute more?</strong><br>
+                        Please come back tomorrow or later to complete additional comparisons!<br>
+                        Your continued participation is greatly appreciated.
+                    </p>
+                    <p class="thank-you">Thank you for your valuable contribution!</p>
+                </div>
+            `;
+        }
+
+        // Show full study completion message (all pairs done)
+        function showComplete() {
+            sessionInProgress = false;  // Session complete, no warning needed
+            app.innerHTML = `
+                <div class="complete">
+                    <h2>✓ Study Complete</h2>
+                    <p>You have completed all ${totalComparisons} comparisons (${totalPairs} pairs).</p>
+                    <p>Your responses have been recorded.</p>
+                    <p class="thank-you">Thank you for your participation!</p>
+                </div>
+            `;
+        }
+
+        // Show error message
+        function showError(message) {
+            app.innerHTML += `<div class="error"><strong>Error:</strong> ${message}</div>`;
+            setTimeout(() => loadNextPair(), 3000);
+        }
+
+        // Start the app
+        init();
+    </script>
+</body>
+</html>
