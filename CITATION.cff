@@ -1,0 +1,45 @@
+cff-version: 1.2.0
+message: "If you use this software in your research, please cite it using the metadata from this file."
+type: software
+title: "Mesh Simplification Benchmark for Game Development"
+version: 1.0.0
+date-released: 2026-06-01
+url: "https://github.com/L-Gallo/mesh-simplification-study"
+repository-code: "https://github.com/L-Gallo/mesh-simplification-study"
+license: GPL-3.0-or-later
+authors:
+  - family-names: "Gallo"
+    given-names: "Lukas"
+    email: "210338@buas.nl"
+    affiliation: "Breda University of Applied Sciences"
+keywords:
+  - mesh simplification
+  - game development
+  - quadric error metrics
+  - level of detail
+  - perceptual quality
+  - performance benchmarking
+abstract: >
+  Benchmark comparing four open-source mesh simplification methods
+  (fast-simplification, Open3D, meshoptimizer, CGAL) for independent game
+  developers. Evaluates geometric accuracy, processing performance, and
+  perceptual quality on production game assets and Stanford 3D Scanning
+  Repository models. Includes a pairwise-comparison perceptual study
+  (~150 participants, ~2800 judgments). Provides scenario-based tool
+  selection guidance for resource-constrained developers.
+preferred-citation:
+  type: thesis
+  thesis-type: "Master's Thesis"
+  title: "Comparative Analysis of Open-Source Mesh Simplification Methods for Game Development"
+  authors:
+    - family-names: "Gallo"
+      given-names: "Lukas"
+      affiliation: "Breda University of Applied Sciences"
+  year: 2026
+  month: 6
+  institution:
+    name: "Breda University of Applied Sciences"
+    city: "Breda"
+    country: "NL"
+  department: "Games"
+  collection-title: "Master of Game Technology"

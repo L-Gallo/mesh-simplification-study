@@ -16,50 +16,29 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
----
-
-For the complete GNU General Public License v3.0 text, see:
+For the complete license text, see:
 https://www.gnu.org/licenses/gpl-3.0.txt
 
 ---
 
-ADDITIONAL INFORMATION
+WHY GPL-3.0
 
-This mesh simplification benchmark is licensed under GPL-3.0-or-later due to 
-dependencies on CGAL's Surface_mesh_simplification package, which is GPL-licensed.
+This project is licensed under GPL-3.0-or-later because it links against
+CGAL's Surface_mesh_simplification package, which is GPL-licensed.
 
-ACADEMIC AND RESEARCH USE
-
-This software is free to use for:
-- Academic research and education
-- Scientific publications and reproducibility
-- Open-source game development projects
-- Non-commercial applications
-
-COMMERCIAL USE
-
-Commercial use is permitted under GPL-3.0 terms, which require:
-- Distributing source code of any derivative works
-- Licensing derivative works under GPL-3.0-or-later
-- Providing installation instructions and build scripts
-
-For commercial game development where source disclosure is not feasible:
-1. Use only the MIT-licensed components (Open3D, meshoptimizer, fast-simplification)
-2. Obtain a commercial CGAL license from GeometryFactory (https://geometryfactory.com)
-3. Implement alternative mesh simplification without CGAL
+If you need to avoid the GPL copyleft requirements (e.g. for a closed-source
+game), you can:
+1. Use only the non-CGAL methods (meshoptimizer, Open3D, fast-simplification),
+   which are all MIT-licensed.
+2. Obtain a commercial CGAL license from GeometryFactory
+   (https://geometryfactory.com).
 
 CITATION
 
 If you use this software in academic work, please cite:
 
-Gallo, L. (2026). Comparing Mesh Simplification Methods for Independent 
-Game Developers. Master's Thesis, Breda University of Applied Sciences.
+Gallo, L. (2026). Comparative Analysis of Open-Source Mesh Simplification
+Methods for Game Development. Master's Thesis, Breda University of Applied
+Sciences.
 
-Or use the CITATION.cff file included in this repository.
-
-CONTACT
-
-Author: Lukas Gallo
-Institution: Breda University of Applied Sciences
-Program: Master of Game Technology
-Supervisors: Ruben Tack, Robbie Storm
+See CITATION.cff for machine-readable citation metadata.
