@@ -1,12 +1,16 @@
-# Python
+# =============================================================================
+# .gitignore for Mesh Simplification Benchmark Repository
+# Thesis: "Comparative Analysis of Open-Source Mesh Simplification Methods
+#          for Game Development"
+# =============================================================================
+
+
+# =============================================================================
+# PYTHON
+# =============================================================================
 __pycache__/
 *.py[cod]
 *$py.class
-*.so
-.Python
-venv/
-env/
-ENV/
 *.egg-info/
 dist/
 build/
@@ -15,16 +19,35 @@ build/
 venv/
 env/
 ENV/
-.venv
+.venv/
+.Python
 
-# IDE
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+
+# =============================================================================
+# IDE & EDITOR
+# =============================================================================
 .vscode/
 .idea/
 *.swp
 *.swo
 *~
 
-# CMake & CGAL build artifacts
+
+# =============================================================================
+# OS
+# =============================================================================
+.DS_Store
+Thumbs.db
+desktop.ini
+
+
+# =============================================================================
+# C++ BUILD ARTIFACTS (CGAL wrapper)
+# =============================================================================
 cgal_build/
 CMakeFiles/
 CMakeCache.txt
@@ -38,65 +61,127 @@ cmake_install.cmake
 # Compiled binaries
 *.exe
 *.dll
-*.so
 *.dylib
-*.obj
 *.o
 *.a
 *.lib
 
-# Results and outputs (DO NOT COMMIT THESE - too large)
-results/
-benchmark_results/
-figures/
-heatmaps/
-*.log
-batch_report.json
-benchmark_log.txt
 
-# Test meshes from external sources (add specific exceptions if needed)
+# =============================================================================
+# CONFIDENTIAL / NDA ASSETS (Bohemia Interactive - Arma Reforger)
+#
+# These assets are provided under NDA and must NEVER be committed.
+# This covers raw industry meshes, their simplified outputs, all render
+# images derived from them, and any test copies.
+# =============================================================================
+data_collection/raw/
+data_collection/simplified/
+data_collection/figures/mesh_renders/
+data_collection/figures/compressed_renders/
+data_collection/figures/cover_image/
+data_collection/figures/original_meshes/
+data_collection/figures/*.blend
+data_collection/figures/*.blend1
+data_test/
+
+
+# =============================================================================
+# LARGE MESH & 3D FILES
+#
+# Mesh files are too large for git. Stanford models (bunny, dragon, etc.)
+# should be downloaded from the Stanford 3D Scanning Repository.
+# Small test meshes are whitelisted below.
+# =============================================================================
+*.obj
+*.ply
+*.stl
+*.mtl
+*.npz
+
+# Exception: small test meshes for quick pipeline verification
+!test_meshes/bunny.obj
+!test_meshes/teapot.obj
+
+
+# =============================================================================
+# BINARY EDITOR FILES
+#
+# Blender project files, Photoshop source files, and ZIP archives.
+# These are not diffable and bloat git history.
+# =============================================================================
+*.blend
+*.blend1
+*.psd
+*.zip
+
+
+# =============================================================================
+# THIRD-PARTY REPOSITORIES
+#
+# These were cloned locally for the neural methods investigation.
+# Link to originals in README instead of embedding copies.
+# =============================================================================
+neural-mesh-simplification/
+MeshCNN/
+checkpoints/
+
+
+# =============================================================================
+# DEVELOPMENT ITERATIONS & PILOT DATA
+#
+# Previous analysis runs, pilot benchmarks, and old output versions.
+# Only final results belong in the repository.
+# =============================================================================
 pilot_meshes/
 pilot_results/
 simplified_meshes/
 input_data/
+extras/
 
-# Neural method checkpoints (large files)
-checkpoints/
+# Old/variant analysis iterations (inside data_collection/figures/analysis/)
+**/_old*/
+**/_no zoom*/
+**/_zoom*/
 
-# Neural Methods Repositories
-neural-mesh-simplification/
-MeshCNN/
+# Root-level figures/ directory (pilot-era heatmaps, to be replaced by results/)
+figures/
 
-# Temporary files
-*.tmp
-*.bak
-*.swp
-.DS_Store
-Thumbs.db
 
-# Large data files
-*.ply
-*.obj
-*.stl
-# Exception: keep small test examples
-!test_meshes/bunny.obj
-!test_meshes/teapot.obj
+# =============================================================================
+# GENERATED OUTPUTS (re-generable from scripts + data)
+#
+# Benchmark logs, heatmap PLY files, and intermediate outputs.
+# Final figures and CSVs used in the thesis ARE tracked under results/.
+# =============================================================================
+benchmark_log.txt
+*.log
 
-# Jupyter notebooks (if any)
-.ipynb_checkpoints/
-*.ipynb
+# Heatmap PLY intermediates (the PNG renders are kept, source PLYs are not)
+*_heatmap.ply
 
-# Documentation builds
+# Root-level stray files from development
+test_output.*
+analysis_summary.txt
+stats.json
+structure.txt
+folder_structure.txt
+
+# Old root-level results directory (from neural methods pilot)
+results/pooled_meshes/
+results/test_input/
+
+
+# =============================================================================
+# PERCEPTUAL STUDY - versioned backups
+#
+# Only the final participant_responses.json is tracked in data/.
+# Intermediate versions stay local.
+# =============================================================================
+data_collection/survey/participant_responses_v*.json
+
+
+# =============================================================================
+# DOCUMENTATION BUILDS
+# =============================================================================
 docs/_build/
 docs/.doctrees/
-
-# OS-specific
-.DS_Store
-Thumbs.db
-desktop.ini
-
-# Tree files
-structure.txt
-
-# Extra development files
-extras/
