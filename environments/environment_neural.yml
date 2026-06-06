@@ -1,3 +1,6 @@
+# ARCHIVAL -- included for research transparency.
+# This environment has mixed CUDA/CPU torch packages from the original
+# install. Expect compatibility issues. See neural_methods/DEVELOPMENT_LOG.md.
 name: neural-simp
 channels:
   - defaults
@@ -85,4 +88,3 @@ dependencies:
       - wheel==0.43.0
       - xxhash==3.4.1
       - yarl==1.9.4
-prefix: C:\Users\luky7\miniconda3\envs\neural-simp

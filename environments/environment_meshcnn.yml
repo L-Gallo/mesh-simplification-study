@@ -1,3 +1,6 @@
+# ARCHIVAL -- included for research transparency.
+# NumPy 1.21 and Python 3.10 may conflict on a fresh install.
+# See neural_methods/DEVELOPMENT_LOG.md.
 name: meshcnn-modern
 channels:
   - defaults
@@ -35,4 +38,3 @@ dependencies:
       - torch==2.5.1+cu121
       - torchvision==0.20.1+cu121
       - typing-extensions==4.15.0
-prefix: C:\Users\luky7\miniconda3\envs\meshcnn-modern
