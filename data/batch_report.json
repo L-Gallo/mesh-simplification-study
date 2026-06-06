@@ -1,0 +1,2821 @@
+{
+  "system_info": {
+    "python_version": "3.11.14",
+    "platform": "Windows-10-10.0.19045-SP0",
+    "processor": "AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD",
+    "total_ram_gb": 31.855525970458984,
+    "cpu_count": 16,
+    "timestamp": "2026-03-20T06:52:05.847121",
+    "pyvista_version": "0.46.4",
+    "fast_simplification_version": "0.1.13",
+    "open3d_version": "0.19.0",
+    "meshoptimizer_version": "unknown",
+    "trimesh_version": "4.11.0"
+  },
+  "summary": {
+    "total_assets": 4,
+    "total_tests": 48,
+    "total_execution_time_seconds": 12126.255416599997,
+    "overall_success_rate": 100.0,
+    "overall_stability_rate": 100.0,
+    "total_failures": 0,
+    "total_unstable": 0,
+    "generated_at": "2026-03-20T06:52:05.847874"
+  },
+  "method_statistics": {
+    "fast-simplification": {
+      "method_name": "fast-simplification",
+      "total_tests": 12,
+      "successful_tests": 12,
+      "failed_tests": 0,
+      "unstable_tests": 0,
+      "success_rate": 100.0,
+      "stability_rate": 100.0,
+      "crashes": 0,
+      "timeouts": 0,
+      "invalid_geometry": 0,
+      "mean_time_ms": 7433.833599999464,
+      "std_time_ms": 12092.553237065165,
+      "mean_memory_mb": 1029.0270182291667,
+      "std_memory_mb": 2481.5096437324396,
+      "mean_hausdorff": 0,
+      "std_hausdorff": 0,
+      "mean_rmse": 0,
+      "std_rmse": 0,
+      "problematic_assets": [],
+      "problematic_reductions": []
+    },
+    "open3d": {
+      "method_name": "open3d",
+      "total_tests": 12,
+      "successful_tests": 12,
+      "failed_tests": 0,
+      "unstable_tests": 0,
+      "success_rate": 100.0,
+      "stability_rate": 100.0,
+      "crashes": 0,
+      "timeouts": 0,
+      "invalid_geometry": 0,
+      "mean_time_ms": 124641.20019166633,
+      "std_time_ms": 222414.68129760274,
+      "mean_memory_mb": 10.958984375,
+      "std_memory_mb": 13.199617432338993,
+      "mean_hausdorff": 0,
+      "std_hausdorff": 0,
+      "mean_rmse": 0,
+      "std_rmse": 0,
+      "problematic_assets": [],
+      "problematic_reductions": []
+    },
+    "meshoptimizer": {
+      "method_name": "meshoptimizer",
+      "total_tests": 12,
+      "successful_tests": 12,
+      "failed_tests": 0,
+      "unstable_tests": 0,
+      "success_rate": 100.0,
+      "stability_rate": 100.0,
+      "crashes": 0,
+      "timeouts": 0,
+      "invalid_geometry": 0,
+      "mean_time_ms": 4813.218841667549,
+      "std_time_ms": 8110.509742205417,
+      "mean_memory_mb": 789.8271484375,
+      "std_memory_mb": 1290.027117684304,
+      "mean_hausdorff": 0,
+      "std_hausdorff": 0,
+      "mean_rmse": 0,
+      "std_rmse": 0,
+      "problematic_assets": [],
+      "problematic_reductions": []
+    },
+    "cgal": {
+      "method_name": "cgal",
+      "total_tests": 12,
+      "successful_tests": 12,
+      "failed_tests": 0,
+      "unstable_tests": 0,
+      "success_rate": 100.0,
+      "stability_rate": 100.0,
+      "crashes": 0,
+      "timeouts": 0,
+      "invalid_geometry": 0,
+      "mean_time_ms": 175404.0992583329,
+      "std_time_ms": 295034.0011856972,
+      "mean_memory_mb": 1091.0979817708333,
+      "std_memory_mb": 1775.9711265053065,
+      "mean_hausdorff": 0,
+      "std_hausdorff": 0,
+      "mean_rmse": 0,
+      "std_rmse": 0,
+      "problematic_assets": [],
+      "problematic_reductions": []
+    }
+  },
+  "assets": {
+    "armadillo": {
+      "asset_name": "armadillo",
+      "original_metrics": {
+        "vertex_count": 172974,
+        "face_count": 345944,
+        "file_size_bytes": 17887593,
+        "bounding_box_diagonal": 228.80372354694936
+      },
+      "methods": {
+        "fast-simplification": {
+          "50%": {
+            "repetitions": [
+              {
+                "asset_name": "armadillo",
+                "method": "fast-simplification",
+                "reduction_level": "50%",
+                "run_number": 1,
+                "input_mesh_path": "data_collection\\academic\\raw\\obj\\armadillo.obj",
+                "output_mesh_path": "data_collection\\academic\\simplified\\armadillo\\fast-simplification\\armadillo_fast-_50pct_run1.obj",
+                "target_reduction_ratio": 0.5,
+                "actual_reduction_ratio": 0.5,
+                "input_metrics": {
+                  "vertex_count": 172974,
+                  "face_count": 345944,
+                  "file_size_bytes": 17887593,
+                  "bounding_box_diagonal": 228.80372354694936
+                },
+                "output_metrics": {
+                  "vertex_count": 86488,
+                  "face_count": 172972,
+                  "file_size_bytes": 8697144,
+                  "bounding_box_diagonal": 228.80589411584967
+                },
+                "performance": {
+                  "execution_time_seconds": 0.41446759999962524,
+                  "execution_time_ms": 414.46759999962524,
+                  "memory_before_mb": 213.71875,
+                  "memory_after_mb": 322.3046875,
+                  "memory_delta_mb": 108.5859375,
+                  "peak_memory_mb": 113.46875
+                },
+                "success": true,
+                "geometric_accuracy": null,
+                "failure_type": "FailureType.SUCCESS",
+                "error_message": null,
+                "instability_flag": false,
+                "additional_params": {
+                  "aggressiveness": 7
+                }
+              }
+            ],
+            "statistics": {
+              "mean_time_ms": 0,
+              "std_time_ms": 0,
+              "cv_time": 0,
+              "time_stable": true,
+              "mean_memory_mb": 0,
+              "std_memory_mb": 0,
+              "cv_memory": 0,
+              "memory_stable": true,
+              "outlier_runs": [],
+              "overall_stable": true,
+              "warning_message": null
+            }
+          },
+          "80%": {
+            "repetitions": [
+              {
+                "asset_name": "armadillo",
+                "method": "fast-simplification",
+                "reduction_level": "80%",
+                "run_number": 1,
+                "input_mesh_path": "data_collection\\academic\\raw\\obj\\armadillo.obj",
+                "output_mesh_path": "data_collection\\academic\\simplified\\armadillo\\fast-simplification\\armadillo_fast-_80pct_run1.obj",
+                "target_reduction_ratio": 0.8,
+                "actual_reduction_ratio": 0.8000023125130079,
+                "input_metrics": {
+                  "vertex_count": 172974,
+                  "face_count": 345944,
+                  "file_size_bytes": 17887593,
+                  "bounding_box_diagonal": 228.80372354694936
+                },
+                "output_metrics": {
+                  "vertex_count": 34596,
+                  "face_count": 69188,
+                  "file_size_bytes": 3439003,
+                  "bounding_box_diagonal": 228.83223889826533
+                },
+                "performance": {
+                  "execution_time_seconds": 0.4568959999960498,
+                  "execution_time_ms": 456.8959999960498,
+                  "memory_before_mb": 303.09375,
+                  "memory_after_mb": 320.01171875,
+                  "memory_delta_mb": 16.91796875,
+                  "peak_memory_mb": 12.16796875
+                },
+                "success": true,
+                "geometric_accuracy": null,
+                "failure_type": "FailureType.SUCCESS",
+                "error_message": null,
+                "instability_flag": false,
+                "additional_params": {
+                  "aggressiveness": 7
+                }
+              }
+            ],
+            "statistics": {
+              "mean_time_ms": 0,
+              "std_time_ms": 0,
+              "cv_time": 0,
+              "time_stable": true,
+              "mean_memory_mb": 0,
+              "std_memory_mb": 0,
+              "cv_memory": 0,
+              "memory_stable": true,
+              "outlier_runs": [],
+              "overall_stable": true,
+              "warning_message": null
+            }
+          },
+          "90%": {
+            "repetitions": [
+              {
+                "asset_name": "armadillo",
+                "method": "fast-simplification",
+                "reduction_level": "90%",
+                "run_number": 1,
+                "input_mesh_path": "data_collection\\academic\\raw\\obj\\armadillo.obj",
+                "output_mesh_path": "data_collection\\academic\\simplified\\armadillo\\fast-simplification\\armadillo_fast-_90pct_run1.obj",
+                "target_reduction_ratio": 0.9,
+                "actual_reduction_ratio": 0.9000011562565039,
+                "input_metrics": {
+                  "vertex_count": 172974,
+                  "face_count": 345944,
+                  "file_size_bytes": 17887593,
+                  "bounding_box_diagonal": 228.80372354694936
+                },
+                "output_metrics": {
+                  "vertex_count": 17299,
+                  "face_count": 34594,
+                  "file_size_bytes": 1686646,
+                  "bounding_box_diagonal": 228.8402614145464
+                },
+                "performance": {
+                  "execution_time_seconds": 0.49707349999516737,
+                  "execution_time_ms": 497.07349999516737,
+                  "memory_before_mb": 305.62109375,
+                  "memory_after_mb": 320.2421875,
+                  "memory_delta_mb": 14.62109375,
+                  "peak_memory_mb": 13.92578125
+                },
+                "success": true,
+                "geometric_accuracy": null,
+                "failure_type": "FailureType.SUCCESS",
+                "error_message": null,
+                "instability_flag": false,
+                "additional_params": {
+                  "aggressiveness": 7
+                }
+              }
+            ],
+            "statistics": {
+              "mean_time_ms": 0,
+              "std_time_ms": 0,
+              "cv_time": 0,
+              "time_stable": true,
+              "mean_memory_mb": 0,
+              "std_memory_mb": 0,
+              "cv_memory": 0,
+              "memory_stable": true,
+              "outlier_runs": [],
+              "overall_stable": true,
+              "warning_message": null
+            }
+          }
+        },
+        "open3d": {
+          "50%": {
+            "repetitions": [
+              {
+                "asset_name": "armadillo",
+                "method": "open3d",
+                "reduction_level": "50%",
+                "run_number": 1,
+                "input_mesh_path": "data_collection\\academic\\raw\\obj\\armadillo.obj",
+                "output_mesh_path": "data_collection\\academic\\simplified\\armadillo\\open3d\\armadillo_open3_50pct_run1.obj",
+                "target_reduction_ratio": 0.5,
+                "actual_reduction_ratio": 0.5,
+                "input_metrics": {
+                  "vertex_count": 172974,
+                  "face_count": 345944,
+                  "file_size_bytes": 17887593,
+                  "bounding_box_diagonal": 228.80372354694936
+                },
+                "output_metrics": {
+                  "vertex_count": 86488,
+                  "face_count": 172972,
+                  "file_size_bytes": 12017547,
+                  "bounding_box_diagonal": 228.79822007086852
+                },
+                "performance": {
+                  "execution_time_seconds": 2.3759926999991876,
+                  "execution_time_ms": 2375.9926999991876,
+                  "memory_before_mb": 303.44140625,
+                  "memory_after_mb": 313.96875,
+                  "memory_delta_mb": 10.52734375,
+                  "peak_memory_mb": 10.55078125
+                },
+                "success": true,
+                "geometric_accuracy": null,
+                "failure_type": "FailureType.SUCCESS",
+                "error_message": null,
+                "instability_flag": false,
+                "additional_params": {
+                  "boundary_weight": 1.0,
+                  "target_triangles": 172972
+                }
+              }
+            ],
+            "statistics": {
+              "mean_time_ms": 0,
+              "std_time_ms": 0,
+              "cv_time": 0,
+              "time_stable": true,
+              "mean_memory_mb": 0,
+              "std_memory_mb": 0,
+              "cv_memory": 0,
+              "memory_stable": true,
+              "outlier_runs": [],
+              "overall_stable": true,
+              "warning_message": null
+            }
+          },
+          "80%": {
+            "repetitions": [
+              {
+                "asset_name": "armadillo",
+                "method": "open3d",
+                "reduction_level": "80%",
+                "run_number": 1,
+                "input_mesh_path": "data_collection\\academic\\raw\\obj\\armadillo.obj",
+                "output_mesh_path": "data_collection\\academic\\simplified\\armadillo\\open3d\\armadillo_open3_80pct_run1.obj",
+                "target_reduction_ratio": 0.8,
+                "actual_reduction_ratio": 0.8000023125130079,
+                "input_metrics": {
+                  "vertex_count": 172974,
+                  "face_count": 345944,
+                  "file_size_bytes": 17887593,
+                  "bounding_box_diagonal": 228.80372354694936
+                },
+                "output_metrics": {
+                  "vertex_count": 34596,
+                  "face_count": 69188,
+                  "file_size_bytes": 4726268,
+                  "bounding_box_diagonal": 228.7784550701832
+                },
+                "performance": {
+                  "execution_time_seconds": 4.470813300002192,
+                  "execution_time_ms": 4470.813300002192,
+                  "memory_before_mb": 306.796875,
+                  "memory_after_mb": 315.33203125,
+                  "memory_delta_mb": 8.53515625,
+                  "peak_memory_mb": 8.55859375
+                },
+                "success": true,
+                "geometric_accuracy": null,
+                "failure_type": "FailureType.SUCCESS",
+                "error_message": null,
+                "instability_flag": false,
+                "additional_params": {
+                  "boundary_weight": 1.0,
+                  "target_triangles": 69188
+                }
+              }
+            ],
+            "statistics": {
+              "mean_time_ms": 0,
+              "std_time_ms": 0,
+              "cv_time": 0,
+              "time_stable": true,
+              "mean_memory_mb": 0,
+              "std_memory_mb": 0,
+              "cv_memory": 0,
+              "memory_stable": true,
+              "outlier_runs": [],
+              "overall_stable": true,
+              "warning_message": null
+            }
+          },
+          "90%": {
+            "repetitions": [
+              {
+                "asset_name": "armadillo",
+                "method": "open3d",
+                "reduction_level": "90%",
+                "run_number": 1,
+                "input_mesh_path": "data_collection\\academic\\raw\\obj\\armadillo.obj",
+                "output_mesh_path": "data_collection\\academic\\simplified\\armadillo\\open3d\\armadillo_open3_90pct_run1.obj",
+                "target_reduction_ratio": 0.9,
+                "actual_reduction_ratio": 0.9000011562565039,
+                "input_metrics": {
+                  "vertex_count": 172974,
+                  "face_count": 345944,
+                  "file_size_bytes": 17887593,
+                  "bounding_box_diagonal": 228.80372354694936
+                },
+                "output_metrics": {
+                  "vertex_count": 17299,
+                  "face_count": 34594,
+                  "file_size_bytes": 2296528,
+                  "bounding_box_diagonal": 228.81304819429738
+                },
+                "performance": {
+                  "execution_time_seconds": 4.446150499999931,
+                  "execution_time_ms": 4446.150499999931,
+                  "memory_before_mb": 307.828125,
+                  "memory_after_mb": 317.609375,
+                  "memory_delta_mb": 9.78125,
+                  "peak_memory_mb": 9.8046875
+                },
+                "success": true,
+                "geometric_accuracy": null,
+                "failure_type": "FailureType.SUCCESS",
+                "error_message": null,
+                "instability_flag": false,
+                "additional_params": {
+                  "boundary_weight": 1.0,
+                  "target_triangles": 34594
+                }
+              }
+            ],
+            "statistics": {
+              "mean_time_ms": 0,
+              "std_time_ms": 0,
+              "cv_time": 0,
+              "time_stable": true,
+              "mean_memory_mb": 0,
+              "std_memory_mb": 0,
+              "cv_memory": 0,
+              "memory_stable": true,
+              "outlier_runs": [],
+              "overall_stable": true,
+              "warning_message": null
+            }
+          }
+        },
+        "meshoptimizer": {
+          "50%": {
+            "repetitions": [
+              {
+                "asset_name": "armadillo",
+                "method": "meshoptimizer",
+                "reduction_level": "50%",
+                "run_number": 1,
+                "input_mesh_path": "data_collection\\academic\\raw\\obj\\armadillo.obj",
+                "output_mesh_path": "data_collection\\academic\\simplified\\armadillo\\meshoptimizer\\armadillo_mesho_50pct_run1.obj",
+                "target_reduction_ratio": 0.5,
+                "actual_reduction_ratio": 0.5,
+                "input_metrics": {
+                  "vertex_count": 172974,
+                  "face_count": 345944,
+                  "file_size_bytes": 17887593,
+                  "bounding_box_diagonal": 228.80372354694936
+                },
+                "output_metrics": {
+                  "vertex_count": 86488,
+                  "face_count": 172972,
+                  "file_size_bytes": 8689381,
+                  "bounding_box_diagonal": 228.80220477143598
+                },
+                "performance": {
+                  "execution_time_seconds": 0.12992900000244845,
+                  "execution_time_ms": 129.92900000244845,
+                  "memory_before_mb": 329.171875,
+                  "memory_after_mb": 341.37109375,
+                  "memory_delta_mb": 12.19921875,
+                  "peak_memory_mb": 37.35546875
+                },
+                "success": true,
+                "geometric_accuracy": null,
+                "failure_type": "FailureType.SUCCESS",
+                "error_message": null,
+                "instability_flag": false,
+                "additional_params": {
+                  "target_indices": 518916
+                }
+              }
+            ],
+            "statistics": {
+              "mean_time_ms": 0,
+              "std_time_ms": 0,
+              "cv_time": 0,
+              "time_stable": true,
+              "mean_memory_mb": 0,
+              "std_memory_mb": 0,
+              "cv_memory": 0,
+              "memory_stable": true,
+              "outlier_runs": [],
+              "overall_stable": true,
+              "warning_message": null
+            }
+          },
+          "80%": {
+            "repetitions": [
+              {
+                "asset_name": "armadillo",
+                "method": "meshoptimizer",
+                "reduction_level": "80%",
+                "run_number": 1,
+                "input_mesh_path": "data_collection\\academic\\raw\\obj\\armadillo.obj",
+                "output_mesh_path": "data_collection\\academic\\simplified\\armadillo\\meshoptimizer\\armadillo_mesho_80pct_run1.obj",
+                "target_reduction_ratio": 0.8,
+                "actual_reduction_ratio": 0.8000023125130079,
+                "input_metrics": {
+                  "vertex_count": 172974,
+                  "face_count": 345944,
+                  "file_size_bytes": 17887593,
+                  "bounding_box_diagonal": 228.80372354694936
+                },
+                "output_metrics": {
+                  "vertex_count": 34596,
+                  "face_count": 69188,
+                  "file_size_bytes": 3435949,
+                  "bounding_box_diagonal": 228.7902164870444
+                },
+                "performance": {
+                  "execution_time_seconds": 0.16278660000534728,
+                  "execution_time_ms": 162.78660000534728,
+                  "memory_before_mb": 331.57421875,
+                  "memory_after_mb": 337.73828125,
+                  "memory_delta_mb": 6.1640625,
+                  "peak_memory_mb": 37.33203125
+                },
+                "success": true,
+                "geometric_accuracy": null,
+                "failure_type": "FailureType.SUCCESS",
+                "error_message": null,
+                "instability_flag": false,
+                "additional_params": {
+                  "target_indices": 207564
+                }
+              }
+            ],
+            "statistics": {
+              "mean_time_ms": 0,
+              "std_time_ms": 0,
+              "cv_time": 0,
+              "time_stable": true,
+              "mean_memory_mb": 0,
+              "std_memory_mb": 0,
+              "cv_memory": 0,
+              "memory_stable": true,
+              "outlier_runs": [],
+              "overall_stable": true,
+              "warning_message": null
+            }
+          },
+          "90%": {
+            "repetitions": [
+              {
+                "asset_name": "armadillo",
+                "method": "meshoptimizer",
+                "reduction_level": "90%",
+                "run_number": 1,
+                "input_mesh_path": "data_collection\\academic\\raw\\obj\\armadillo.obj",
+                "output_mesh_path": "data_collection\\academic\\simplified\\armadillo\\meshoptimizer\\armadillo_mesho_90pct_run1.obj",
+                "target_reduction_ratio": 0.9,
+                "actual_reduction_ratio": 0.9000011562565039,
+                "input_metrics": {
+                  "vertex_count": 172974,
+                  "face_count": 345944,
+                  "file_size_bytes": 17887593,
+                  "bounding_box_diagonal": 228.80372354694936
+                },
+                "output_metrics": {
+                  "vertex_count": 17299,
+                  "face_count": 34594,
+                  "file_size_bytes": 1684928,
+                  "bounding_box_diagonal": 228.80220477143598
+                },
+                "performance": {
+                  "execution_time_seconds": 0.16280350000306498,
+                  "execution_time_ms": 162.80350000306498,
+                  "memory_before_mb": 332.47265625,
+                  "memory_after_mb": 344.6953125,
+                  "memory_delta_mb": 12.22265625,
+                  "peak_memory_mb": 37.33203125
+                },
+                "success": true,
+                "geometric_accuracy": null,
+                "failure_type": "FailureType.SUCCESS",
+                "error_message": null,
+                "instability_flag": false,
+                "additional_params": {
+                  "target_indices": 103782
+                }
+              }
+            ],
+            "statistics": {
+              "mean_time_ms": 0,
+              "std_time_ms": 0,
+              "cv_time": 0,
+              "time_stable": true,
+              "mean_memory_mb": 0,
+              "std_memory_mb": 0,
+              "cv_memory": 0,
+              "memory_stable": true,
+              "outlier_runs": [],
+              "overall_stable": true,
+              "warning_message": null
+            }
+          }
+        },
+        "cgal": {
+          "50%": {
+            "repetitions": [
+              {
+                "asset_name": "armadillo",
+                "method": "cgal",
+                "reduction_level": "50%",
+                "run_number": 1,
+                "input_mesh_path": "data_collection\\academic\\raw\\obj\\armadillo.obj",
+                "output_mesh_path": "data_collection\\academic\\simplified\\armadillo\\cgal\\armadillo_cgal_50pct_run1.obj",
+                "target_reduction_ratio": 0.5,
+                "actual_reduction_ratio": 0.5000057812825197,
+                "input_metrics": {
+                  "vertex_count": 172974,
+                  "face_count": 345944,
+                  "file_size_bytes": 17887593,
+                  "bounding_box_diagonal": 228.80372354694936
+                },
+                "output_metrics": {
+                  "vertex_count": 86487,
+                  "face_count": 172970,
+                  "file_size_bytes": 6158299,
+                  "bounding_box_diagonal": 228.80023723034031
+                },
+                "performance": {
+                  "execution_time_seconds": 5.698837599993567,
+                  "execution_time_ms": 5698.837599993567,
+                  "memory_before_mb": 0.0,
+                  "memory_after_mb": 0.0,
+                  "memory_delta_mb": 49.984375,
+                  "peak_memory_mb": 49.984375
+                },
+                "success": true,
+                "geometric_accuracy": null,
+                "failure_type": "FailureType.SUCCESS",
+                "error_message": null,
+                "instability_flag": false,
+                "additional_params": {}
+              }
+            ],
+            "statistics": {
+              "mean_time_ms": 0,
+              "std_time_ms": 0,
+              "cv_time": 0,
+              "time_stable": true,
+              "mean_memory_mb": 0,
+              "std_memory_mb": 0,
+              "cv_memory": 0,
+              "memory_stable": true,
+              "outlier_runs": [],
+              "overall_stable": true,
+              "warning_message": null
+            }
+          },
+          "80%": {
+            "repetitions": [
+              {
+                "asset_name": "armadillo",
+                "method": "cgal",
+                "reduction_level": "80%",
+                "run_number": 1,
+                "input_mesh_path": "data_collection\\academic\\raw\\obj\\armadillo.obj",
+                "output_mesh_path": "data_collection\\academic\\simplified\\armadillo\\cgal\\armadillo_cgal_80pct_run1.obj",
+                "target_reduction_ratio": 0.8,
+                "actual_reduction_ratio": 0.8000023125130079,
+                "input_metrics": {
+                  "vertex_count": 172974,
+                  "face_count": 345944,
+                  "file_size_bytes": 17887593,
+                  "bounding_box_diagonal": 228.80372354694936
+                },
+                "output_metrics": {
+                  "vertex_count": 34596,
+                  "face_count": 69188,
+                  "file_size_bytes": 2423616,
+                  "bounding_box_diagonal": 228.84426257846184
+                },
+                "performance": {
+                  "execution_time_seconds": 7.677812200003245,
+                  "execution_time_ms": 7677.812200003245,
+                  "memory_before_mb": 0.0,
+                  "memory_after_mb": 0.0,
+                  "memory_delta_mb": 50.61328125,
+                  "peak_memory_mb": 50.61328125
+                },
+                "success": true,
+                "geometric_accuracy": null,
+                "failure_type": "FailureType.SUCCESS",
+                "error_message": null,
+                "instability_flag": false,
+                "additional_params": {}
+              }
+            ],
+            "statistics": {
+              "mean_time_ms": 0,
+              "std_time_ms": 0,
+              "cv_time": 0,
+              "time_stable": true,
+              "mean_memory_mb": 0,
+              "std_memory_mb": 0,
+              "cv_memory": 0,
+              "memory_stable": true,
+              "outlier_runs": [],
+              "overall_stable": true,
+              "warning_message": null
+            }
+          },
+          "90%": {
+            "repetitions": [
+              {
+                "asset_name": "armadillo",
+                "method": "cgal",
+                "reduction_level": "90%",
+                "run_number": 1,
+                "input_mesh_path": "data_collection\\academic\\raw\\obj\\armadillo.obj",
+                "output_mesh_path": "data_collection\\academic\\simplified\\armadillo\\cgal\\armadillo_cgal_90pct_run1.obj",
+                "target_reduction_ratio": 0.9,
+                "actual_reduction_ratio": 0.9000011562565039,
+                "input_metrics": {
+                  "vertex_count": 172974,
+                  "face_count": 345944,
+                  "file_size_bytes": 17887593,
+                  "bounding_box_diagonal": 228.80372354694936
+                },
+                "output_metrics": {
+                  "vertex_count": 17299,
+                  "face_count": 34594,
+                  "file_size_bytes": 1178900,
+                  "bounding_box_diagonal": 228.85292261976906
+                },
+                "performance": {
+                  "execution_time_seconds": 8.350530800002161,
+                  "execution_time_ms": 8350.530800002161,
+                  "memory_before_mb": 0.0,
+                  "memory_after_mb": 0.0,
+                  "memory_delta_mb": 49.98828125,
+                  "peak_memory_mb": 49.98828125
+                },
+                "success": true,
+                "geometric_accuracy": null,
+                "failure_type": "FailureType.SUCCESS",
+                "error_message": null,
+                "instability_flag": false,
+                "additional_params": {}
+              }
+            ],
+            "statistics": {
+              "mean_time_ms": 0,
+              "std_time_ms": 0,
+              "cv_time": 0,
+              "time_stable": true,
+              "mean_memory_mb": 0,
+              "std_memory_mb": 0,
+              "cv_memory": 0,
+              "memory_stable": true,
+              "outlier_runs": [],
+              "overall_stable": true,
+              "warning_message": null
+            }
+          }
+        }
+      }
+    },
+    "bunny": {
+      "asset_name": "bunny",
+      "original_metrics": {
+        "vertex_count": 35947,
+        "face_count": 69451,
+        "file_size_bytes": 3732904,
+        "bounding_box_diagonal": 0.2502460501821433
+      },
+      "methods": {
+        "fast-simplification": {
+          "50%": {
+            "repetitions": [
+              {
+                "asset_name": "bunny",
+                "method": "fast-simplification",
+                "reduction_level": "50%",
+                "run_number": 1,
+                "input_mesh_path": "data_collection\\academic\\raw\\obj\\bunny.obj",
+                "output_mesh_path": "data_collection\\academic\\simplified\\bunny\\fast-simplification\\bunny_fast-_50pct_run1.obj",
+                "target_reduction_ratio": 0.5,
+                "actual_reduction_ratio": 0.5000071993203842,
+                "input_metrics": {
+                  "vertex_count": 35947,
+                  "face_count": 69451,
+                  "file_size_bytes": 3732904,
+                  "bounding_box_diagonal": 0.2502460501821433
+                },
+                "output_metrics": {
+                  "vertex_count": 17435,
+                  "face_count": 34725,
+                  "file_size_bytes": 1797481,
+                  "bounding_box_diagonal": 0.25028710088936557
+                },
+                "performance": {
+                  "execution_time_seconds": 0.04605500000616303,
+                  "execution_time_ms": 46.05500000616303,
+                  "memory_before_mb": 315.66015625,
+                  "memory_after_mb": 305.671875,
+                  "memory_delta_mb": -9.98828125,
+                  "peak_memory_mb": 0.05859375
+                },
+                "success": true,
+                "geometric_accuracy": null,
+                "failure_type": "FailureType.SUCCESS",
+                "error_message": null,
+                "instability_flag": false,
+                "additional_params": {
+                  "aggressiveness": 7
+                }
+              }
+            ],
+            "statistics": {
+              "mean_time_ms": 0,
+              "std_time_ms": 0,
+              "cv_time": 0,
+              "time_stable": true,
+              "mean_memory_mb": 0,
+              "std_memory_mb": 0,
+              "cv_memory": 0,
+              "memory_stable": true,
+              "outlier_runs": [],
+              "overall_stable": true,
+              "warning_message": null
+            }
+          },
+          "80%": {
+            "repetitions": [
+              {
+                "asset_name": "bunny",
+                "method": "fast-simplification",
+                "reduction_level": "80%",
+                "run_number": 1,
+                "input_mesh_path": "data_collection\\academic\\raw\\obj\\bunny.obj",
+                "output_mesh_path": "data_collection\\academic\\simplified\\bunny\\fast-simplification\\bunny_fast-_80pct_run1.obj",
+                "target_reduction_ratio": 0.8,
+                "actual_reduction_ratio": 0.8000028797281536,
+                "input_metrics": {
+                  "vertex_count": 35947,
+                  "face_count": 69451,
+                  "file_size_bytes": 3732904,
+                  "bounding_box_diagonal": 0.2502460501821433
+                },
+                "output_metrics": {
+                  "vertex_count": 6982,
+                  "face_count": 13890,
+                  "file_size_bytes": 697535,
+                  "bounding_box_diagonal": 0.25024315197881614
+                },
+                "performance": {
+                  "execution_time_seconds": 0.054166299996722955,
+                  "execution_time_ms": 54.166299996722955,
+                  "memory_before_mb": 307.73828125,
+                  "memory_after_mb": 311.26953125,
+                  "memory_delta_mb": 3.53125,
+                  "peak_memory_mb": 2.14453125
+                },
+                "success": true,
+                "geometric_accuracy": null,
+                "failure_type": "FailureType.SUCCESS",
+                "error_message": null,
+                "instability_flag": false,
+                "additional_params": {
+                  "aggressiveness": 7
+                }
+              }
+            ],
+            "statistics": {
+              "mean_time_ms": 0,
+              "std_time_ms": 0,
+              "cv_time": 0,
+              "time_stable": true,
+              "mean_memory_mb": 0,
+              "std_memory_mb": 0,
+              "cv_memory": 0,
+              "memory_stable": true,
+              "outlier_runs": [],
+              "overall_stable": true,
+              "warning_message": null
+            }
+          },
+          "90%": {
+            "repetitions": [
+              {
+                "asset_name": "bunny",
+                "method": "fast-simplification",
+                "reduction_level": "90%",
+                "run_number": 1,
+                "input_mesh_path": "data_collection\\academic\\raw\\obj\\bunny.obj",
+                "output_mesh_path": "data_collection\\academic\\simplified\\bunny\\fast-simplification\\bunny_fast-_90pct_run1.obj",
+                "target_reduction_ratio": 0.9,
+                "actual_reduction_ratio": 0.9000158385048451,
+                "input_metrics": {
+                  "vertex_count": 35947,
+                  "face_count": 69451,
+                  "file_size_bytes": 3732904,
+                  "bounding_box_diagonal": 0.2502460501821433
+                },
+                "output_metrics": {
+                  "vertex_count": 3490,
+                  "face_count": 6944,
+                  "file_size_bytes": 345446,
+                  "bounding_box_diagonal": 0.25074472892150607
+                },
+                "performance": {
+                  "execution_time_seconds": 0.06068599999707658,
+                  "execution_time_ms": 60.68599999707658,
+                  "memory_before_mb": 309.27734375,
+                  "memory_after_mb": 311.58203125,
+                  "memory_delta_mb": 2.3046875,
+                  "peak_memory_mb": 2.14453125
+                },
+                "success": true,
+                "geometric_accuracy": null,
+                "failure_type": "FailureType.SUCCESS",
+                "error_message": null,
+                "instability_flag": false,
+                "additional_params": {
+                  "aggressiveness": 7
+                }
+              }
+            ],
+            "statistics": {
+              "mean_time_ms": 0,
+              "std_time_ms": 0,
+              "cv_time": 0,
+              "time_stable": true,
+              "mean_memory_mb": 0,
+              "std_memory_mb": 0,
+              "cv_memory": 0,
+              "memory_stable": true,
+              "outlier_runs": [],
+              "overall_stable": true,
+              "warning_message": null
+            }
+          }
+        },
+        "open3d": {
+          "50%": {
+            "repetitions": [
+              {
+                "asset_name": "bunny",
+                "method": "open3d",
+                "reduction_level": "50%",
+                "run_number": 1,
+                "input_mesh_path": "data_collection\\academic\\raw\\obj\\bunny.obj",
+                "output_mesh_path": "data_collection\\academic\\simplified\\bunny\\open3d\\bunny_open3_50pct_run1.obj",
+                "target_reduction_ratio": 0.5,
+                "actual_reduction_ratio": 0.5000215979611524,
+                "input_metrics": {
+                  "vertex_count": 34834,
+                  "face_count": 69451,
+                  "file_size_bytes": 3732904,
+                  "bounding_box_diagonal": 0.2502460501821433
+                },
+                "output_metrics": {
+                  "vertex_count": 17446,
+                  "face_count": 34724,
+                  "file_size_bytes": 2413073,
+                  "bounding_box_diagonal": 0.25023736808588587
+                },
+                "performance": {
+                  "execution_time_seconds": 0.2666047000020626,
+                  "execution_time_ms": 266.6047000020626,
+                  "memory_before_mb": 304.25390625,
+                  "memory_after_mb": 302.73828125,
+                  "memory_delta_mb": -1.515625,
+                  "peak_memory_mb": 0.03125
+                },
+                "success": true,
+                "geometric_accuracy": null,
+                "failure_type": "FailureType.SUCCESS",
+                "error_message": null,
+                "instability_flag": false,
+                "additional_params": {
+                  "boundary_weight": 1.0,
+                  "target_triangles": 34725
+                }
+              }
+            ],
+            "statistics": {
+              "mean_time_ms": 0,
+              "std_time_ms": 0,
+              "cv_time": 0,
+              "time_stable": true,
+              "mean_memory_mb": 0,
+              "std_memory_mb": 0,
+              "cv_memory": 0,
+              "memory_stable": true,
+              "outlier_runs": [],
+              "overall_stable": true,
+              "warning_message": null
+            }
+          },
+          "80%": {
+            "repetitions": [
+              {
+                "asset_name": "bunny",
+                "method": "open3d",
+                "reduction_level": "80%",
+                "run_number": 1,
+                "input_mesh_path": "data_collection\\academic\\raw\\obj\\bunny.obj",
+                "output_mesh_path": "data_collection\\academic\\simplified\\bunny\\open3d\\bunny_open3_80pct_run1.obj",
+                "target_reduction_ratio": 0.8,
+                "actual_reduction_ratio": 0.800017278368922,
+                "input_metrics": {
+                  "vertex_count": 34834,
+                  "face_count": 69451,
+                  "file_size_bytes": 3732904,
+                  "bounding_box_diagonal": 0.2502460501821433
+                },
+                "output_metrics": {
+                  "vertex_count": 7012,
+                  "face_count": 13889,
+                  "file_size_bytes": 924261,
+                  "bounding_box_diagonal": 0.250141195922834
+                },
+                "performance": {
+                  "execution_time_seconds": 0.3779761999976472,
+                  "execution_time_ms": 377.9761999976472,
+                  "memory_before_mb": 303.515625,
+                  "memory_after_mb": 305.5390625,
+                  "memory_delta_mb": 2.0234375,
+                  "peak_memory_mb": 2.046875
+                },
+                "success": true,
+                "geometric_accuracy": null,
+                "failure_type": "FailureType.SUCCESS",
+                "error_message": null,
+                "instability_flag": false,
+                "additional_params": {
+                  "boundary_weight": 1.0,
+                  "target_triangles": 13890
+                }
+              }
+            ],
+            "statistics": {
+              "mean_time_ms": 0,
+              "std_time_ms": 0,
+              "cv_time": 0,
+              "time_stable": true,
+              "mean_memory_mb": 0,
+              "std_memory_mb": 0,
+              "cv_memory": 0,
+              "memory_stable": true,
+              "outlier_runs": [],
+              "overall_stable": true,
+              "warning_message": null
+            }
+          },
+          "90%": {
+            "repetitions": [
+              {
+                "asset_name": "bunny",
+                "method": "open3d",
+                "reduction_level": "90%",
+                "run_number": 1,
+                "input_mesh_path": "data_collection\\academic\\raw\\obj\\bunny.obj",
+                "output_mesh_path": "data_collection\\academic\\simplified\\bunny\\open3d\\bunny_open3_90pct_run1.obj",
+                "target_reduction_ratio": 0.9,
+                "actual_reduction_ratio": 0.9000014398640768,
+                "input_metrics": {
+                  "vertex_count": 34834,
+                  "face_count": 69451,
+                  "file_size_bytes": 3732904,
+                  "bounding_box_diagonal": 0.2502460501821433
+                },
+                "output_metrics": {
+                  "vertex_count": 3517,
+                  "face_count": 6945,
+                  "file_size_bytes": 456220,
+                  "bounding_box_diagonal": 0.24971546171159753
+                },
+                "performance": {
+                  "execution_time_seconds": 0.4590821999954642,
+                  "execution_time_ms": 459.0821999954642,
+                  "memory_before_mb": 303.8125,
+                  "memory_after_mb": 306.58203125,
+                  "memory_delta_mb": 2.76953125,
+                  "peak_memory_mb": 2.79296875
+                },
+                "success": true,
+                "geometric_accuracy": null,
+                "failure_type": "FailureType.SUCCESS",
+                "error_message": null,
+                "instability_flag": false,
+                "additional_params": {
+                  "boundary_weight": 1.0,
+                  "target_triangles": 6945
+                }
+              }
+            ],
+            "statistics": {
+              "mean_time_ms": 0,
+              "std_time_ms": 0,
+              "cv_time": 0,
+              "time_stable": true,
+              "mean_memory_mb": 0,
+              "std_memory_mb": 0,
+              "cv_memory": 0,
+              "memory_stable": true,
+              "outlier_runs": [],
+              "overall_stable": true,
+              "warning_message": null
+            }
+          }
+        },
+        "meshoptimizer": {
+          "50%": {
+            "repetitions": [
+              {
+                "asset_name": "bunny",
+                "method": "meshoptimizer",
+                "reduction_level": "50%",
+                "run_number": 1,
+                "input_mesh_path": "data_collection\\academic\\raw\\obj\\bunny.obj",
+                "output_mesh_path": "data_collection\\academic\\simplified\\bunny\\meshoptimizer\\bunny_mesho_50pct_run1.obj",
+                "target_reduction_ratio": 0.5,
+                "actual_reduction_ratio": 0.5000071993203842,
+                "input_metrics": {
+                  "vertex_count": 35947,
+                  "face_count": 69451,
+                  "file_size_bytes": 3732904,
+                  "bounding_box_diagonal": 0.2502460501821433
+                },
+                "output_metrics": {
+                  "vertex_count": 17444,
+                  "face_count": 34725,
+                  "file_size_bytes": 1798472,
+                  "bounding_box_diagonal": 0.2502428145459437
+                },
+                "performance": {
+                  "execution_time_seconds": 0.01708919999509817,
+                  "execution_time_ms": 17.08919999509817,
+                  "memory_before_mb": 314.08203125,
+                  "memory_after_mb": 315.5703125,
+                  "memory_delta_mb": 1.48828125,
+                  "peak_memory_mb": 2.14453125
+                },
+                "success": true,
+                "geometric_accuracy": null,
+                "failure_type": "FailureType.SUCCESS",
+                "error_message": null,
+                "instability_flag": false,
+                "additional_params": {
+                  "target_indices": 104175
+                }
+              }
+            ],
+            "statistics": {
+              "mean_time_ms": 0,
+              "std_time_ms": 0,
+              "cv_time": 0,
+              "time_stable": true,
+              "mean_memory_mb": 0,
+              "std_memory_mb": 0,
+              "cv_memory": 0,
+              "memory_stable": true,
+              "outlier_runs": [],
+              "overall_stable": true,
+              "warning_message": null
+            }
+          },
+          "80%": {
+            "repetitions": [
+              {
+                "asset_name": "bunny",
+                "method": "meshoptimizer",
+                "reduction_level": "80%",
+                "run_number": 1,
+                "input_mesh_path": "data_collection\\academic\\raw\\obj\\bunny.obj",
+                "output_mesh_path": "data_collection\\academic\\simplified\\bunny\\meshoptimizer\\bunny_mesho_80pct_run1.obj",
+                "target_reduction_ratio": 0.8,
+                "actual_reduction_ratio": 0.800017278368922,
+                "input_metrics": {
+                  "vertex_count": 35947,
+                  "face_count": 69451,
+                  "file_size_bytes": 3732904,
+                  "bounding_box_diagonal": 0.2502460501821433
+                },
+                "output_metrics": {
+                  "vertex_count": 7017,
+                  "face_count": 13889,
+                  "file_size_bytes": 700444,
+                  "bounding_box_diagonal": 0.2501063896565198
+                },
+                "performance": {
+                  "execution_time_seconds": 0.019853099998726975,
+                  "execution_time_ms": 19.853099998726975,
+                  "memory_before_mb": 313.546875,
+                  "memory_after_mb": 315.9609375,
+                  "memory_delta_mb": 2.4140625,
+                  "peak_memory_mb": 6.6875
+                },
+                "success": true,
+                "geometric_accuracy": null,
+                "failure_type": "FailureType.SUCCESS",
+                "error_message": null,
+                "instability_flag": false,
+                "additional_params": {
+                  "target_indices": 41670
+                }
+              }
+            ],
+            "statistics": {
+              "mean_time_ms": 0,
+              "std_time_ms": 0,
+              "cv_time": 0,
+              "time_stable": true,
+              "mean_memory_mb": 0,
+              "std_memory_mb": 0,
+              "cv_memory": 0,
+              "memory_stable": true,
+              "outlier_runs": [],
+              "overall_stable": true,
+              "warning_message": null
+            }
+          },
+          "90%": {
+            "repetitions": [
+              {
+                "asset_name": "bunny",
+                "method": "meshoptimizer",
+                "reduction_level": "90%",
+                "run_number": 1,
+                "input_mesh_path": "data_collection\\academic\\raw\\obj\\bunny.obj",
+                "output_mesh_path": "data_collection\\academic\\simplified\\bunny\\meshoptimizer\\bunny_mesho_90pct_run1.obj",
+                "target_reduction_ratio": 0.9,
+                "actual_reduction_ratio": 0.9000014398640768,
+                "input_metrics": {
+                  "vertex_count": 35947,
+                  "face_count": 69451,
+                  "file_size_bytes": 3732904,
+                  "bounding_box_diagonal": 0.2502460501821433
+                },
+                "output_metrics": {
+                  "vertex_count": 3536,
+                  "face_count": 6945,
+                  "file_size_bytes": 348832,
+                  "bounding_box_diagonal": 0.24990760289611294
+                },
+                "performance": {
+                  "execution_time_seconds": 0.021778100002848078,
+                  "execution_time_ms": 21.778100002848078,
+                  "memory_before_mb": 313.484375,
+                  "memory_after_mb": 315.8984375,
+                  "memory_delta_mb": 2.4140625,
+                  "peak_memory_mb": 6.68359375
+                },
+                "success": true,
+                "geometric_accuracy": null,
+                "failure_type": "FailureType.SUCCESS",
+                "error_message": null,
+                "instability_flag": false,
+                "additional_params": {
+                  "target_indices": 20835
+                }
+              }
+            ],
+            "statistics": {
+              "mean_time_ms": 0,
+              "std_time_ms": 0,
+              "cv_time": 0,
+              "time_stable": true,
+              "mean_memory_mb": 0,
+              "std_memory_mb": 0,
+              "cv_memory": 0,
+              "memory_stable": true,
+              "outlier_runs": [],
+              "overall_stable": true,
+              "warning_message": null
+            }
+          }
+        },
+        "cgal": {
+          "50%": {
+            "repetitions": [
+              {
+                "asset_name": "bunny",
+                "method": "cgal",
+                "reduction_level": "50%",
+                "run_number": 1,
+                "input_mesh_path": "data_collection\\academic\\raw\\obj\\bunny.obj",
+                "output_mesh_path": "data_collection\\academic\\simplified\\bunny\\cgal\\bunny_cgal_50pct_run1.obj",
+                "target_reduction_ratio": 0.5,
+                "actual_reduction_ratio": 0.5004535571842018,
+                "input_metrics": {
+                  "vertex_count": 35947,
+                  "face_count": 69451,
+                  "file_size_bytes": 3732904,
+                  "bounding_box_diagonal": 0.2502460501821433
+                },
+                "output_metrics": {
+                  "vertex_count": 18559,
+                  "face_count": 34694,
+                  "file_size_bytes": 1328939,
+                  "bounding_box_diagonal": 0.2503203721978097
+                },
+                "performance": {
+                  "execution_time_seconds": 1.0712453000014648,
+                  "execution_time_ms": 1071.2453000014648,
+                  "memory_before_mb": 0.0,
+                  "memory_after_mb": 0.0,
+                  "memory_delta_mb": 14.546875,
+                  "peak_memory_mb": 14.546875
+                },
+                "success": true,
+                "geometric_accuracy": null,
+                "failure_type": "FailureType.SUCCESS",
+                "error_message": null,
+                "instability_flag": false,
+                "additional_params": {}
+              }
+            ],
+            "statistics": {
+              "mean_time_ms": 0,
+              "std_time_ms": 0,
+              "cv_time": 0,
+              "time_stable": true,
+              "mean_memory_mb": 0,
+              "std_memory_mb": 0,
+              "cv_memory": 0,
+              "memory_stable": true,
+              "outlier_runs": [],
+              "overall_stable": true,
+              "warning_message": null
+            }
+          },
+          "80%": {
+            "repetitions": [
+              {
+                "asset_name": "bunny",
+                "method": "cgal",
+                "reduction_level": "80%",
+                "run_number": 1,
+                "input_mesh_path": "data_collection\\academic\\raw\\obj\\bunny.obj",
+                "output_mesh_path": "data_collection\\academic\\simplified\\bunny\\cgal\\bunny_cgal_80pct_run1.obj",
+                "target_reduction_ratio": 0.8,
+                "actual_reduction_ratio": 0.8006220212811911,
+                "input_metrics": {
+                  "vertex_count": 35947,
+                  "face_count": 69451,
+                  "file_size_bytes": 3732904,
+                  "bounding_box_diagonal": 0.2502460501821433
+                },
+                "output_metrics": {
+                  "vertex_count": 8118,
+                  "face_count": 13847,
+                  "file_size_bytes": 532184,
+                  "bounding_box_diagonal": 0.25038100511574357
+                },
+                "performance": {
+                  "execution_time_seconds": 1.3742371000043931,
+                  "execution_time_ms": 1374.2371000043931,
+                  "memory_before_mb": 0.0,
+                  "memory_after_mb": 0.0,
+                  "memory_delta_mb": 14.5546875,
+                  "peak_memory_mb": 14.5546875
+                },
+                "success": true,
+                "geometric_accuracy": null,
+                "failure_type": "FailureType.SUCCESS",
+                "error_message": null,
+                "instability_flag": false,
+                "additional_params": {}
+              }
+            ],
+            "statistics": {
+              "mean_time_ms": 0,
+              "std_time_ms": 0,
+              "cv_time": 0,
+              "time_stable": true,
+              "mean_memory_mb": 0,
+              "std_memory_mb": 0,
+              "cv_memory": 0,
+              "memory_stable": true,
+              "outlier_runs": [],
+              "overall_stable": true,
+              "warning_message": null
+            }
+          },
+          "90%": {
+            "repetitions": [
+              {
+                "asset_name": "bunny",
+                "method": "cgal",
+                "reduction_level": "90%",
+                "run_number": 1,
+                "input_mesh_path": "data_collection\\academic\\raw\\obj\\bunny.obj",
+                "output_mesh_path": "data_collection\\academic\\simplified\\bunny\\cgal\\bunny_cgal_90pct_run1.obj",
+                "target_reduction_ratio": 0.9,
+                "actual_reduction_ratio": 0.9005485882132727,
+                "input_metrics": {
+                  "vertex_count": 35947,
+                  "face_count": 69451,
+                  "file_size_bytes": 3732904,
+                  "bounding_box_diagonal": 0.2502460501821433
+                },
+                "output_metrics": {
+                  "vertex_count": 4629,
+                  "face_count": 6907,
+                  "file_size_bytes": 282986,
+                  "bounding_box_diagonal": 0.25049438514497685
+                },
+                "performance": {
+                  "execution_time_seconds": 1.4879317999948398,
+                  "execution_time_ms": 1487.9317999948398,
+                  "memory_before_mb": 0.0,
+                  "memory_after_mb": 0.0,
+                  "memory_delta_mb": 14.59765625,
+                  "peak_memory_mb": 14.59765625
+                },
+                "success": true,
+                "geometric_accuracy": null,
+                "failure_type": "FailureType.SUCCESS",
+                "error_message": null,
+                "instability_flag": false,
+                "additional_params": {}
+              }
+            ],
+            "statistics": {
+              "mean_time_ms": 0,
+              "std_time_ms": 0,
+              "cv_time": 0,
+              "time_stable": true,
+              "mean_memory_mb": 0,
+              "std_memory_mb": 0,
+              "cv_memory": 0,
+              "memory_stable": true,
+              "outlier_runs": [],
+              "overall_stable": true,
+              "warning_message": null
+            }
+          }
+        }
+      }
+    },
+    "dragon": {
+      "asset_name": "dragon",
+      "original_metrics": {
+        "vertex_count": 2614242,
+        "face_count": 871414,
+        "file_size_bytes": 75327238,
+        "bounding_box_diagonal": 0.26690520578849714
+      },
+      "methods": {
+        "fast-simplification": {
+          "50%": {
+            "repetitions": [
+              {
+                "asset_name": "dragon",
+                "method": "fast-simplification",
+                "reduction_level": "50%",
+                "run_number": 1,
+                "input_mesh_path": "data_collection\\academic\\raw\\obj\\dragon.obj",
+                "output_mesh_path": "data_collection\\academic\\simplified\\dragon\\fast-simplification\\dragon_fast-_50pct_run1.obj",
+                "target_reduction_ratio": 0.5,
+                "actual_reduction_ratio": 0.5008549323283766,
+                "input_metrics": {
+                  "vertex_count": 2614242,
+                  "face_count": 871414,
+                  "file_size_bytes": 75327238,
+                  "bounding_box_diagonal": 0.26690520578849714
+                },
+                "output_metrics": {
+                  "vertex_count": 217375,
+                  "face_count": 434962,
+                  "file_size_bytes": 21497928,
+                  "bounding_box_diagonal": 0.2669447151631157
+                },
+                "performance": {
+                  "execution_time_seconds": 0.6866783000004943,
+                  "execution_time_ms": 686.6783000004943,
+                  "memory_before_mb": 338.64453125,
+                  "memory_after_mb": 523.80078125,
+                  "memory_delta_mb": 185.15625,
+                  "peak_memory_mb": 198.9921875
+                },
+                "success": true,
+                "geometric_accuracy": null,
+                "failure_type": "FailureType.SUCCESS",
+                "error_message": null,
+                "instability_flag": false,
+                "additional_params": {
+                  "aggressiveness": 7
+                }
+              }
+            ],
+            "statistics": {
+              "mean_time_ms": 0,
+              "std_time_ms": 0,
+              "cv_time": 0,
+              "time_stable": true,
+              "mean_memory_mb": 0,
+              "std_memory_mb": 0,
+              "cv_memory": 0,
+              "memory_stable": true,
+              "outlier_runs": [],
+              "overall_stable": true,
+              "warning_message": null
+            }
+          },
+          "80%": {
+            "repetitions": [
+              {
+                "asset_name": "dragon",
+                "method": "fast-simplification",
+                "reduction_level": "80%",
+                "run_number": 1,
+                "input_mesh_path": "data_collection\\academic\\raw\\obj\\dragon.obj",
+                "output_mesh_path": "data_collection\\academic\\simplified\\dragon\\fast-simplification\\dragon_fast-_80pct_run1.obj",
+                "target_reduction_ratio": 0.8,
+                "actual_reduction_ratio": 0.8003428909794885,
+                "input_metrics": {
+                  "vertex_count": 2614242,
+                  "face_count": 871414,
+                  "file_size_bytes": 75327238,
+                  "bounding_box_diagonal": 0.26690520578849714
+                },
+                "output_metrics": {
+                  "vertex_count": 86909,
+                  "face_count": 173984,
+                  "file_size_bytes": 8970382,
+                  "bounding_box_diagonal": 0.2669457240350185
+                },
+                "performance": {
+                  "execution_time_seconds": 0.8120195000010426,
+                  "execution_time_ms": 812.0195000010426,
+                  "memory_before_mb": 477.28125,
+                  "memory_after_mb": 524.359375,
+                  "memory_delta_mb": 47.078125,
+                  "peak_memory_mb": 52.73828125
+                },
+                "success": true,
+                "geometric_accuracy": null,
+                "failure_type": "FailureType.SUCCESS",
+                "error_message": null,
+                "instability_flag": false,
+                "additional_params": {
+                  "aggressiveness": 7
+                }
+              }
+            ],
+            "statistics": {
+              "mean_time_ms": 0,
+              "std_time_ms": 0,
+              "cv_time": 0,
+              "time_stable": true,
+              "mean_memory_mb": 0,
+              "std_memory_mb": 0,
+              "cv_memory": 0,
+              "memory_stable": true,
+              "outlier_runs": [],
+              "overall_stable": true,
+              "warning_message": null
+            }
+          },
+          "90%": {
+            "repetitions": [
+              {
+                "asset_name": "dragon",
+                "method": "fast-simplification",
+                "reduction_level": "90%",
+                "run_number": 1,
+                "input_mesh_path": "data_collection\\academic\\raw\\obj\\dragon.obj",
+                "output_mesh_path": "data_collection\\academic\\simplified\\dragon\\fast-simplification\\dragon_fast-_90pct_run1.obj",
+                "target_reduction_ratio": 0.9,
+                "actual_reduction_ratio": 0.9001714454897443,
+                "input_metrics": {
+                  "vertex_count": 2614242,
+                  "face_count": 871414,
+                  "file_size_bytes": 75327238,
+                  "bounding_box_diagonal": 0.26690520578849714
+                },
+                "output_metrics": {
+                  "vertex_count": 43466,
+                  "face_count": 86992,
+                  "file_size_bytes": 4525600,
+                  "bounding_box_diagonal": 0.2670340585162861
+                },
+                "performance": {
+                  "execution_time_seconds": 1.231906799999706,
+                  "execution_time_ms": 1231.906799999706,
+                  "memory_before_mb": 489.3828125,
+                  "memory_after_mb": 524.94140625,
+                  "memory_delta_mb": 35.55859375,
+                  "peak_memory_mb": 27.97265625
+                },
+                "success": true,
+                "geometric_accuracy": null,
+                "failure_type": "FailureType.SUCCESS",
+                "error_message": null,
+                "instability_flag": false,
+                "additional_params": {
+                  "aggressiveness": 7
+                }
+              }
+            ],
+            "statistics": {
+              "mean_time_ms": 0,
+              "std_time_ms": 0,
+              "cv_time": 0,
+              "time_stable": true,
+              "mean_memory_mb": 0,
+              "std_memory_mb": 0,
+              "cv_memory": 0,
+              "memory_stable": true,
+              "outlier_runs": [],
+              "overall_stable": true,
+              "warning_message": null
+            }
+          }
+        },
+        "open3d": {
+          "50%": {
+            "repetitions": [
+              {
+                "asset_name": "dragon",
+                "method": "open3d",
+                "reduction_level": "50%",
+                "run_number": 1,
+                "input_mesh_path": "data_collection\\academic\\raw\\obj\\dragon.obj",
+                "output_mesh_path": "data_collection\\academic\\simplified\\dragon\\open3d\\dragon_open3_50pct_run1.obj",
+                "target_reduction_ratio": 0.5,
+                "actual_reduction_ratio": 0.5,
+                "input_metrics": {
+                  "vertex_count": 434854,
+                  "face_count": 869924,
+                  "file_size_bytes": 75327238,
+                  "bounding_box_diagonal": 0.2669052042270346
+                },
+                "output_metrics": {
+                  "vertex_count": 217373,
+                  "face_count": 434962,
+                  "file_size_bytes": 32542317,
+                  "bounding_box_diagonal": 0.2669052042270346
+                },
+                "performance": {
+                  "execution_time_seconds": 6.043086899997434,
+                  "execution_time_ms": 6043.086899997434,
+                  "memory_before_mb": 592.6484375,
+                  "memory_after_mb": 631.90625,
+                  "memory_delta_mb": 39.2578125,
+                  "peak_memory_mb": 39.28125
+                },
+                "success": true,
+                "geometric_accuracy": null,
+                "failure_type": "FailureType.SUCCESS",
+                "error_message": null,
+                "instability_flag": false,
+                "additional_params": {
+                  "boundary_weight": 1.0,
+                  "target_triangles": 434962
+                }
+              }
+            ],
+            "statistics": {
+              "mean_time_ms": 0,
+              "std_time_ms": 0,
+              "cv_time": 0,
+              "time_stable": true,
+              "mean_memory_mb": 0,
+              "std_memory_mb": 0,
+              "cv_memory": 0,
+              "memory_stable": true,
+              "outlier_runs": [],
+              "overall_stable": true,
+              "warning_message": null
+            }
+          },
+          "80%": {
+            "repetitions": [
+              {
+                "asset_name": "dragon",
+                "method": "open3d",
+                "reduction_level": "80%",
+                "run_number": 1,
+                "input_mesh_path": "data_collection\\academic\\raw\\obj\\dragon.obj",
+                "output_mesh_path": "data_collection\\academic\\simplified\\dragon\\open3d\\dragon_open3_80pct_run1.obj",
+                "target_reduction_ratio": 0.8,
+                "actual_reduction_ratio": 0.8000009196205645,
+                "input_metrics": {
+                  "vertex_count": 434854,
+                  "face_count": 869924,
+                  "file_size_bytes": 75327238,
+                  "bounding_box_diagonal": 0.2669052042270346
+                },
+                "output_metrics": {
+                  "vertex_count": 86884,
+                  "face_count": 173984,
+                  "file_size_bytes": 12426317,
+                  "bounding_box_diagonal": 0.26690177148943367
+                },
+                "performance": {
+                  "execution_time_seconds": 8.422813600001973,
+                  "execution_time_ms": 8422.813600001973,
+                  "memory_before_mb": 601.37109375,
+                  "memory_after_mb": 631.015625,
+                  "memory_delta_mb": 29.64453125,
+                  "peak_memory_mb": 29.66796875
+                },
+                "success": true,
+                "geometric_accuracy": null,
+                "failure_type": "FailureType.SUCCESS",
+                "error_message": null,
+                "instability_flag": false,
+                "additional_params": {
+                  "boundary_weight": 1.0,
+                  "target_triangles": 173984
+                }
+              }
+            ],
+            "statistics": {
+              "mean_time_ms": 0,
+              "std_time_ms": 0,
+              "cv_time": 0,
+              "time_stable": true,
+              "mean_memory_mb": 0,
+              "std_memory_mb": 0,
+              "cv_memory": 0,
+              "memory_stable": true,
+              "outlier_runs": [],
+              "overall_stable": true,
+              "warning_message": null
+            }
+          },
+          "90%": {
+            "repetitions": [
+              {
+                "asset_name": "dragon",
+                "method": "open3d",
+                "reduction_level": "90%",
+                "run_number": 1,
+                "input_mesh_path": "data_collection\\academic\\raw\\obj\\dragon.obj",
+                "output_mesh_path": "data_collection\\academic\\simplified\\dragon\\open3d\\dragon_open3_90pct_run1.obj",
+                "target_reduction_ratio": 0.9,
+                "actual_reduction_ratio": 0.9000004598102823,
+                "input_metrics": {
+                  "vertex_count": 434854,
+                  "face_count": 869924,
+                  "file_size_bytes": 75327238,
+                  "bounding_box_diagonal": 0.2669052042270346
+                },
+                "output_metrics": {
+                  "vertex_count": 43388,
+                  "face_count": 86992,
+                  "file_size_bytes": 6171893,
+                  "bounding_box_diagonal": 0.2668120069983982
+                },
+                "performance": {
+                  "execution_time_seconds": 9.602671000000555,
+                  "execution_time_ms": 9602.671000000555,
+                  "memory_before_mb": 604.35546875,
+                  "memory_after_mb": 632.8984375,
+                  "memory_delta_mb": 28.54296875,
+                  "peak_memory_mb": 28.56640625
+                },
+                "success": true,
+                "geometric_accuracy": null,
+                "failure_type": "FailureType.SUCCESS",
+                "error_message": null,
+                "instability_flag": false,
+                "additional_params": {
+                  "boundary_weight": 1.0,
+                  "target_triangles": 86992
+                }
+              }
+            ],
+            "statistics": {
+              "mean_time_ms": 0,
+              "std_time_ms": 0,
+              "cv_time": 0,
+              "time_stable": true,
+              "mean_memory_mb": 0,
+              "std_memory_mb": 0,
+              "cv_memory": 0,
+              "memory_stable": true,
+              "outlier_runs": [],
+              "overall_stable": true,
+              "warning_message": null
+            }
+          }
+        },
+        "meshoptimizer": {
+          "50%": {
+            "repetitions": [
+              {
+                "asset_name": "dragon",
+                "method": "meshoptimizer",
+                "reduction_level": "50%",
+                "run_number": 1,
+                "input_mesh_path": "data_collection\\academic\\raw\\obj\\dragon.obj",
+                "output_mesh_path": "data_collection\\academic\\simplified\\dragon\\meshoptimizer\\dragon_mesho_50pct_run1.obj",
+                "target_reduction_ratio": 0.5,
+                "actual_reduction_ratio": 0.5008709981707891,
+                "input_metrics": {
+                  "vertex_count": 2614242,
+                  "face_count": 871414,
+                  "file_size_bytes": 75327238,
+                  "bounding_box_diagonal": 0.26690520578849714
+                },
+                "output_metrics": {
+                  "vertex_count": 217370,
+                  "face_count": 434948,
+                  "file_size_bytes": 23937245,
+                  "bounding_box_diagonal": 0.266899567124354
+                },
+                "performance": {
+                  "execution_time_seconds": 0.2824317999984487,
+                  "execution_time_ms": 282.4317999984487,
+                  "memory_before_mb": 541.3203125,
+                  "memory_after_mb": 562.1015625,
+                  "memory_delta_mb": 20.78125,
+                  "peak_memory_mb": 93.8203125
+                },
+                "success": true,
+                "geometric_accuracy": null,
+                "failure_type": "FailureType.SUCCESS",
+                "error_message": null,
+                "instability_flag": false,
+                "additional_params": {
+                  "target_indices": 1304886
+                }
+              }
+            ],
+            "statistics": {
+              "mean_time_ms": 0,
+              "std_time_ms": 0,
+              "cv_time": 0,
+              "time_stable": true,
+              "mean_memory_mb": 0,
+              "std_memory_mb": 0,
+              "cv_memory": 0,
+              "memory_stable": true,
+              "outlier_runs": [],
+              "overall_stable": true,
+              "warning_message": null
+            }
+          },
+          "80%": {
+            "repetitions": [
+              {
+                "asset_name": "dragon",
+                "method": "meshoptimizer",
+                "reduction_level": "80%",
+                "run_number": 1,
+                "input_mesh_path": "data_collection\\academic\\raw\\obj\\dragon.obj",
+                "output_mesh_path": "data_collection\\academic\\simplified\\dragon\\meshoptimizer\\dragon_mesho_80pct_run1.obj",
+                "target_reduction_ratio": 0.8,
+                "actual_reduction_ratio": 0.800377317784658,
+                "input_metrics": {
+                  "vertex_count": 2614242,
+                  "face_count": 871414,
+                  "file_size_bytes": 75327238,
+                  "bounding_box_diagonal": 0.26690520578849714
+                },
+                "output_metrics": {
+                  "vertex_count": 86905,
+                  "face_count": 173954,
+                  "file_size_bytes": 9249094,
+                  "bounding_box_diagonal": 0.26689476166635995
+                },
+                "performance": {
+                  "execution_time_seconds": 0.3868499000018346,
+                  "execution_time_ms": 386.8499000018346,
+                  "memory_before_mb": 565.53125,
+                  "memory_after_mb": 585.4453125,
+                  "memory_delta_mb": 19.9140625,
+                  "peak_memory_mb": 92.95703125
+                },
+                "success": true,
+                "geometric_accuracy": null,
+                "failure_type": "FailureType.SUCCESS",
+                "error_message": null,
+                "instability_flag": false,
+                "additional_params": {
+                  "target_indices": 521952
+                }
+              }
+            ],
+            "statistics": {
+              "mean_time_ms": 0,
+              "std_time_ms": 0,
+              "cv_time": 0,
+              "time_stable": true,
+              "mean_memory_mb": 0,
+              "std_memory_mb": 0,
+              "cv_memory": 0,
+              "memory_stable": true,
+              "outlier_runs": [],
+              "overall_stable": true,
+              "warning_message": null
+            }
+          },
+          "90%": {
+            "repetitions": [
+              {
+                "asset_name": "dragon",
+                "method": "meshoptimizer",
+                "reduction_level": "90%",
+                "run_number": 1,
+                "input_mesh_path": "data_collection\\academic\\raw\\obj\\dragon.obj",
+                "output_mesh_path": "data_collection\\academic\\simplified\\dragon\\meshoptimizer\\dragon_mesho_90pct_run1.obj",
+                "target_reduction_ratio": 0.9,
+                "actual_reduction_ratio": 0.9002012820542246,
+                "input_metrics": {
+                  "vertex_count": 2614242,
+                  "face_count": 871414,
+                  "file_size_bytes": 75327238,
+                  "bounding_box_diagonal": 0.26690520578849714
+                },
+                "output_metrics": {
+                  "vertex_count": 43426,
+                  "face_count": 86966,
+                  "file_size_bytes": 4590142,
+                  "bounding_box_diagonal": 0.2668878973022687
+                },
+                "performance": {
+                  "execution_time_seconds": 0.3988840000019991,
+                  "execution_time_ms": 398.8840000019991,
+                  "memory_before_mb": 568.03515625,
+                  "memory_after_mb": 587.94921875,
+                  "memory_delta_mb": 19.9140625,
+                  "peak_memory_mb": 92.95703125
+                },
+                "success": true,
+                "geometric_accuracy": null,
+                "failure_type": "FailureType.SUCCESS",
+                "error_message": null,
+                "instability_flag": false,
+                "additional_params": {
+                  "target_indices": 260976
+                }
+              }
+            ],
+            "statistics": {
+              "mean_time_ms": 0,
+              "std_time_ms": 0,
+              "cv_time": 0,
+              "time_stable": true,
+              "mean_memory_mb": 0,
+              "std_memory_mb": 0,
+              "cv_memory": 0,
+              "memory_stable": true,
+              "outlier_runs": [],
+              "overall_stable": true,
+              "warning_message": null
+            }
+          }
+        },
+        "cgal": {
+          "50%": {
+            "repetitions": [
+              {
+                "asset_name": "dragon",
+                "method": "cgal",
+                "reduction_level": "50%",
+                "run_number": 1,
+                "input_mesh_path": "data_collection\\academic\\raw\\obj\\dragon.obj",
+                "output_mesh_path": "data_collection\\academic\\simplified\\dragon\\cgal\\dragon_cgal_50pct_run1.obj",
+                "target_reduction_ratio": 0.5,
+                "actual_reduction_ratio": 0.5002386925158421,
+                "input_metrics": {
+                  "vertex_count": 2614242,
+                  "face_count": 871414,
+                  "file_size_bytes": 75327238,
+                  "bounding_box_diagonal": 0.26690520578849714
+                },
+                "output_metrics": {
+                  "vertex_count": 218929,
+                  "face_count": 435499,
+                  "file_size_bytes": 17342358,
+                  "bounding_box_diagonal": 0.26690520578849714
+                },
+                "performance": {
+                  "execution_time_seconds": 14.544616200000746,
+                  "execution_time_ms": 14544.616200000746,
+                  "memory_before_mb": 0.0,
+                  "memory_after_mb": 0.0,
+                  "memory_delta_mb": 126.953125,
+                  "peak_memory_mb": 126.953125
+                },
+                "success": true,
+                "geometric_accuracy": null,
+                "failure_type": "FailureType.SUCCESS",
+                "error_message": null,
+                "instability_flag": false,
+                "additional_params": {}
+              }
+            ],
+            "statistics": {
+              "mean_time_ms": 0,
+              "std_time_ms": 0,
+              "cv_time": 0,
+              "time_stable": true,
+              "mean_memory_mb": 0,
+              "std_memory_mb": 0,
+              "cv_memory": 0,
+              "memory_stable": true,
+              "outlier_runs": [],
+              "overall_stable": true,
+              "warning_message": null
+            }
+          },
+          "80%": {
+            "repetitions": [
+              {
+                "asset_name": "dragon",
+                "method": "cgal",
+                "reduction_level": "80%",
+                "run_number": 1,
+                "input_mesh_path": "data_collection\\academic\\raw\\obj\\dragon.obj",
+                "output_mesh_path": "data_collection\\academic\\simplified\\dragon\\cgal\\dragon_cgal_80pct_run1.obj",
+                "target_reduction_ratio": 0.8,
+                "actual_reduction_ratio": 0.8004874835612006,
+                "input_metrics": {
+                  "vertex_count": 2614242,
+                  "face_count": 871414,
+                  "file_size_bytes": 75327238,
+                  "bounding_box_diagonal": 0.26690520578849714
+                },
+                "output_metrics": {
+                  "vertex_count": 87796,
+                  "face_count": 173858,
+                  "file_size_bytes": 6704404,
+                  "bounding_box_diagonal": 0.2669192242930434
+                },
+                "performance": {
+                  "execution_time_seconds": 20.50963249999768,
+                  "execution_time_ms": 20509.63249999768,
+                  "memory_before_mb": 0.0,
+                  "memory_after_mb": 0.0,
+                  "memory_delta_mb": 151.77734375,
+                  "peak_memory_mb": 151.77734375
+                },
+                "success": true,
+                "geometric_accuracy": null,
+                "failure_type": "FailureType.SUCCESS",
+                "error_message": null,
+                "instability_flag": false,
+                "additional_params": {}
+              }
+            ],
+            "statistics": {
+              "mean_time_ms": 0,
+              "std_time_ms": 0,
+              "cv_time": 0,
+              "time_stable": true,
+              "mean_memory_mb": 0,
+              "std_memory_mb": 0,
+              "cv_memory": 0,
+              "memory_stable": true,
+              "outlier_runs": [],
+              "overall_stable": true,
+              "warning_message": null
+            }
+          },
+          "90%": {
+            "repetitions": [
+              {
+                "asset_name": "dragon",
+                "method": "cgal",
+                "reduction_level": "90%",
+                "run_number": 1,
+                "input_mesh_path": "data_collection\\academic\\raw\\obj\\dragon.obj",
+                "output_mesh_path": "data_collection\\academic\\simplified\\dragon\\cgal\\dragon_cgal_90pct_run1.obj",
+                "target_reduction_ratio": 0.9,
+                "actual_reduction_ratio": 0.9005237464626458,
+                "input_metrics": {
+                  "vertex_count": 2614242,
+                  "face_count": 871414,
+                  "file_size_bytes": 75327238,
+                  "bounding_box_diagonal": 0.26690520578849714
+                },
+                "output_metrics": {
+                  "vertex_count": 44042,
+                  "face_count": 86685,
+                  "file_size_bytes": 3326638,
+                  "bounding_box_diagonal": 0.2669289230057695
+                },
+                "performance": {
+                  "execution_time_seconds": 22.230418200000713,
+                  "execution_time_ms": 22230.418200000713,
+                  "memory_before_mb": 0.0,
+                  "memory_after_mb": 0.0,
+                  "memory_delta_mb": 121.44921875,
+                  "peak_memory_mb": 121.44921875
+                },
+                "success": true,
+                "geometric_accuracy": null,
+                "failure_type": "FailureType.SUCCESS",
+                "error_message": null,
+                "instability_flag": false,
+                "additional_params": {}
+              }
+            ],
+            "statistics": {
+              "mean_time_ms": 0,
+              "std_time_ms": 0,
+              "cv_time": 0,
+              "time_stable": true,
+              "mean_memory_mb": 0,
+              "std_memory_mb": 0,
+              "cv_memory": 0,
+              "memory_stable": true,
+              "outlier_runs": [],
+              "overall_stable": true,
+              "warning_message": null
+            }
+          }
+        }
+      }
+    },
+    "lucy": {
+      "asset_name": "lucy",
+      "original_metrics": {
+        "vertex_count": 14027872,
+        "face_count": 28055742,
+        "file_size_bytes": 1589230563,
+        "bounding_box_diagonal": 1923.545454262777
+      },
+      "methods": {
+        "fast-simplification": {
+          "50%": {
+            "repetitions": [
+              {
+                "asset_name": "lucy",
+                "method": "fast-simplification",
+                "reduction_level": "50%",
+                "run_number": 1,
+                "input_mesh_path": "data_collection\\academic\\raw\\obj\\lucy.obj",
+                "output_mesh_path": "data_collection\\academic\\simplified\\lucy\\fast-simplification\\lucy_fast-_50pct_run1.obj",
+                "target_reduction_ratio": 0.5,
+                "actual_reduction_ratio": 0.5000001069299824,
+                "input_metrics": {
+                  "vertex_count": 14027872,
+                  "face_count": 28055742,
+                  "file_size_bytes": 1589230563,
+                  "bounding_box_diagonal": 1923.545454262777
+                },
+                "output_metrics": {
+                  "vertex_count": 7013934,
+                  "face_count": 14027868,
+                  "file_size_bytes": 782720943,
+                  "bounding_box_diagonal": 1923.5447134398044
+                },
+                "performance": {
+                  "execution_time_seconds": 26.316081900004065,
+                  "execution_time_ms": 26316.081900004065,
+                  "memory_before_mb": 1643.80078125,
+                  "memory_after_mb": 10283.12109375,
+                  "memory_delta_mb": 8639.3203125,
+                  "peak_memory_mb": 9078.65625
+                },
+                "success": true,
+                "geometric_accuracy": null,
+                "failure_type": "FailureType.SUCCESS",
+                "error_message": null,
+                "instability_flag": false,
+                "additional_params": {
+                  "aggressiveness": 7
+                }
+              }
+            ],
+            "statistics": {
+              "mean_time_ms": 0,
+              "std_time_ms": 0,
+              "cv_time": 0,
+              "time_stable": true,
+              "mean_memory_mb": 0,
+              "std_memory_mb": 0,
+              "cv_memory": 0,
+              "memory_stable": true,
+              "outlier_runs": [],
+              "overall_stable": true,
+              "warning_message": null
+            }
+          },
+          "80%": {
+            "repetitions": [
+              {
+                "asset_name": "lucy",
+                "method": "fast-simplification",
+                "reduction_level": "80%",
+                "run_number": 1,
+                "input_mesh_path": "data_collection\\academic\\raw\\obj\\lucy.obj",
+                "output_mesh_path": "data_collection\\academic\\simplified\\lucy\\fast-simplification\\lucy_fast-_80pct_run1.obj",
+                "target_reduction_ratio": 0.8,
+                "actual_reduction_ratio": 0.8000000499006585,
+                "input_metrics": {
+                  "vertex_count": 14027872,
+                  "face_count": 28055742,
+                  "file_size_bytes": 1589230563,
+                  "bounding_box_diagonal": 1923.545454262777
+                },
+                "output_metrics": {
+                  "vertex_count": 2805576,
+                  "face_count": 5611147,
+                  "file_size_bytes": 310055671,
+                  "bounding_box_diagonal": 1923.5425806497087
+                },
+                "performance": {
+                  "execution_time_seconds": 28.02214770000137,
+                  "execution_time_ms": 28022.14770000137,
+                  "memory_before_mb": 8787.828125,
+                  "memory_after_mb": 10203.9375,
+                  "memory_delta_mb": 1416.109375,
+                  "peak_memory_mb": 1614.12890625
+                },
+                "success": true,
+                "geometric_accuracy": null,
+                "failure_type": "FailureType.SUCCESS",
+                "error_message": null,
+                "instability_flag": false,
+                "additional_params": {
+                  "aggressiveness": 7
+                }
+              }
+            ],
+            "statistics": {
+              "mean_time_ms": 0,
+              "std_time_ms": 0,
+              "cv_time": 0,
+              "time_stable": true,
+              "mean_memory_mb": 0,
+              "std_memory_mb": 0,
+              "cv_memory": 0,
+              "memory_stable": true,
+              "outlier_runs": [],
+              "overall_stable": true,
+              "warning_message": null
+            }
+          },
+          "90%": {
+            "repetitions": [
+              {
+                "asset_name": "lucy",
+                "method": "fast-simplification",
+                "reduction_level": "90%",
+                "run_number": 1,
+                "input_mesh_path": "data_collection\\academic\\raw\\obj\\lucy.obj",
+                "output_mesh_path": "data_collection\\academic\\simplified\\lucy\\fast-simplification\\lucy_fast-_90pct_run1.obj",
+                "target_reduction_ratio": 0.9,
+                "actual_reduction_ratio": 0.900000042771993,
+                "input_metrics": {
+                  "vertex_count": 14027872,
+                  "face_count": 28055742,
+                  "file_size_bytes": 1589230563,
+                  "bounding_box_diagonal": 1923.545454262777
+                },
+                "output_metrics": {
+                  "vertex_count": 1402789,
+                  "face_count": 2805573,
+                  "file_size_bytes": 151745310,
+                  "bounding_box_diagonal": 1923.545233995358
+                },
+                "performance": {
+                  "execution_time_seconds": 30.607824599996093,
+                  "execution_time_ms": 30607.824599996093,
+                  "memory_before_mb": 9077.1796875,
+                  "memory_after_mb": 10151.12890625,
+                  "memory_delta_mb": 1073.94921875,
+                  "peak_memory_mb": 1231.92578125
+                },
+                "success": true,
+                "geometric_accuracy": null,
+                "failure_type": "FailureType.SUCCESS",
+                "error_message": null,
+                "instability_flag": false,
+                "additional_params": {
+                  "aggressiveness": 7
+                }
+              }
+            ],
+            "statistics": {
+              "mean_time_ms": 0,
+              "std_time_ms": 0,
+              "cv_time": 0,
+              "time_stable": true,
+              "mean_memory_mb": 0,
+              "std_memory_mb": 0,
+              "cv_memory": 0,
+              "memory_stable": true,
+              "outlier_runs": [],
+              "overall_stable": true,
+              "warning_message": null
+            }
+          }
+        },
+        "open3d": {
+          "50%": {
+            "repetitions": [
+              {
+                "asset_name": "lucy",
+                "method": "open3d",
+                "reduction_level": "50%",
+                "run_number": 1,
+                "input_mesh_path": "data_collection\\academic\\raw\\obj\\lucy.obj",
+                "output_mesh_path": "data_collection\\academic\\simplified\\lucy\\open3d\\lucy_open3_50pct_run1.obj",
+                "target_reduction_ratio": 0.5,
+                "actual_reduction_ratio": 0.5,
+                "input_metrics": {
+                  "vertex_count": 14027870,
+                  "face_count": 28055738,
+                  "file_size_bytes": 1589230563,
+                  "bounding_box_diagonal": 1923.545454262777
+                },
+                "output_metrics": {
+                  "vertex_count": 7013945,
+                  "face_count": 14027869,
+                  "file_size_bytes": 1139576239,
+                  "bounding_box_diagonal": 1923.5451502132623
+                },
+                "performance": {
+                  "execution_time_seconds": 282.0690764000028,
+                  "execution_time_ms": 282069.0764000028,
+                  "memory_before_mb": 9133.8359375,
+                  "memory_after_mb": 4771.87890625,
+                  "memory_delta_mb": -4361.95703125,
+                  "peak_memory_mb": 0.05859375
+                },
+                "success": true,
+                "geometric_accuracy": null,
+                "failure_type": "FailureType.SUCCESS",
+                "error_message": null,
+                "instability_flag": false,
+                "additional_params": {
+                  "boundary_weight": 1.0,
+                  "target_triangles": 14027869
+                }
+              }
+            ],
+            "statistics": {
+              "mean_time_ms": 0,
+              "std_time_ms": 0,
+              "cv_time": 0,
+              "time_stable": true,
+              "mean_memory_mb": 0,
+              "std_memory_mb": 0,
+              "cv_memory": 0,
+              "memory_stable": true,
+              "outlier_runs": [],
+              "overall_stable": true,
+              "warning_message": null
+            }
+          },
+          "80%": {
+            "repetitions": [
+              {
+                "asset_name": "lucy",
+                "method": "open3d",
+                "reduction_level": "80%",
+                "run_number": 1,
+                "input_mesh_path": "data_collection\\academic\\raw\\obj\\lucy.obj",
+                "output_mesh_path": "data_collection\\academic\\simplified\\lucy\\open3d\\lucy_open3_80pct_run1.obj",
+                "target_reduction_ratio": 0.8,
+                "actual_reduction_ratio": 0.8000000570293321,
+                "input_metrics": {
+                  "vertex_count": 14027870,
+                  "face_count": 28055738,
+                  "file_size_bytes": 1589230563,
+                  "bounding_box_diagonal": 1923.545454262777
+                },
+                "output_metrics": {
+                  "vertex_count": 2805585,
+                  "face_count": 5611146,
+                  "file_size_bytes": 447861083,
+                  "bounding_box_diagonal": 1923.5233524178077
+                },
+                "performance": {
+                  "execution_time_seconds": 527.8216312999939,
+                  "execution_time_ms": 527821.631299994,
+                  "memory_before_mb": 5464.45703125,
+                  "memory_after_mb": 2868.4140625,
+                  "memory_delta_mb": -2596.04296875,
+                  "peak_memory_mb": 0.08203125
+                },
+                "success": true,
+                "geometric_accuracy": null,
+                "failure_type": "FailureType.SUCCESS",
+                "error_message": null,
+                "instability_flag": false,
+                "additional_params": {
+                  "boundary_weight": 1.0,
+                  "target_triangles": 5611147
+                }
+              }
+            ],
+            "statistics": {
+              "mean_time_ms": 0,
+              "std_time_ms": 0,
+              "cv_time": 0,
+              "time_stable": true,
+              "mean_memory_mb": 0,
+              "std_memory_mb": 0,
+              "cv_memory": 0,
+              "memory_stable": true,
+              "outlier_runs": [],
+              "overall_stable": true,
+              "warning_message": null
+            }
+          },
+          "90%": {
+            "repetitions": [
+              {
+                "asset_name": "lucy",
+                "method": "open3d",
+                "reduction_level": "90%",
+                "run_number": 1,
+                "input_mesh_path": "data_collection\\academic\\raw\\obj\\lucy.obj",
+                "output_mesh_path": "data_collection\\academic\\simplified\\lucy\\open3d\\lucy_open3_90pct_run1.obj",
+                "target_reduction_ratio": 0.9,
+                "actual_reduction_ratio": 0.9000000285146661,
+                "input_metrics": {
+                  "vertex_count": 14027870,
+                  "face_count": 28055738,
+                  "file_size_bytes": 1589230563,
+                  "bounding_box_diagonal": 1923.545454262777
+                },
+                "output_metrics": {
+                  "vertex_count": 1402792,
+                  "face_count": 2805573,
+                  "file_size_bytes": 217282347,
+                  "bounding_box_diagonal": 1923.5151351700313
+                },
+                "performance": {
+                  "execution_time_seconds": 649.3385035000028,
+                  "execution_time_ms": 649338.5035000029,
+                  "memory_before_mb": 3467.86328125,
+                  "memory_after_mb": 2328.484375,
+                  "memory_delta_mb": -1139.37890625,
+                  "peak_memory_mb": 0.06640625
+                },
+                "success": true,
+                "geometric_accuracy": null,
+                "failure_type": "FailureType.SUCCESS",
+                "error_message": null,
+                "instability_flag": false,
+                "additional_params": {
+                  "boundary_weight": 1.0,
+                  "target_triangles": 2805573
+                }
+              }
+            ],
+            "statistics": {
+              "mean_time_ms": 0,
+              "std_time_ms": 0,
+              "cv_time": 0,
+              "time_stable": true,
+              "mean_memory_mb": 0,
+              "std_memory_mb": 0,
+              "cv_memory": 0,
+              "memory_stable": true,
+              "outlier_runs": [],
+              "overall_stable": true,
+              "warning_message": null
+            }
+          }
+        },
+        "meshoptimizer": {
+          "50%": {
+            "repetitions": [
+              {
+                "asset_name": "lucy",
+                "method": "meshoptimizer",
+                "reduction_level": "50%",
+                "run_number": 1,
+                "input_mesh_path": "data_collection\\academic\\raw\\obj\\lucy.obj",
+                "output_mesh_path": "data_collection\\academic\\simplified\\lucy\\meshoptimizer\\lucy_mesho_50pct_run1.obj",
+                "target_reduction_ratio": 0.5,
+                "actual_reduction_ratio": 0.5000001425733099,
+                "input_metrics": {
+                  "vertex_count": 14027872,
+                  "face_count": 28055742,
+                  "file_size_bytes": 1589230563,
+                  "bounding_box_diagonal": 1923.545454262777
+                },
+                "output_metrics": {
+                  "vertex_count": 7013931,
+                  "face_count": 14027867,
+                  "file_size_bytes": 779479661,
+                  "bounding_box_diagonal": 1923.4594875097914
+                },
+                "performance": {
+                  "execution_time_seconds": 15.773097100005543,
+                  "execution_time_ms": 15773.097100005543,
+                  "memory_before_mb": 3938.78125,
+                  "memory_after_mb": 4581.05859375,
+                  "memory_delta_mb": 642.27734375,
+                  "peak_memory_mb": 3023.625
+                },
+                "success": true,
+                "geometric_accuracy": null,
+                "failure_type": "FailureType.SUCCESS",
+                "error_message": null,
+                "instability_flag": false,
+                "additional_params": {
+                  "target_indices": 42083607
+                }
+              }
+            ],
+            "statistics": {
+              "mean_time_ms": 0,
+              "std_time_ms": 0,
+              "cv_time": 0,
+              "time_stable": true,
+              "mean_memory_mb": 0,
+              "std_memory_mb": 0,
+              "cv_memory": 0,
+              "memory_stable": true,
+              "outlier_runs": [],
+              "overall_stable": true,
+              "warning_message": null
+            }
+          },
+          "80%": {
+            "repetitions": [
+              {
+                "asset_name": "lucy",
+                "method": "meshoptimizer",
+                "reduction_level": "80%",
+                "run_number": 1,
+                "input_mesh_path": "data_collection\\academic\\raw\\obj\\lucy.obj",
+                "output_mesh_path": "data_collection\\academic\\simplified\\lucy\\meshoptimizer\\lucy_mesho_80pct_run1.obj",
+                "target_reduction_ratio": 0.8,
+                "actual_reduction_ratio": 0.8000004419772608,
+                "input_metrics": {
+                  "vertex_count": 14027872,
+                  "face_count": 28055742,
+                  "file_size_bytes": 1589230563,
+                  "bounding_box_diagonal": 1923.545454262777
+                },
+                "output_metrics": {
+                  "vertex_count": 2805566,
+                  "face_count": 5611136,
+                  "file_size_bytes": 307378042,
+                  "bounding_box_diagonal": 1923.407685281095
+                },
+                "performance": {
+                  "execution_time_seconds": 19.22356579999905,
+                  "execution_time_ms": 19223.56579999905,
+                  "memory_before_mb": 3993.01953125,
+                  "memory_after_mb": 4635.16796875,
+                  "memory_delta_mb": 642.1484375,
+                  "peak_memory_mb": 3023.49609375
+                },
+                "success": true,
+                "geometric_accuracy": null,
+                "failure_type": "FailureType.SUCCESS",
+                "error_message": null,
+                "instability_flag": false,
+                "additional_params": {
+                  "target_indices": 16833441
+                }
+              }
+            ],
+            "statistics": {
+              "mean_time_ms": 0,
+              "std_time_ms": 0,
+              "cv_time": 0,
+              "time_stable": true,
+              "mean_memory_mb": 0,
+              "std_memory_mb": 0,
+              "cv_memory": 0,
+              "memory_stable": true,
+              "outlier_runs": [],
+              "overall_stable": true,
+              "warning_message": null
+            }
+          },
+          "90%": {
+            "repetitions": [
+              {
+                "asset_name": "lucy",
+                "method": "meshoptimizer",
+                "reduction_level": "90%",
+                "run_number": 1,
+                "input_mesh_path": "data_collection\\academic\\raw\\obj\\lucy.obj",
+                "output_mesh_path": "data_collection\\academic\\simplified\\lucy\\meshoptimizer\\lucy_mesho_90pct_run1.obj",
+                "target_reduction_ratio": 0.9,
+                "actual_reduction_ratio": 0.9000013259317825,
+                "input_metrics": {
+                  "vertex_count": 14027872,
+                  "face_count": 28055742,
+                  "file_size_bytes": 1589230563,
+                  "bounding_box_diagonal": 1923.545454262777
+                },
+                "output_metrics": {
+                  "vertex_count": 1402771,
+                  "face_count": 2805537,
+                  "file_size_bytes": 150225748,
+                  "bounding_box_diagonal": 1923.407194095498
+                },
+                "performance": {
+                  "execution_time_seconds": 21.179557999996177,
+                  "execution_time_ms": 21179.557999996177,
+                  "memory_before_mb": 3485.08984375,
+                  "memory_after_mb": 4127.27734375,
+                  "memory_delta_mb": 642.1875,
+                  "peak_memory_mb": 3023.53515625
+                },
+                "success": true,
+                "geometric_accuracy": null,
+                "failure_type": "FailureType.SUCCESS",
+                "error_message": null,
+                "instability_flag": false,
+                "additional_params": {
+                  "target_indices": 8416719
+                }
+              }
+            ],
+            "statistics": {
+              "mean_time_ms": 0,
+              "std_time_ms": 0,
+              "cv_time": 0,
+              "time_stable": true,
+              "mean_memory_mb": 0,
+              "std_memory_mb": 0,
+              "cv_memory": 0,
+              "memory_stable": true,
+              "outlier_runs": [],
+              "overall_stable": true,
+              "warning_message": null
+            }
+          }
+        },
+        "cgal": {
+          "50%": {
+            "repetitions": [
+              {
+                "asset_name": "lucy",
+                "method": "cgal",
+                "reduction_level": "50%",
+                "run_number": 1,
+                "input_mesh_path": "data_collection\\academic\\raw\\obj\\lucy.obj",
+                "output_mesh_path": "data_collection\\academic\\simplified\\lucy\\cgal\\lucy_cgal_50pct_run1.obj",
+                "target_reduction_ratio": 0.5,
+                "actual_reduction_ratio": 0.5000010336564971,
+                "input_metrics": {
+                  "vertex_count": 14027872,
+                  "face_count": 28055742,
+                  "file_size_bytes": 1589230563,
+                  "bounding_box_diagonal": 1923.545454262777
+                },
+                "output_metrics": {
+                  "vertex_count": 7014009,
+                  "face_count": 14027842,
+                  "file_size_bytes": 581893553,
+                  "bounding_box_diagonal": 1923.5451514487513
+                },
+                "performance": {
+                  "execution_time_seconds": 498.1569449999952,
+                  "execution_time_ms": 498156.9449999952,
+                  "memory_before_mb": 0.0,
+                  "memory_after_mb": 0.0,
+                  "memory_delta_mb": 4174.97265625,
+                  "peak_memory_mb": 4174.97265625
+                },
+                "success": true,
+                "geometric_accuracy": null,
+                "failure_type": "FailureType.SUCCESS",
+                "error_message": null,
+                "instability_flag": false,
+                "additional_params": {}
+              }
+            ],
+            "statistics": {
+              "mean_time_ms": 0,
+              "std_time_ms": 0,
+              "cv_time": 0,
+              "time_stable": true,
+              "mean_memory_mb": 0,
+              "std_memory_mb": 0,
+              "cv_memory": 0,
+              "memory_stable": true,
+              "outlier_runs": [],
+              "overall_stable": true,
+              "warning_message": null
+            }
+          },
+          "80%": {
+            "repetitions": [
+              {
+                "asset_name": "lucy",
+                "method": "cgal",
+                "reduction_level": "80%",
+                "run_number": 1,
+                "input_mesh_path": "data_collection\\academic\\raw\\obj\\lucy.obj",
+                "output_mesh_path": "data_collection\\academic\\simplified\\lucy\\cgal\\lucy_cgal_80pct_run1.obj",
+                "target_reduction_ratio": 0.8,
+                "actual_reduction_ratio": 0.8000016538503953,
+                "input_metrics": {
+                  "vertex_count": 14027872,
+                  "face_count": 28055742,
+                  "file_size_bytes": 1589230563,
+                  "bounding_box_diagonal": 1923.545454262777
+                },
+                "output_metrics": {
+                  "vertex_count": 2805636,
+                  "face_count": 5611102,
+                  "file_size_bytes": 228764652,
+                  "bounding_box_diagonal": 1923.5397714812138
+                },
+                "performance": {
+                  "execution_time_seconds": 720.737429599998,
+                  "execution_time_ms": 720737.429599998,
+                  "memory_before_mb": 0.0,
+                  "memory_after_mb": 0.0,
+                  "memory_delta_mb": 4164.5078125,
+                  "peak_memory_mb": 4164.5078125
+                },
+                "success": true,
+                "geometric_accuracy": null,
+                "failure_type": "FailureType.SUCCESS",
+                "error_message": null,
+                "instability_flag": false,
+                "additional_params": {}
+              }
+            ],
+            "statistics": {
+              "mean_time_ms": 0,
+              "std_time_ms": 0,
+              "cv_time": 0,
+              "time_stable": true,
+              "mean_memory_mb": 0,
+              "std_memory_mb": 0,
+              "cv_memory": 0,
+              "memory_stable": true,
+              "outlier_runs": [],
+              "overall_stable": true,
+              "warning_message": null
+            }
+          },
+          "90%": {
+            "repetitions": [
+              {
+                "asset_name": "lucy",
+                "method": "cgal",
+                "reduction_level": "90%",
+                "run_number": 1,
+                "input_mesh_path": "data_collection\\academic\\raw\\obj\\lucy.obj",
+                "output_mesh_path": "data_collection\\academic\\simplified\\lucy\\cgal\\lucy_cgal_90pct_run1.obj",
+                "target_reduction_ratio": 0.9,
+                "actual_reduction_ratio": 0.9000017536517124,
+                "input_metrics": {
+                  "vertex_count": 14027872,
+                  "face_count": 28055742,
+                  "file_size_bytes": 1589230563,
+                  "bounding_box_diagonal": 1923.545454262777
+                },
+                "output_metrics": {
+                  "vertex_count": 1402844,
+                  "face_count": 2805525,
+                  "file_size_bytes": 111053091,
+                  "bounding_box_diagonal": 1923.547604103678
+                },
+                "performance": {
+                  "execution_time_seconds": 803.0095548000027,
+                  "execution_time_ms": 803009.5548000026,
+                  "memory_before_mb": 0.0,
+                  "memory_after_mb": 0.0,
+                  "memory_delta_mb": 4159.23046875,
+                  "peak_memory_mb": 4159.23046875
+                },
+                "success": true,
+                "geometric_accuracy": null,
+                "failure_type": "FailureType.SUCCESS",
+                "error_message": null,
+                "instability_flag": false,
+                "additional_params": {}
+              }
+            ],
+            "statistics": {
+              "mean_time_ms": 0,
+              "std_time_ms": 0,
+              "cv_time": 0,
+              "time_stable": true,
+              "mean_memory_mb": 0,
+              "std_memory_mb": 0,
+              "cv_memory": 0,
+              "memory_stable": true,
+              "outlier_runs": [],
+              "overall_stable": true,
+              "warning_message": null
+            }
+          }
+        }
+      }
+    }
+  }
+}
