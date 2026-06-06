@@ -36,7 +36,7 @@ prepare_mesh_for_meshcnn.py     Preprocessing for MeshCNN format
 
 ```bash
 # Clone the original repository
-git clone https://github.com/Potamias-Mesh-Simplification/neural-mesh-simplification
+git clone https://github.com/martinnormark/neural-mesh-simplification/
 cd neural-mesh-simplification
 
 # Apply modifications
