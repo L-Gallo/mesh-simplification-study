@@ -1,13 +1,9 @@
-# =============================================================================
 # .gitignore for Mesh Simplification Benchmark Repository
 # Thesis: "Comparative Analysis of Open-Source Mesh Simplification Methods
 #          for Game Development"
-# =============================================================================
 
 
-# =============================================================================
 # PYTHON
-# =============================================================================
 __pycache__/
 *.py[cod]
 *$py.class
@@ -27,9 +23,7 @@ ENV/
 *.ipynb
 
 
-# =============================================================================
 # IDE & EDITOR
-# =============================================================================
 .vscode/
 .idea/
 *.swp
@@ -37,17 +31,13 @@ ENV/
 *~
 
 
-# =============================================================================
 # OS
-# =============================================================================
 .DS_Store
 Thumbs.db
 desktop.ini
 
 
-# =============================================================================
 # C++ BUILD ARTIFACTS (CGAL wrapper)
-# =============================================================================
 cgal_build/
 CMakeFiles/
 CMakeCache.txt
@@ -67,13 +57,10 @@ cmake_install.cmake
 *.lib
 
 
-# =============================================================================
 # CONFIDENTIAL / NDA ASSETS (Bohemia Interactive - Arma Reforger)
-#
 # These assets are provided under NDA and must NEVER be committed.
 # This covers raw industry meshes, their simplified outputs, all render
 # images derived from them, and any test copies.
-# =============================================================================
 data_collection/raw/
 data_collection/simplified/
 data_collection/figures/mesh_renders/
@@ -85,13 +72,10 @@ data_collection/figures/*.blend1
 data_test/
 
 
-# =============================================================================
 # LARGE MESH & 3D FILES
-#
 # Mesh files are too large for git. Stanford models (bunny, dragon, etc.)
 # should be downloaded from the Stanford 3D Scanning Repository.
 # Small test meshes are whitelisted below.
-# =============================================================================
 *.obj
 *.ply
 *.stl
@@ -103,35 +87,26 @@ data_test/
 !test_meshes/teapot.obj
 
 
-# =============================================================================
 # BINARY EDITOR FILES
-#
 # Blender project files, Photoshop source files, and ZIP archives.
 # These are not diffable and bloat git history.
-# =============================================================================
 *.blend
 *.blend1
 *.psd
 *.zip
 
 
-# =============================================================================
 # THIRD-PARTY REPOSITORIES
-#
 # These were cloned locally for the neural methods investigation.
 # Link to originals in README instead of embedding copies.
-# =============================================================================
 neural-mesh-simplification/
 MeshCNN/
 checkpoints/
 
 
-# =============================================================================
 # DEVELOPMENT ITERATIONS & PILOT DATA
-#
 # Previous analysis runs, pilot benchmarks, and old output versions.
 # Only final results belong in the repository.
-# =============================================================================
 pilot_meshes/
 pilot_results/
 simplified_meshes/
@@ -147,12 +122,9 @@ extras/
 figures/
 
 
-# =============================================================================
 # GENERATED OUTPUTS (re-generable from scripts + data)
-#
 # Benchmark logs, heatmap PLY files, and intermediate outputs.
 # Final figures and CSVs used in the thesis ARE tracked under results/.
-# =============================================================================
 benchmark_log.txt
 *.log
 
@@ -171,17 +143,16 @@ results/pooled_meshes/
 results/test_input/
 
 
-# =============================================================================
 # PERCEPTUAL STUDY - versioned backups
-#
 # Only the final participant_responses.json is tracked in data/.
 # Intermediate versions stay local.
-# =============================================================================
 data_collection/survey/participant_responses_v*.json
 
+# Perceptual study runtime state (regenerated on app start)
+perceptual_study/comparison_counts.json
+perceptual_study/participant_responses.json
 
-# =============================================================================
+
 # DOCUMENTATION BUILDS
-# =============================================================================
 docs/_build/
 docs/.doctrees/
