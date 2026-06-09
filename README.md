@@ -27,12 +27,18 @@ pip install pyvista fast-simplification open3d meshoptimizer trimesh psutil \
 conda install -c conda-forge rtree   # needed for geometric accuracy
 ```
 
-To test the CGAL method, compile the C++ wrapper:
+To test the CGAL method, you need CMake, a C++17 compiler, and CGAL
+installed on your system (see [cgal.org/download](https://www.cgal.org/download.html)).
+Then compile the wrapper:
 
 ```bash
 mkdir -p benchmark/cgal_build && cd benchmark/cgal_build
 cmake .. && cmake --build . --config Release
 ```
+
+Note: CGAL pulls in ~109 dependencies (Boost, etc.) and takes roughly an
+hour to build from source. This installation overhead is itself a thesis
+finding. The other three methods install via `pip` in seconds.
 
 See `environments/README.md` for details and neural method environments.
 
