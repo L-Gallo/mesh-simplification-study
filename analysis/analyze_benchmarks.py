@@ -106,6 +106,10 @@ def load_and_flatten(json_path):
                     rows.append(row)
     
     df = pd.DataFrame(rows)
+    # Filter ordering to only methods present in the data
+    global METHOD_ORDER
+    present = set(df['method'].unique())
+    METHOD_ORDER = [m for m in METHOD_ORDER if m in present]
     # Ensure categorical ordering
     df['method'] = pd.Categorical(df['method'], categories=METHOD_ORDER, ordered=True)
     df['reduction'] = pd.Categorical(df['reduction'], categories=REDUCTION_ORDER, ordered=True)
@@ -243,7 +247,7 @@ def generate_anomaly_report(df):
         method_data = df[df['method'] == method]
         n_unstable = method_data['instability_flag'].sum()
         n_total = len(method_data)
-        stability = (1 - n_unstable / n_total) * 100
+        stability = (1 - n_unstable / n_total) * 100 if n_total > 0 else 0
         report_lines.append(
             f"  {METHOD_LABELS[method]:22s}: {n_unstable:3d}/{n_total} unstable "
             f"(stability: {stability:.1f}%)"

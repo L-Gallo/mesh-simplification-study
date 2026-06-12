@@ -106,6 +106,10 @@ def load_and_flatten(json_path):
                     rows.append(row)
     
     df = pd.DataFrame(rows)
+    # Filter ordering to only methods present in the data
+    global METHOD_ORDER
+    present = set(df['method'].unique())
+    METHOD_ORDER = [m for m in METHOD_ORDER if m in present]
     df['method'] = pd.Categorical(df['method'], categories=METHOD_ORDER, ordered=True)
     df['reduction'] = pd.Categorical(df['reduction'], categories=REDUCTION_ORDER, ordered=True)
     

@@ -820,16 +820,19 @@ def generate_text_report(df, geo_df, corr_results, agreement, rt_stats, output_d
         # Spearman
         f.write("SPEARMAN CORRELATION (Win Rate vs. Geometric Error)\n")
         f.write("-" * 50 + "\n")
-        for view in ['combined', 'distant', 'close']:
-            r = corr_results[view]
-            if 'error' in r:
-                f.write(f"  {view.capitalize()}: insufficient data (n={r['n']})\n")
-            else:
-                h_p = '<0.001' if r['hausdorff_p'] < 0.001 else f"{r['hausdorff_p']:.3f}"
-                r_p = '<0.001' if r['rmse_p'] < 0.001 else f"{r['rmse_p']:.3f}"
-                f.write(f"  {view.capitalize()} (n={r['n']}):\n")
-                f.write(f"    Hausdorff: rho={r['hausdorff_rho']:.3f}, p={h_p}\n")
-                f.write(f"    RMSE:      rho={r['rmse_rho']:.3f}, p={r_p}\n")
+        if not corr_results:
+            f.write("  No matching geometric data available.\n\n")
+        else:
+            for view in ['combined', 'distant', 'close']:
+                r = corr_results[view]
+                if 'error' in r:
+                    f.write(f"  {view.capitalize()}: insufficient data (n={r['n']})\n")
+                else:
+                    h_p = '<0.001' if r['hausdorff_p'] < 0.001 else f"{r['hausdorff_p']:.3f}"
+                    r_p = '<0.001' if r['rmse_p'] < 0.001 else f"{r['rmse_p']:.3f}"
+                    f.write(f"  {view.capitalize()} (n={r['n']}):\n")
+                    f.write(f"    Hausdorff: rho={r['hausdorff_rho']:.3f}, p={h_p}\n")
+                    f.write(f"    RMSE:      rho={r['rmse_rho']:.3f}, p={r_p}\n")
 
         f.write(f"\nInterpretation guide:\n")
         f.write(f"  |rho| > 0.7: strong correlation\n")
@@ -868,9 +871,10 @@ def export_csvs(df, geo_df, output_dir):
     wr_full = compute_win_rates(df, groupby_cols=['asset', 'reduction'])
     wr_full.to_csv(os.path.join(csv_dir, 'win_rates_full_granular.csv'), index=False)
 
-    # Merged with geometric accuracy
-    merged = wr_full.merge(geo_df, on=['asset', 'method', 'reduction'], how='inner')
-    merged.to_csv(os.path.join(csv_dir, 'perceptual_vs_geometric.csv'), index=False)
+    # Merged with geometric accuracy (if available)
+    if geo_df is not None and len(geo_df) > 0:
+        merged = wr_full.merge(geo_df, on=['asset', 'method', 'reduction'], how='inner')
+        merged.to_csv(os.path.join(csv_dir, 'perceptual_vs_geometric.csv'), index=False)
 
     print(f"  Saved CSVs to: {csv_dir}/")
 
@@ -894,21 +898,36 @@ def main(perceptual_json=PERCEPTUAL_JSON, benchmark_json=BENCHMARK_JSON,
     print("[1/7] Loading data...")
     df = load_perceptual(perceptual_json)
     geo_df = load_geometric_accuracy(benchmark_json)
+
+    # Filter orderings to methods/assets actually present in the data
+    global METHOD_ORDER, ASSET_ORDER
+    present_methods = set(df['chosen_method'].unique()) | set(df['not_chosen_method'].unique())
+    METHOD_ORDER = [m for m in METHOD_ORDER if m in present_methods]
+    present_assets = set(df['asset'].unique())
+    ASSET_ORDER = [a for a in ASSET_ORDER if a in present_assets]
+    # Add any assets not in the predefined order
+    for a in sorted(present_assets):
+        if a not in ASSET_ORDER:
+            ASSET_ORDER.append(a)
+
+    has_geo = len(geo_df) > 0
     print(f"  Perceptual: {len(df)} responses, "
           f"{df['participant_id'].nunique()} participants")
-    print(f"  Geometric:  {len(geo_df)} measurements")
+    print(f"  Geometric:  {len(geo_df)} measurements"
+          f"{'' if has_geo else ' (skipping correlation analysis)'}")
     print()
 
     # Compute core analysis
     print("[2/7] Computing analysis...")
     agreement = compute_agreement(df)
     rt_stats = compute_reaction_time_stats(df)
-    corr_results = compute_spearman_correlation(df, geo_df)
+    corr_results = compute_spearman_correlation(df, geo_df) if has_geo else None
     print(f"  Agreement rate: {agreement['agreement_rate']:.1%}")
-    print(f"  Spearman (combined, Hausdorff): "
-          f"rho={corr_results['combined']['hausdorff_rho']:.3f}")
-    print(f"  Spearman (combined, RMSE):      "
-          f"rho={corr_results['combined']['rmse_rho']:.3f}")
+    if corr_results:
+        print(f"  Spearman (combined, Hausdorff): "
+              f"rho={corr_results['combined']['hausdorff_rho']:.3f}")
+        print(f"  Spearman (combined, RMSE):      "
+              f"rho={corr_results['combined']['rmse_rho']:.3f}")
     print()
 
     # Generate figures
@@ -916,8 +935,9 @@ def main(perceptual_json=PERCEPTUAL_JSON, benchmark_json=BENCHMARK_JSON,
     plot_overall_win_rates(df, output_dir)
     plot_win_rates_by_reduction(df, output_dir)
     plot_win_rate_heatmap(df, output_dir)
-    plot_spearman_scatter(df, geo_df, output_dir)
-    plot_spearman_by_distance(df, geo_df, output_dir)
+    if has_geo:
+        plot_spearman_scatter(df, geo_df, output_dir)
+        plot_spearman_by_distance(df, geo_df, output_dir)
     print()
 
     # Generate tables
@@ -925,17 +945,19 @@ def main(perceptual_json=PERCEPTUAL_JSON, benchmark_json=BENCHMARK_JSON,
     create_study_overview_table(df, output_dir)
     create_summary_table(df, output_dir)
     create_reduction_table(df, output_dir)
-    create_spearman_table(corr_results, output_dir)
+    if corr_results:
+        create_spearman_table(corr_results, output_dir)
     print()
 
     # Text report
     print("[5/7] Generating text report...")
-    generate_text_report(df, geo_df, corr_results, agreement, rt_stats, output_dir)
+    generate_text_report(df, geo_df if has_geo else None,
+                         corr_results, agreement, rt_stats, output_dir)
     print()
 
     # CSV export
     print("[6/7] Exporting CSVs...")
-    export_csvs(df, geo_df, output_dir)
+    export_csvs(df, geo_df if has_geo else None, output_dir)
     print()
 
     # Summary
