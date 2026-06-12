@@ -66,12 +66,12 @@ python analysis/analyze_benchmarks.py -i ./results/batch_report.json -o ./output
 
 # Perceptual study analysis
 python analysis/analyze_perceptual.py \
-    -p ./data/participant_responses.json \
-    -b ./data/batch_report.json \
-    -o ./output
+    --perceptual ./data/participant_responses.json \
+    --benchmark ./data/batch_report.json \
+    --output ./output
 
 # Scalability analysis (Stanford models)
-python analysis/analyze_scalability.py -i ./data/scalability_report.json -o ./output
+python analysis/analyze_scalability.py -i ./data/batch_report.json -o ./output
 
 # Error heatmaps (per-vertex colored meshes)
 python analysis/generate_heatmaps.py --batch \
